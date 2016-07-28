@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <include
+        layout="@layout/comm_title"
+        />
+    <include
+        layout="@layout/title_info"/>
+    <DatePicker
+        android:layout_marginTop="15dp"
+        android:id="@+id/data_select"
+        android:layoutMode="clipBounds"
+        android:calendarViewShown="false"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </DatePicker>
+    <Button
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="获取选定时间"
+        android:id="@+id/bt_getTime"
+        android:textColor="@color/white"
+        android:background="@drawable/em_button_login_bg"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D7D7D7"
+    android:orientation="vertical">
+
+    <include layout="@layout/comm_title" />
+    <include layout="@layout/title_info"/>
+    <ListView
+        android:layout_weight="8"
+        android:layout_marginTop="15dp"
+        android:id="@+id/lv_history"
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+    </ListView>
+
+    <Button
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:layout_marginTop="20dp"
+        android:id="@+id/bt_history"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="@color/white"
+        android:background="@drawable/em_button_login_bg"
+        android:layout_gravity="center_horizontal"
+        android:text="确定"
+        android:textSize="20sp" />
+</LinearLayout>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.diligroup">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 这个权限用于进行网络定位  百度地图api -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- SD卡读取权限，用户写入离线定位数据 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.SET_DEBUG_APP" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+
+    <application
+        android:name=".base.DiliApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".login.ModifyPSDActivity" />
+        <activity android:name=".Home.HomeActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".login.RegistActivity" />
+        <activity android:name=".UserSet.activity.ReportBirthday" />
+        <activity android:name=".UserSet.activity.ReportHeight" />
+        <activity android:name=".UserSet.activity.ReportNoeat">
+
+        </activity>
+        <activity android:name=".UserSet.activity.ReportOther" />
+        <activity android:name=".UserSet.activity.ReportWork" />
+        <activity android:name=".UserSet.activity.ReportWeight" />
+        <activity android:name=".UserSet.activity.ReportTaste">
+
+        </activity>
+        <activity android:name=".UserSet.activity.ReportSpecial" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".UserSet.activity.ReportSex" />
+        <activity android:name=".UserSet.activity.ReportAllergy">
+
+        </activity>
+        <activity android:name=".UserSet.activity.UserInfoActivity" />
+        <activity android:name=".UserSet.activity.UserCenterView" />
+        <activity android:name=".UserSet.activity.SettingActivity" />
+        <activity android:name=".UserSet.activity.PhysiologicalPeriodActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Home.FoodDetailsActivity" />
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent自己的key" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".WBShareActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
+            android:configChanges="keyboardHidden|orientation"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
+            android:configChanges="orientation|screenSize" />
+
+        <service
+            android:name="com.sina.weibo.sdk.net.DownloadService"
+            android:exported="false" />
+        <!-- 友盟key -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="577201d4e0f55a7aea0007fd" />
+        <!-- 百度地图api -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="3MFvQULXv0yrgNluHkDVbNyqFvekoBgh" />
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+
+        <activity android:name=".Home.FeedbackActivity" />
+        <activity android:name=".Home.ServiceActivity" />
+        <activity android:name=".Home.AddLunchActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".UserSet.activity.ReportWhere" />
+
+        <activity android:name=".UserSet.activity.ReportHistory">
+
+        </activity>
+        <activity android:name=".UserSet.activity.ReportAddress"></activity>
+    </application>
+
+</manifest>

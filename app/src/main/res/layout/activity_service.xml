@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_backgroud"
+    android:orientation="vertical"
+    tools:context="com.diligroup.Home.FeedbackActivity">
+
+    <include layout="@layout/comm_title" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="10dp"
+        android:paddingLeft="@dimen/common_marginleft"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:text="服务： "
+            android:textColor="@color/black1"
+            android:textSize="13.3sp" />
+
+        <io.techery.properratingbar.ProperRatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/service_evaluation"
+            app:prb_clickable="true"
+            app:prb_tickSpacing="6dp"
+            app:prb_defaultRating="3"
+            app:prb_tickNormalDrawable="@mipmap/star_normal"
+            app:prb_tickSelectedDrawable="@mipmap/star_selected"
+            app:prb_totalTicks="5" />
+    </LinearLayout>
+    <include layout="@layout/line_view" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="280dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/input_service_evaluation"
+            android:paddingLeft="@dimen/common_marginleft"
+            android:paddingTop="@dimen/common_marginleft"
+            android:hint="亲：说说您对菜品的印象"
+            android:gravity="left"
+            android:textSize="13.3sp"
+            android:textColor="@color/black"
+            android:background="@color/white" />
+    </FrameLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/em_button_login_bg"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="30dp"
+        android:textColor="@color/white"
+        android:id="@+id/service_commit"
+        android:text="提交评价"/>
+</LinearLayout>

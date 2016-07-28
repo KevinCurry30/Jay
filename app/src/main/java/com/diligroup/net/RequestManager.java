@@ -1,0 +1,577 @@
+package com.diligroup.net;
+
+import android.os.Handler;
+import android.os.Looper;
+import android.text.TextUtils;
+
+import com.diligroup.base.DiliApplication;
+import com.diligroup.utils.LogUtils;
+import com.diligroup.utils.SharedPreferenceUtil;
+import com.google.gson.Gson;
+import com.google.gson.internal.$Gson$Types;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.net.FileNameMap;
+import java.net.URLConnection;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Cache;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Dispatcher;
+import okhttp3.FormBody;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+public class RequestManager {
+
+    private static RequestManager mInstance;
+    private static OkHttpClient okHttpClient;
+    private Gson mGson;
+    private Handler mDelivery;
+
+    private static final String TAG = RequestManager.class.getSimpleName();
+    private static final String TYPE = "com.diligroup.net.RequestManager$TestCallback";
+    private SharedPreferenceUtil sp;
+
+    private RequestManager() {
+        File cacheDirectory = new File(DiliApplication.getContext()
+                .getCacheDir().getAbsolutePath(), "HttpCache");
+        Cache cache = new Cache(cacheDirectory, 10 * 1024 * 1024);
+        okHttpClient = new OkHttpClient.Builder()
+                .cache(cache)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                        //添加拦截器
+                .addInterceptor(new AppInterceptor(DiliApplication.getContext()))
+                .build();
+
+        mGson = new Gson();
+        mDelivery = new Handler(Looper.getMainLooper());
+        sp = new SharedPreferenceUtil("http-cache");
+    }
+
+    /**
+     * 获取RequestManager实例
+     *
+     * @return
+     */
+    public static RequestManager getInstance() {
+        if (mInstance == null) {
+            synchronized (RequestManager.class) {
+                if (mInstance == null) {
+                    mInstance = new RequestManager();
+                }
+            }
+        }
+        return mInstance;
+    }
+
+    /**
+     * 异步get请求,默认不缓存
+     *
+     * @param action
+     * @param callback
+     */
+    public void getAsync(Action action, Map<String, String> params,ResultCallback callback) {
+        getAsync(action, params, false, callback);
+    }
+    public void getAsync(Action action, Map<String, String> params,boolean cache,ResultCallback callback) {
+
+        Request request = buildGetParams(action.getValue(), params,cache);
+
+        deliveryResult(action, callback, request);
+    }
+
+    /**
+     * 同步的get请求
+     *
+     * @param url
+     * @return
+     * @throws IOException
+     */
+    public Response getSync(String url) throws IOException {
+        final Request request = new Request.Builder()
+                .url(url)
+                .build();
+        Call call = okHttpClient.newCall(request);
+        Response execute = call.execute();
+        return execute;
+    }
+
+
+    /**
+     * 异步post请求,默认不缓存
+     *
+     * @param action
+     * @param params
+     * @param callback
+     */
+    public void postAsync(Action action, Map<String, Object> params, ResultCallback callback) {
+        postAsync(action,params,false,callback);
+    }
+    public void postAsync(Action action, Map<String, Object> params,boolean cache, ResultCallback callback) {
+        Request request = buildPostParams(action.getValue(), params,cache);
+        deliveryResult(action,callback, request);
+    }
+
+    /**
+     * 同步的post请求
+     *
+     * @param url
+     * @param params
+     */
+    public Response postSync(String url, Map<String, Object> params) throws IOException {
+        Request request = buildPostParams(url, params,false);
+
+        Call call = okHttpClient.newCall(request);
+        Response execute = call.execute();
+        return execute;
+    }
+
+    /**
+     * 上传文件
+     *
+     * @param action
+     * @param files    File文件
+     * @param fileKeys 文件
+     * @param params
+     * @param callback
+     */
+    public void uploadFile(Action action, File[] files,
+                           String[] fileKeys, Map<String, String> params, ResultCallback callback) {
+        Request request = buildMultipartFormRequest(action.getValue(), files, fileKeys, params);
+        deliveryResult(action, callback, request);
+
+    }
+
+    /**
+     * 文件下载
+     *
+     * @param action
+     * @param destFileDir 保存路径
+     * @param callback
+     */
+    public void downLoadAsync(final Action action, final String destFileDir, final ResultCallback callback) {
+        final Request request = new Request.Builder()
+                .url(action.getValue())
+                .build();
+        final Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                sendFailCallback(call, action, e, callback);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                InputStream is = null;
+                byte[] buf = new byte[2048];
+                int len = 0;
+                FileOutputStream fos = null;
+                try {
+                    is = response.body().byteStream();
+                    File file = new File(destFileDir, getFileName(action.getValue()));
+                    fos = new FileOutputStream(file);
+                    while ((len = is.read(buf)) != -1) {
+                        fos.write(buf, 0, len);
+                    }
+                    fos.flush();
+                    //如果下载文件成功，第一个参数为文件的绝对路径
+                    sendSuccessCallback(call,action, file.getAbsolutePath(), callback);
+
+                } catch (IOException e) {
+                    sendFailCallback(call, action, e, callback);
+
+                } finally {
+                    try {
+                        if (is != null) is.close();
+                    } catch (IOException e) {
+                    }
+                    try {
+                        if (fos != null) fos.close();
+                    } catch (IOException e) {
+                    }
+                }
+            }
+
+        });
+    }
+
+    /**
+     * 构建get请求参数
+     * @param url
+     * @param cache 是否使用缓存,默认get请求使用缓存
+     * @param params
+     * @return
+     */
+    private Request buildGetParams(String url, Map<String, String> params, boolean cache){
+        StringBuilder builder = new StringBuilder();
+        builder.append(url)
+                .append("?");
+        if (params != null) {
+            Set<Map.Entry<String, String>> entries = params.entrySet();
+            for (Map.Entry<String, String> entry : entries) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                if(key == null){
+                    LogUtils.d(TAG,"invalid request params, key: "+key+" value: "+value);
+                    key = "";
+                }
+                if(value == null){
+                    LogUtils.d(TAG,"invalid request params, key: "+key+" value: "+value);
+                    value = "";
+                }
+                builder.append(key + "=" + value + "&");
+            }
+        }
+
+        final Request request = new Request.Builder()
+                .url(builder.toString())
+                .tag(cache)
+                .build();
+        return request;
+    }
+
+    /**
+     * 构建post请求
+     *
+     * @param url
+     * @param params
+     * @return
+     */
+    private Request buildPostParams(String url, Map<String, Object> params, boolean cache) {
+        FormBody.Builder builder = new FormBody.Builder();
+        if (params != null) {
+            Set<Map.Entry<String, Object>> entries = params.entrySet();
+            for (Map.Entry<String, Object> entry : entries) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
+                if(key == null){
+                    LogUtils.d(TAG,"invalid request params, key: "+key+" value: "+value);
+                    key = "";
+                }
+                if(value == null){
+                    LogUtils.d(TAG,"invalid request params, key: "+key+" value: "+value);
+                    value = "";
+                }
+                 builder.add(key,(String) value);
+            }
+        }
+
+        RequestBody requestBody = builder.build();
+        return new Request.Builder()
+                .url(url)
+                .tag(cache)
+                .post(requestBody)
+                .build();
+    }
+
+    /**
+     * 上传文件request
+     *
+     * @param url
+     * @param files
+     * @param fileKeys
+     * @param params
+     * @return
+     */
+
+    private Request buildMultipartFormRequest(String url, File[] files,
+                                              String[] fileKeys, Map<String, String> params) {
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        if (params != null) {
+            Set<Map.Entry<String, String>> entries = params.entrySet();
+            for (Map.Entry<String, String> entry : entries) {
+
+                builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + entry.getKey() + "\""),
+                        RequestBody.create(null, entry.getValue()));
+            }
+        }
+
+        if (files != null) {
+            RequestBody fileBody = null;
+            for (int i = 0; i < files.length; i++) {
+                File file = files[i];
+                String fileName = file.getName();
+                fileBody = RequestBody.create(MediaType.parse(guessMimeType(fileName)), file);
+                //TODO 根据文件名设置contentType
+                builder.addPart(Headers.of("Content-Disposition",
+                                "form-data; name=\"" + fileKeys[i] + "\"; filename=\"" + fileName + "\""),
+                        fileBody);
+            }
+
+        }
+
+        RequestBody requestBody = builder.build();
+        return new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+    }
+
+    /**
+     * 返回出错时，缓存处理
+     * @param call
+     * @param action
+     * @param callback
+     * @return
+     */
+    private boolean parseCache(Call call, final Action action, ResultCallback callback){
+        boolean cache = getCacheTag(call);
+        String message = sp.getString(action.getValue(), "");
+        if(!TextUtils.isEmpty(message) && cache){
+            Object obj = mGson.fromJson(message, Action.getAction(action));
+            sendSuccessCallback(call,action, obj, callback);
+
+            StringBuilder builder = new StringBuilder();
+            builder.append("use cache : ")
+                .append(call.request().url().toString())
+                .append("\n")
+                .append("body: "+ message)
+            ;
+
+            LogUtils.d(RequestManager.class.getSimpleName(), builder.toString());
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 获取缓存标志
+     * @param call
+     * @return
+     */
+    private boolean getCacheTag(Call call){
+        boolean cache = false;
+        Object object = call.request().tag();
+        if(object != null && object instanceof Boolean){
+            cache = (boolean) object;
+        }
+        return cache;
+    }
+    /**
+     * 响应结果解析
+     *
+     * @param callback
+     * @param request
+     */
+    public void deliveryResult(final Action action,final ResultCallback callback, Request request) {
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                sendFailCallback(call, action, e, callback);
+                debugFailure(call, e);
+            }
+
+            @SuppressWarnings("ConstantConditions")
+            @Override
+            public void onResponse(Call call, Response response) {
+                boolean cache = getCacheTag(call);
+                try {
+                    final String string = response.body().string();
+                    boolean isSuccess = response.isSuccessful();
+                    int code = response.code();
+                    String message = response.message();
+                    debug(call, isSuccess, string, code, message);
+
+                    if (!isSuccess || TextUtils.isEmpty(string)) {
+                        sendFailCallback(call, action, new Exception("code: " + code + "; message: " + message), callback);
+                    } else {
+                        Object obj = mGson.fromJson(string, Action.getAction(action));
+                        sendSuccessCallback(call,action, obj, callback);
+                        if(cache){
+                            sp.putString(action.getValue(), string);
+                        }
+                    }
+                } catch (IOException e) {
+                    sendFailCallback(call, action, e, callback);
+
+                } catch (com.google.gson.JsonParseException e)//Json解析的错误
+                {
+                    sendFailCallback(call, action, e, callback);
+
+                }
+
+
+            }
+
+        });
+
+
+    }
+
+    /**
+     * 连接失败时degug
+     * @param call
+     * @param ex
+     */
+    private void debugFailure(Call call, Exception ex){
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("request url: " + call.request().url() + "\n");
+        if(ex != null){
+            builder.append("onFailure: "+ex.getCause()+"\n");
+        }
+        LogUtils.d(RequestManager.class.getSimpleName(), builder.toString());
+
+    }
+    /**
+     * @param call
+     * @param isSuccess
+     * @param body
+     * @param code
+     * @param message
+     */
+    private void debug(Call call, boolean isSuccess, String body, int code, String message){
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("request url: " + call.request().url() + "\n");
+        builder.append("response isSuccess: " + isSuccess + "\n");
+        builder.append("code: " + code + "\n");
+        builder.append("message: " + message + "\n");
+        builder.append("body: " + body + "\n");
+        LogUtils.e(RequestManager.class.getSimpleName(), builder.toString());
+    }
+    /**
+     * 主线程中回调数据
+     * @param call
+     * @param action
+     * @param e
+     * @param callback
+     */
+    private void sendFailCallback(final Call call, final Action action, final Exception e, final ResultCallback callback) {
+        if(!parseCache(call,action,callback)){
+            mDelivery.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (callback != null)
+                        callback.onError(call.request(),action, e);
+                }
+            });
+        }
+    }
+
+    /**
+     * 主线程中回调数据
+     *
+     * @param object
+     * @param callback
+     */
+    private void sendSuccessCallback(final Call call, final Action action, final Object object, final ResultCallback callback) {
+        mDelivery.post(new Runnable() {
+            @Override
+            public void run() {
+                if (callback != null) {
+                    callback.onResponse(call.request(),action,object);
+                }
+            }
+        });
+    }
+
+    /**
+     * 从路径中获取文件名
+     *
+     * @param path
+     * @return
+     */
+    private String getFileName(String path) {
+        int separatorIndex = path.lastIndexOf("/");
+        return (separatorIndex < 0) ? path : path.substring(separatorIndex + 1, path.length());
+    }
+
+    private String guessMimeType(String path) {
+        FileNameMap fileNameMap = URLConnection.getFileNameMap();
+        String contentTypeFor = fileNameMap.getContentTypeFor(path);
+        if (contentTypeFor == null) {
+            contentTypeFor = "application/octet-stream";
+        }
+        return contentTypeFor;
+    }
+
+    /**
+     * 响应回掉，解析成对应对象
+     *
+     */
+    public interface ResponseHandler{
+        public abstract void onError(Request request, Exception e);
+
+        public abstract void onResponse(Call call, Object response);
+    }
+    public static interface ResultCallback {
+//        Type mType;
+//
+//        public ResultCallback() {
+//            mType = getSuperclassTypeParameter(getClass());
+//        }
+//
+//        static Type getSuperclassTypeParameter(Class<?> subclass) {
+//            Type superclass = subclass.getGenericSuperclass();
+//            if (superclass instanceof Class) {
+//                throw new RuntimeException("Missing type parameter.");
+//            }
+//            ParameterizedType parameterized = (ParameterizedType) superclass;
+//            return $Gson$Types.canonicalize(parameterized.getActualTypeArguments()[0]);
+//        }
+
+        public abstract void onError(Request request, Action action, Exception e);
+
+        public abstract void onResponse(Request request, Action action, Object object);
+    }
+
+    private static Type getType(Class<?> subclass){
+        Type[] interfaces = subclass.getGenericInterfaces();
+        int len = interfaces.length;
+
+        for (int i = 0; i < len; i++) {
+            LogUtils.d(TAG,interfaces[i].toString());
+            Type t = interfaces[i];
+            if(t.toString().contains(TYPE)){
+                ParameterizedType parameterized = (ParameterizedType)t;
+                return $Gson$Types.canonicalize(parameterized.getActualTypeArguments()[0]);
+            }
+
+        }
+        return null;
+    }
+
+    /**
+     * 取消所有网络请求
+     */
+    public static void cancelAll(){
+        Dispatcher dispatcher = okHttpClient.dispatcher();
+        dispatcher.cancelAll();
+    }
+
+    /**
+     * 根据tag取消请求
+     * @param tag
+     */
+    public void cancelByTag(String tag){
+        if(okHttpClient == null)
+            return;
+        Dispatcher dispatcher = okHttpClient.dispatcher();
+        for(Call call : dispatcher.queuedCalls()) {
+            if(call.request().tag().equals(tag))
+                call.cancel();
+        }
+        for(Call call : dispatcher.runningCalls()) {
+            if(call.request().tag().equals(tag))
+                call.cancel();
+        }
+    }
+
+}

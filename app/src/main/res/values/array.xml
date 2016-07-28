@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="gulei">
+        　	<item>小麦</item>
+        　　<item>大麦</item>
+        　　<item>荞麦</item>
+        　　<item>玉米</item>
+    </string-array>
+    <string-array name="doulei">
+        　	<item>红豆</item>
+        　　<item>绿豆</item>
+        　　<item>黄豆</item>
+        　　<item>豌豆</item>
+    </string-array>
+    <string-array name="shucai">
+        　	<item>红菜</item>
+        　　<item>红菜</item>
+        　　<item>红菜</item>
+        　　<item>红菜</item>
+    </string-array>
+    <string-array name="fruits">
+        　	<item>水果</item>
+        　　<item>水果</item>
+        　　<item>水果</item>
+        　　<item>水果</item>
+        <item>水果</item>
+    </string-array>
+    <string-array name="milks">
+        　	<item>牛奶</item>
+        　　<item>牛奶</item>
+        　　<item>牛奶</item>
+        　　<item>牛奶</item>
+        <item>坚果</item>
+    </string-array>
+    <string-array name="jianguo">
+        　	<item>坚果</item>
+        　　<item>坚果</item>
+        　　<item>坚果</item>
+        　　<item>坚果</item>
+        <item>坚果</item>
+    </string-array>
+    <string-array name="light">
+        　	<item>管理人员</item>
+        　　<item>研发人员</item>
+        　　<item>文职人员</item>
+        　　<item>行政人员</item>
+        <item>医护人员</item>
+        <item>工程师</item>
+        <item>教师</item>
+        <item>其他</item>
+    </string-array>
+    <string-array name="middle">
+        　	<item>销售人员</item>
+        　　<item>服务人员</item>
+        　　<item>采购人员</item>
+        　　<item>司机</item>
+        <item>学生</item>
+        <item>其他</item>
+    </string-array>
+    <string-array name="heavy">
+        　	<item>生产人员</item>
+        　　<item>工人</item>
+        　　<item>军人</item>
+        　　<item>舞蹈</item>
+        <item>竞技体育</item>
+        <item>其他</item>
+    </string-array>
+
+    <string-array name="height">
+        　	<item>150 CM</item>
+        　　<item>151 CM</item>
+        <item>152 CM</item>
+        <item>153 CM</item>
+        <item>154 CM</item>
+        <item>155 CM</item>
+        <item>156 CM</item>
+        <item>157 CM</item>
+        <item>158 CM</item>
+        <item>159 CM</item>
+
+        <item>160 CM</item>
+        　　<item>161 CM</item>
+        <item>162 CM</item>
+        <item>163 CM</item>
+        <item>164 CM</item>
+        <item>165 CM</item>
+        <item>166 CM</item>
+        <item>167 CM</item>
+        <item>168 CM</item>
+        <item>169 CM</item>
+
+        <item>170 CM</item>
+        <item>171 CM</item>
+        <item>172 CM</item>
+        <item>173 CM</item>
+        <item>174 CM</item>
+        <item>175 CM</item>
+        <item>176 CM</item>
+        <item>177 CM</item>
+        <item>178 CM</item>
+        <item>179 CM</item>
+
+        <item>180 CM</item>
+        　　<item>181 CM</item>
+        <item>182 CM</item>
+        <item>183 CM</item>
+        <item>184 CM</item>
+        <item>185 CM</item>
+        <item>186 CM</item>
+        <item>187 CM</item>
+        <item>188 CM</item>
+        <item>189 CM</item>
+    </string-array>
+    <string-array name="weight">
+        　	<item>45 Kg</item>
+        　　<item>46 Kg</item>
+        <item>47 Kg</item>
+        <item>48 Kg</item>
+        <item>49 Kg</item>
+        <item>50 Kg</item>
+        <item>51 Kg</item>
+        <item>52 Kg</item>
+        <item>53 Kg</item>
+        <item>54 Kg</item>
+        <item>55 Kg</item>
+        <item>56 Kg</item>
+        <item>57 Kg</item>
+        <item>58 Kg</item>
+        <item>59 Kg</item>
+        <item>60 Kg</item>
+        <item>61 Kg</item>
+        <item>62 Kg</item>
+        <item>63 Kg</item>
+        <item>64 Kg</item>
+        <item>65 Kg</item>
+        <item>66 Kg</item>
+        <item>67 Kg</item>
+        <item>68 Kg</item>
+        <item>69 Kg</item>
+        <item>70 Kg</item>
+        <item>71 Kg</item>
+        <item>72 Kg</item>
+        <item>73 Kg</item>
+        <item>74 Kg</item>
+        <item>75 Kg</item>
+        <item>76 Kg</item>
+        <item>77 Kg</item>
+        <item>78 Kg</item>
+        <item>79 Kg</item>
+        <item>80 Kg</item>
+        <item>81 Kg</item>
+        <item>82 Kg</item>
+        <item>83 Kg</item>
+        <item>84 Kg</item>
+        <item>85 Kg</item>
+        <item>86 Kg</item>
+        <item>87 Kg</item>
+        <item>88 Kg</item>
+        <item>89 Kg</item>
+        <item>90 Kg</item>
+    </string-array>
+
+</resources>

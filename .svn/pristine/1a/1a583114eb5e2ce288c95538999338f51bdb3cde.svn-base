@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_delish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/delish" />
+        <ImageButton
+            android:background="@drawable/round_button"
+            android:focusable="true"
+            android:layout_margin="10dp"
+            android:src="@drawable/go_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@id/iv_delish"
+            android:background="#70000000"
+            android:gravity="center"
+            android:text="蔬菜沙拉"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+    </RelativeLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:text="主料:"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_zhuliao"
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:text="猪肉 (五花肉)"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <View
+        android:background="#D7D7D7"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:text="辅料:"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_fuliao"
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:text="猪肉 (五花肉)"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <View
+        android:background="#D7D7D7"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:text="调料:"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_tiaoliao"
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:text="盐 鸡精 料酒"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <View
+        android:background="#D7D7D7"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:text="食用油:"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_shiyongyou"
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:text="芝麻油"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <View
+        android:background="#D7D7D7"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <LinearLayout
+        android:background="#D7D7D7"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="60dp">
+        <Button
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:text="每100含有的热量及营养素"
+            android:background="@drawable/em_button_login_bg"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:paddingTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="热量"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/title_color"
+                android:textSize="15sp"
+                android:paddingTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="199Kal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <View
+                android:layout_marginTop="10dp"
+                android:background="#d7d7d7"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <TextView
+                android:paddingTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="碳水化合物"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/title_color"
+                android:textSize="15sp"
+                android:paddingTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="4g"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <View
+            android:background="#d7d7d7"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:paddingTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="蛋白质"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/title_color"
+                android:textSize="15sp"
+                android:paddingTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="377g"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <View
+                android:layout_marginTop="10dp"
+                android:background="#d7d7d7"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <TextView
+                android:paddingTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="钙"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/title_color"
+                android:textSize="15sp"
+                android:paddingTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="44mg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <View
+            android:background="#d7d7d7"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:paddingTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="脂肪"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/title_color"
+                android:textSize="15sp"
+                android:paddingTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="7g"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <View
+                android:layout_marginTop="10dp"
+                android:background="#d7d7d7"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <TextView
+                android:paddingTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="铁"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/title_color"
+                android:textSize="15sp"
+                android:paddingTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="40mg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

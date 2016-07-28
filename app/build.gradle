@@ -1,0 +1,61 @@
+apply plugin: 'com.android.application'
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+    sourceSets {
+        main {
+            jniLibs.srcDir 'libs'
+        }
+        defaultConfig {
+            applicationId "com.diligroup"
+            minSdkVersion 19
+            targetSdkVersion 23
+            versionCode 1
+            versionName "1.0"
+        }
+        lintOptions {
+            abortOnError false
+        }
+        buildTypes {
+            release {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }
+        }
+    }
+
+    dependencies {
+        compile fileTree(dir: 'libs', include: ['*.jar'])
+        compile files('libs/BaiduLBS_Android.jar')
+        compile files('libs/mta-sdk-1.6.2.jar')
+        compile files('libs/open_sdk_r5509.jar')
+        compile files('libs/SocialSDK_QQZone_3.jar')
+        compile files('libs/SocialSDK_Sina.jar')
+        compile files('libs/SocialSDK_WeiXin_1.jar')
+        compile files('libs/SocialSDK_WeiXin_2.jar')
+        compile files('libs/umeng_social_sdk.jar')
+        compile files('libs/weiboSDKCore_3.1.4.jar')
+        compile files('libs/mta-sdk-1.6.2.jar')
+        compile files('libs/open_sdk_r5509.jar')
+        compile files('libs/SocialSDK_QQZone_3.jar')
+        compile files('libs/SocialSDK_Sina.jar')
+        compile files('libs/SocialSDK_WeiXin_1.jar')
+        compile files('libs/SocialSDK_WeiXin_2.jar')
+        compile files('libs/umeng_social_sdk.jar')
+        compile files('libs/weiboSDKCore_3.1.4.jar')
+        compile 'com.squareup.picasso:picasso:2.5.2'
+        compile project(path: ':ratingbar_library')
+        compile 'com.squareup.picasso:picasso:2.5.2'
+        compile 'com.squareup.okhttp3:okhttp:3.3.1'
+        compile 'com.android.support:design:23.4.0'
+        compile 'com.android.support:appcompat-v7:23.4.0'
+        compile 'com.github.bumptech.glide:glide:3.7.0'
+        compile 'com.google.code.gson:gson:2.5'
+        compile 'com.jakewharton:butterknife:7.0.1'
+        compile 'com.github.lovetuzitong:MultiImageSelector:1.2'
+        compile 'org.greenrobot:eventbus:3.0.0'
+    }
+
+}
+
+

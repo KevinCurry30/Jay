@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/em_grey_button">
+        <ImageView
+            android:layout_width="13.3dp"
+            android:layout_height="13.3dp"
+            android:src="@mipmap/search_icon"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/common_marginleft"/>
+        <EditText android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black1"
+            android:textSize="16sp"
+            android:id="@+id/custome_input_search_dishes"
+            android:background="@null"
+            android:hint="请输入食物名称"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="9dp"/>
+        <ImageView
+            android:layout_width="13.3dp"
+            android:layout_height="13.3dp"
+            android:id="@+id/addlunche_custome_delete"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/delete_selector"/>
+    </LinearLayout>
+    <TextView android:layout_width="match_parent"
+        android:layout_height="23.3dp"
+        android:text="最近搜索"
+        android:gravity="center_vertical"
+        android:textColor="@color/black1"
+        android:textSize="11sp"
+        android:paddingLeft="@dimen/common_marginleft"
+        android:background="@color/common_backgroud"/>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:id="@+id/cuostomer_recyclerView">
+        </android.support.v7.widget.RecyclerView>
+</LinearLayout>

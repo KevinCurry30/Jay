@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="gulei">
+        　	<item>小麦</item>
+        　　<item>大麦</item>
+        　　<item>荞麦</item>
+        　　<item>玉米</item>
+    </string-array>
+    <string-array name="doulei">
+        　	<item>红豆</item>
+        　　<item>绿豆</item>
+        　　<item>黄豆</item>
+        　　<item>豌豆</item>
+    </string-array>
+    <string-array name="shucai">
+        　	<item>红菜</item>
+        　　<item>红菜</item>
+        　　<item>红菜</item>
+        　　<item>红菜</item>
+    </string-array>
+    <string-array name="fruits">
+        　	<item>水果</item>
+        　　<item>水果</item>
+        　　<item>水果</item>
+        　　<item>水果</item>
+        <item>水果</item>
+    </string-array>
+    <string-array name="milks">
+        　	<item>牛奶</item>
+        　　<item>牛奶</item>
+        　　<item>牛奶</item>
+        　　<item>牛奶</item>
+        <item>坚果</item>
+    </string-array>
+    <string-array name="jianguo">
+    　	<item>坚果</item>
+    　　<item>坚果</item>
+    　　<item>坚果</item>
+    　　<item>坚果</item>
+    <item>坚果</item>
+</string-array>
+</resources>

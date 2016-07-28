@@ -1,0 +1,83 @@
+[
+    {
+        "outputFile": "D:\\NewApp\\ratingbar_library\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 671,
+                    "endColumn": 63,
+                    "endOffset": 730
+                },
+                "from": {
+                    "file": "D:\\NewApp\\ratingbar_library\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 671,
+                        "endColumn": 63,
+                        "endOffset": 730
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 735,
+                    "endColumn": 65,
+                    "endOffset": 796
+                },
+                "from": {
+                    "file": "D:\\NewApp\\ratingbar_library\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 735,
+                        "endColumn": 65,
+                        "endOffset": 796
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 801,
+                    "endColumn": 45,
+                    "endOffset": 842
+                },
+                "from": {
+                    "file": "D:\\NewApp\\ratingbar_library\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 801,
+                        "endColumn": 45,
+                        "endOffset": 842
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 847,
+                    "endColumn": 57,
+                    "endOffset": 900
+                },
+                "from": {
+                    "file": "D:\\NewApp\\ratingbar_library\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 847,
+                        "endColumn": 57,
+                        "endOffset": 900
+                    }
+                }
+            }
+        ]
+    }
+]

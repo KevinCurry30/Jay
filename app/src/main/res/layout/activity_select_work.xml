@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F0F0"
+    android:orientation="vertical">
+
+    <include layout="@layout/comm_title" />
+
+    <include layout="@layout/title_info" />
+
+    <RelativeLayout
+        android:visibility="invisible"
+        android:id="@+id/rl_light"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_shutiao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:src="@drawable/iv_shutiao" />
+
+        <TextView
+            android:id="@+id/tv_light"
+            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_shutiao"
+            android:text="轻体力"
+            android:textColor="@color/title_color" />
+
+        <TextView
+            android:textSize="10sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="75%时间坐或站立;25%时间站着活动"
+            android:textColor="#FF6531" />
+    </RelativeLayout>
+
+    <GridView
+        android:visibility="invisible"
+        android:id="@+id/gv_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="#F0F0F0"
+        android:horizontalSpacing="2dp"
+        android:numColumns="4"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="2dp"/>
+
+
+
+    <RelativeLayout
+        android:visibility="invisible"
+        android:id="@+id/rl_middle"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_shutiao2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:src="@drawable/iv_shutiao" />
+
+        <TextView
+            android:id="@+id/tv_middle"
+            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_shutiao2"
+            android:text="中等体力"
+            android:textColor="@color/title_color" />
+
+        <TextView
+            android:textSize="10sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="25%时间坐或站立;75%时间特殊活动"
+            android:textColor="#FF6531" />
+    </RelativeLayout>
+
+    <GridView
+        android:visibility="invisible"
+        android:id="@+id/gv_middle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="#F0F0F0"
+        android:horizontalSpacing="2dp"
+        android:numColumns="4"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="2dp">
+
+    </GridView>
+
+    <RelativeLayout
+        android:visibility="invisible"
+        android:id="@+id/rl_heavy"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_shutiao3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:src="@drawable/iv_shutiao" />
+
+        <TextView
+            android:id="@+id/tv_heavy"
+            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_shutiao3"
+            android:text="重体力"
+            android:textColor="@color/title_color" />
+
+        <TextView
+            android:textSize="10sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="40%时间坐或站立;60%时间特殊活动"
+            android:textColor="#FF6531" />
+    </RelativeLayout>
+
+    <GridView
+        android:visibility="invisible"
+        android:id="@+id/gv_heavy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="#F0F0F0"
+        android:horizontalSpacing="2dp"
+        android:numColumns="4"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="2dp">
+    </GridView>
+
+    <Button
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:textColor="@color/white"
+        android:id="@+id/bt_commit_work"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/em_button_login_bg"
+        android:text="确定" />
+</LinearLayout>

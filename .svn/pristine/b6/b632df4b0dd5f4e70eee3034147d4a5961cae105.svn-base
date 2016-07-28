@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_backgroud"
+    android:orientation="vertical"
+    tools:context="com.diligroup.Home.FeedbackActivity">
+
+    <include layout="@layout/comm_title" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:text="拍黄瓜"
+        android:textColor="@color/black1"
+        android:id="@+id/dishes_name"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="10dp"
+        android:paddingLeft="@dimen/common_marginleft"
+        android:paddingTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:text="口味：    "
+            android:textColor="@color/black1"
+            android:textSize="13.3sp" />
+
+        <io.techery.properratingbar.ProperRatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="22dp"
+            android:id="@+id/taste_evaluation"
+            app:prb_clickable="true"
+            app:prb_defaultRating="1"
+            app:prb_tickNormalDrawable="@mipmap/star_normal"
+            app:prb_tickSelectedDrawable="@mipmap/star_selected"
+            app:prb_totalTicks="5" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="20dp"
+        android:paddingLeft="@dimen/common_marginleft"
+        android:paddingTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:text="性价比："
+            android:textColor="@color/black1"
+            android:textSize="13.3sp" />
+
+        <io.techery.properratingbar.ProperRatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="22dp"
+            android:id="@+id/cost_performance_evaluation"
+            app:prb_clickable="true"
+            app:prb_defaultRating="1"
+            app:prb_tickNormalDrawable="@mipmap/star_normal"
+            app:prb_tickSelectedDrawable="@mipmap/star_selected"
+            app:prb_totalTicks="5" />
+    </LinearLayout>
+
+    <include layout="@layout/line_view" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="220dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:id="@+id/input_dishes_evaluation"
+            android:paddingLeft="@dimen/common_marginleft"
+            android:paddingTop="@dimen/common_marginleft"
+            android:hint="亲：说说您对菜品的印象"
+            android:gravity="left"
+            android:textSize="13.3sp"
+            android:textColor="@color/graycolor"
+            android:background="@color/white" />
+    </FrameLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="39.3dp"
+        android:background="@drawable/em_button_login_bg"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="39.3dp"
+        android:layout_marginRight="30dp"
+        android:textColor="@color/white"
+        android:id="@+id/feedback_commit"
+        android:text="提交评价"/>
+</LinearLayout>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/comm_title" />
+
+<include
+    layout="@layout/title_info"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_sex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
+
+        <View
+            android:id="@+id/line_center"
+            android:layout_width="1dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:background="#DCDCDC" />
+
+        <LinearLayout
+            android:clickable="true"
+            android:id="@+id/ll_boy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="35dp"
+            android:layout_toLeftOf="@id/line_center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_man"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/iv_sex_boy" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:text="男" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:clickable="true"
+            android:id="@+id/ll_girl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="35dp"
+            android:layout_toRightOf="@id/line_center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/iv_sex_girl" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:text="女" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <Button
+        android:textColor="@color/white"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/em_button_login_bg"
+        android:id="@+id/bt_ok_sex"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="确定" />
+</LinearLayout>
