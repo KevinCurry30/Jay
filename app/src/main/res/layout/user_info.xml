@@ -53,7 +53,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="30dp"
             android:layout_toLeftOf="@id/iv_kevin"
-            android:text="更换头像" />
+            android:text="更换头像"
+            android:id="@+id/change_headicon"/>
     </RelativeLayout>
 
     <ScrollView
@@ -62,14 +63,14 @@
         android:scrollbars="none">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/rl_sex"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp">
 
                 <ImageView
@@ -502,7 +503,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
-                    android:src="@drawable/iv_select_sex" />
+                    android:src="@drawable/iv_address" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -511,12 +512,12 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_toRightOf="@id/iv_now"
-                    android:text="现住城市"
+                    android:text="常住地"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/tv_now"
+                    android:id="@+id/tv_now_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -555,7 +556,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
-                    android:src="@drawable/iv_select_sex" />
+                    android:src="@drawable/iv_kouwei" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -596,19 +597,21 @@
                 android:layout_marginTop="10dp"
                 android:background="#DCDCDC" />
 
+
+
             <RelativeLayout
-                android:id="@+id/rl_time_of_month"
+                android:id="@+id/rl_history"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp">
 
                 <ImageView
-                    android:id="@+id/iv_time_of_month"
+                    android:id="@+id/iv_history"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
-                    android:src="@drawable/iv_select_sex" />
+                    android:src="@drawable/iv_history" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -616,61 +619,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@id/iv_time_of_month"
-                    android:text="生理期"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/tv_time_of_month"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="30dp"
-                    android:text="5.2-5.7"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/iv_go_more" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="18dp"
-                android:layout_marginRight="18dp"
-                android:layout_marginTop="10dp"
-                android:background="#DCDCDC" />
-
-            <RelativeLayout
-                android:id="@+id/rl_mxb"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp">
-
-                <ImageView
-                    android:id="@+id/iv_mxb"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
-                    android:src="@drawable/iv_select_sex" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@id/iv_mxb"
-                    android:text="慢性病"
+                    android:layout_toRightOf="@id/iv_history"
+                    android:text="健康史"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -713,7 +663,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
-                    android:src="@drawable/iv_select_sex" />
+                    android:src="@drawable/iv_special" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -752,7 +702,58 @@
             android:layout_marginRight="18dp"
             android:layout_marginTop="10dp"
             android:background="#DCDCDC" />
+            <RelativeLayout
+                android:id="@+id/rl_time_of_month"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp">
 
+                <ImageView
+                    android:id="@+id/iv_time_of_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/iv_slq" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@id/iv_time_of_month"
+                    android:text="生理期"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tv_time_of_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="30dp"
+                    android:text="5.2-5.7"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/iv_go_more" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:layout_marginTop="10dp"
+                android:background="#DCDCDC" />
             <RelativeLayout
                 android:id="@+id/rl_other"
                 android:layout_width="match_parent"
@@ -765,7 +766,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
-                    android:src="@drawable/iv_select_sex" />
+                    android:src="@drawable/iv_other" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -774,7 +775,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_toRightOf="@id/iv_other"
-                    android:text="其他"
+                    android:text="其他需求"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 

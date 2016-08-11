@@ -28,6 +28,13 @@ public class ReportAddress extends BaseActivity {
     }
 
     @Override
+    public void setTitle() {
+        super.setTitle();
+        tv_title.setText("现居住地");
+        title_infos.setText("请选择您的常居住地");
+    }
+
+    @Override
     protected void onNetworkConnected(NetUtils.NetType type) {
 
     }
@@ -38,8 +45,15 @@ public class ReportAddress extends BaseActivity {
     }
     @OnClick(R.id.bt_ok_address)
     public void reprotAddress(){
-        ToastUtil.showShort(this,now_address);
+//        ToastUtil.showShort(this,now_address);
         UserInfoBean.getInstance().setHomeAddress(now_address);
+        readyGo(ReportTaste.class);
+    }
+
+    @OnClick(R.id.bt_later_address)
+    public void jumpAddress(){
+
+        UserInfoBean.getInstance().setHomeAddress("");
         readyGo(ReportTaste.class);
     }
     @Override

@@ -36,6 +36,11 @@ public class StringUtils {
         return m.matches();
 
     }
+    public static boolean isPsdFormat(String password){
+        Pattern p = Pattern.compile("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,16}");
+        Matcher m = p.matcher(password);
+        return m.matches();
+    }
     /**
      * 格式化文件大小
      */

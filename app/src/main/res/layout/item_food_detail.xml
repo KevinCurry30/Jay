@@ -4,6 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 <CheckBox
+    android:clickable="false"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
     android:layout_alignParentLeft="true"
     android:layout_margin="15dp"
     android:id="@+id/cb_item_check"

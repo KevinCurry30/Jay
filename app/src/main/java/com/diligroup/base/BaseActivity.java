@@ -134,7 +134,7 @@ public abstract class BaseActivity extends AppCompatActivity implements RequestM
     @Override
     public void finish() {
         super.finish();
-      //  AppManager.getAppManager().finishActivity();
+      //
     }
     public void isShowBack(Boolean  isShow ) {
         if (isShow){
@@ -201,28 +201,5 @@ public abstract class BaseActivity extends AppCompatActivity implements RequestM
         Intent intent = new Intent(this, clazz);
         startActivity(intent);
     }
-//    private static Boolean isQuit = false;
-//    Timer timer = new Timer();
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK) {
-//            if (!isQuit) {
-//                isQuit = true;
-//                Toast.makeText(getBaseContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
-//                TimerTask task = null;
-//                task = new TimerTask() {
-//                    @Override
-//                    public void run() {
-//                        isQuit = false;
-//                    }
-//                };
-//                timer.schedule(task, 2000);
-//            } else {
-//                finish();
-//                System.exit(0);
-//            }
-//        }
-//        return false;
-//
-//    }
+
 }

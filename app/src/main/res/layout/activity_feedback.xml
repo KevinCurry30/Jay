@@ -89,6 +89,7 @@
             android:paddingTop="@dimen/common_marginleft"
             android:hint="亲：说说您对菜品的印象"
             android:gravity="left"
+            android:maxLength="200"
             android:textSize="13.3sp"
             android:textColor="@color/graycolor"
             android:background="@color/white" />

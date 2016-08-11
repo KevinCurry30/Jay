@@ -2,12 +2,19 @@ package com.diligroup.net;
 
 import com.diligroup.bean.BannerBean;
 import com.diligroup.bean.CommonBean;
+import com.diligroup.bean.CostomerCategory;
+import com.diligroup.bean.CustomerSearchResultBean;
+import com.diligroup.bean.FindFoodByCategory;
+import com.diligroup.bean.GetAllergyDetailBean;
+import com.diligroup.bean.GetDietRecordBean;
+import com.diligroup.bean.GetFoodDetailsBean;
 import com.diligroup.bean.GetFoodTypeBean;
-import com.diligroup.bean.GetHistoryBean;
-import com.diligroup.bean.GetJobBean;
-import com.diligroup.bean.GetSpecialBean;
 import com.diligroup.bean.GetJiaoQinBean;
+import com.diligroup.bean.GetJobBean;
+import com.diligroup.bean.HomeStoreSupplyList;
 import com.diligroup.bean.ProvingCodeBean;
+import com.diligroup.bean.UploadInfo;
+import com.diligroup.bean.UserBeanFromService;
 
 /**
  * Created by cwj on 2016/4/5.
@@ -28,15 +35,31 @@ public enum Action {
     DISEVALUATE(Urls.DISHEVALUATE),
     /*上传头像*/
     UPLOAD_PHOTO(Urls.UPLOAD_PHOTO),
+    GET_HOME_LIST(Urls.GET_HOMELIST),
     /*上报更新用户信息*/
-    REPORT_USERINFOS(Urls.UPDATA_USERINFOS),
+    UPDATA_USER_INFOS(Urls.UPDATA_USERINFOS),
     GET_WORK_TYPE(Urls.GET_WORK_TYPE),
     GET_NO_EAT(Urls.GET_NO_EAT),
     GET_ALLERGY(Urls.GET_ALLERGY),
     GET_OTHER(Urls.BASE),
     GET_SPECIAL(Urls.BASE),
     GET_TASTE(Urls.BASE),
-    GET_HISTORY(Urls.BASE);
+    GET_HISTORY(Urls.BASE),
+    GET_ALLERGY_DETAILS(Urls.BASE),
+    /*自定义菜品成品分类*/
+    GET_COSTOMER_FOODLIST(Urls.GET_COSTOMER_FOOD_LIST),
+    /**
+     * 获取饮食记录
+     */
+    GET_DIET_RECORD(Urls.BASE),
+    /*自定义菜品搜索*/
+    CUSTOMER_SEARCH(Urls.GET_COSTOMER_FOOD_LIST),
+    CUSTOMER_FIND_BY_CATEGORYID(Urls.CUSTOMER_FINDBY_CATEGORYID),
+    /**
+     * 获取菜品详情
+     */
+    GET_DETAILS(Urls.BASE);
+
     /**
      * 根据Action获取解析类
      *
@@ -46,7 +69,7 @@ public enum Action {
     public static Class getAction(Action action) {
         switch (action) {
             case LOGIN:
-                return CommonBean.class;
+                return UserBeanFromService.class;
             case REGISTER:
                 return CommonBean.class;
             case SMSCODE:
@@ -59,24 +82,38 @@ public enum Action {
                 return CommonBean.class;
             case DISEVALUATE:
                 return CommonBean.class;
-            case REPORT_USERINFOS:
+            case UPDATA_USER_INFOS:
                 return CommonBean.class;
             case UPLOAD_PHOTO:
-                return CommonBean.class;
+                return UploadInfo.class;
             case GET_WORK_TYPE:
                 return GetJobBean.class;
             case GET_NO_EAT:
                 return GetJiaoQinBean.class;
             case GET_ALLERGY:
-                return  GetFoodTypeBean.class;
+                return GetFoodTypeBean.class;
             case GET_OTHER:
-                return  CommonBean.class;
+                return CommonBean.class;
             case GET_SPECIAL:
                 return GetJiaoQinBean.class;
             case GET_TASTE:
                 return GetJiaoQinBean.class;
             case GET_HISTORY:
                 return GetJiaoQinBean.class;
+            case GET_HOME_LIST:
+                return HomeStoreSupplyList.class;
+            case GET_ALLERGY_DETAILS:
+                return GetAllergyDetailBean.class;
+            case GET_DETAILS:
+                return GetFoodDetailsBean.class;
+            case GET_COSTOMER_FOODLIST:
+                return CostomerCategory.class;
+            case GET_DIET_RECORD:
+                return  GetDietRecordBean.class;
+            case CUSTOMER_SEARCH:
+                return  CustomerSearchResultBean.class;
+            case CUSTOMER_FIND_BY_CATEGORYID:
+                return FindFoodByCategory.class;
         }
         return null;
     }

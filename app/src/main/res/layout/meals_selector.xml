@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/home_header_rgroup"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:background="@drawable/selector_meal_item"
+        android:id="@+id/ll_breakfast"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center">
+
+
+            <ImageView
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:id="@+id/breakfase_icon"
+                android:src="@drawable/breakfase_selector" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:gravity="center_vertical"
+                android:text="添加早餐"
+                android:id="@+id/breakfase_text"
+                android:textColor="#000000"
+                android:textSize="12sp" />
+        </LinearLayout>
+    <View android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/line_view"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"/>
+    <LinearLayout
+        android:background="@drawable/selector_meal_item"
+        android:id="@+id/ll_lunch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+
+        android:clickable="true"
+        android:layout_weight="1">
+
+            <ImageView
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:id="@+id/lunch_icon"
+                android:src="@drawable/lunch_selector" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:gravity="center_vertical"
+                android:text="添加午餐"
+                android:id="@+id/lunch_text"
+                android:textColor="#000000"
+                android:textSize="12sp" />
+
+    </LinearLayout>
+    <View android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/line_view"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"/>
+    <LinearLayout
+        android:background="@drawable/selector_meal_item"
+        android:id="@+id/ll_dinner"
+        android:clickable="true"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="1">
+
+            <ImageView
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:id="@+id/dish_icon"
+                android:src="@drawable/dinner_selector" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/dish_text"
+                android:text="添加晚餐"
+                android:textColor="#000000"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+</RadioGroup>

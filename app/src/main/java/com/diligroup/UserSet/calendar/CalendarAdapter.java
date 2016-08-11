@@ -3,7 +3,6 @@ package com.diligroup.UserSet.calendar;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
@@ -17,6 +16,7 @@ import android.widget.TextView;
 import com.diligroup.R;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -49,6 +49,7 @@ public class CalendarAdapter extends BaseAdapter {
 	private String showYear = ""; // 用于在头部显示的年份
 	private String showMonth = ""; // 用于在头部显示的月份
 	private Typeface typeFace;
+	private TextView calendar_today;//“今天”文字
 
 	public String getShowDay() {
 		return sys_day;
@@ -69,6 +70,10 @@ public class CalendarAdapter extends BaseAdapter {
 	private String sys_month = "";
 	private String sys_day = "";
 
+	ArrayList<String> templateDateList;//首页展示日期列表
+	ArrayList<String> dayList=new ArrayList<>();//首页展示日期列表
+
+	boolean isFromHome;
 	public CalendarAdapter() {
 		Date date = new Date();
 		sysDate = sdf.format(date); // 当期日期
@@ -110,20 +115,30 @@ public class CalendarAdapter extends BaseAdapter {
 		currentMonth = String.valueOf(stepMonth); // 得到本月
 													// （jumpMonth为滑动的次数，每滑动一次就增加一月或减一月）
 		currentDay = String.valueOf(day_c); // 得到当前日期是哪天
-
 		getCalendar(Integer.parseInt(currentYear), Integer.parseInt(currentMonth));
-
 	}
-
-	public CalendarAdapter(Context context, Resources rs, int year, int month, int day) {
+	public CalendarAdapter(Context context, Resources rs, int jumpMonth, int jumpYear, int year_c, int month_c, int day_c,boolean isFromHome,ArrayList<String> templateDateList) {
+		this(context,rs,jumpMonth,jumpYear,year_c,month_c,day_c);
+		this.isFromHome=isFromHome;
+		this.templateDateList=templateDateList;
+		if(isFromHome) {//
+			for (int i = 0; i < templateDateList.size(); i++) {
+				String[] tempArr = templateDateList.get(i).split("-");
+				if (tempArr[0].equals(getShowYear()) && tempArr[1].equals(getShowMonth())) {
+					dayList.add(tempArr[2]);
+				}
+			}
+		}
+	}
+	public CalendarAdapter(Context context, Resources rs, int year_c, int month_c, int day_c) {
 		this();
 		this.context = context;
 		sc = new SpecialCalendar();
 		lc = new LunarCalendar();
 		this.res = rs;
-		currentYear = String.valueOf(year);// 得到跳转到的年份
-		currentMonth = String.valueOf(month); // 得到跳转到的月份
-		currentDay = String.valueOf(day); // 得到跳转到的天
+		currentYear = String.valueOf(year_c);// 得到跳转到的年份
+		currentMonth = String.valueOf(month_c); // 得到跳转到的月份
+		currentDay = String.valueOf(day_c); // 得到跳转到的天
 		getCalendar(Integer.parseInt(currentYear), Integer.parseInt(currentMonth));
 	}
 
@@ -154,6 +169,7 @@ public class CalendarAdapter extends BaseAdapter {
 
 
 		TextView textView = (TextView) convertView.findViewById(R.id.tvtext);
+		calendar_today = (TextView) convertView.findViewById(R.id.calendar_today);
 		String d = dayNumber[position].split("\\.")[0];
 		String dv = dayNumber[position].split("\\.")[1];
 
@@ -170,7 +186,18 @@ public class CalendarAdapter extends BaseAdapter {
 		textView.setTypeface(typeFace);
 		textView.setTextColor(context.getResources().getColor(R.color.calendar_gray_color));
 
-		if (position < daysOfMonth + dayOfWeek && position >= dayOfWeek) {
+		 if(isFromHome && position < daysOfMonth + dayOfWeek && position >= dayOfWeek){//
+//			 for(int i=0;i<templateDateList.size();i++){
+//				 String[] tempArr=templateDateList.get(i).split("-");
+//				 if(tempArr[0].equals(getShowYear()) && tempArr[1].equals(getShowMonth())){
+//					 dayList.add(tempArr[2]);
+			 String[] temp=dayNumber[position].split("\\.");
+					 if(dayList.contains(temp[0])){
+						 textView.setTextColor(context.getResources().getColor(R.color.black1));// 可用日期字体设黑
+					 }
+//				 }
+//			 }
+		 }else if (position < daysOfMonth + dayOfWeek && position >= dayOfWeek) {
 			// 应用字体
 			// 当前月信息显示
 			textView.setTextColor(context.getResources().getColor(R.color.black1));// 当月字体设黑
@@ -186,10 +213,11 @@ public class CalendarAdapter extends BaseAdapter {
 
 		if (currentFlag == position) {
 			// 设置当天的背景
-		Drawable drawable = res.getDrawable(R.drawable.circle_red);
+//		Drawable drawable = res.getDrawable(R.drawable.circle_red);
 //			drawable = new ColorDrawable(Color.rgb(23, 126, 214));
-			textView.setBackgroundDrawable(drawable);
-			textView.setTextColor(context.getResources().getColor(R.color.white));
+//			textView.setBackgroundDrawable(drawable);
+			textView.setTextColor(context.getResources().getColor(R.color.common_orenge));
+			calendar_today.setVisibility(View.VISIBLE);
 		}
 		return convertView;
 	}

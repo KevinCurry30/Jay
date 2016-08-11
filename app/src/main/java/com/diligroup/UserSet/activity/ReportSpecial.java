@@ -5,11 +5,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.diligroup.R;
-import com.diligroup.UserSet.HistoryAdapter;
-import com.diligroup.UserSet.SpecialAdapter;
+import com.diligroup.UserSet.JiaoQinAdapter;
 import com.diligroup.base.BaseActivity;
-import com.diligroup.bean.GetHistoryBean;
-import com.diligroup.bean.GetSpecialBean;
 import com.diligroup.bean.GetJiaoQinBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
@@ -29,16 +26,13 @@ import okhttp3.Request;
  * Created by Kevin on 2016/6/20.
  */
 public class ReportSpecial extends BaseActivity {
-
-
     @Override
     public void setTitle(CharSequence title) {
         super.setTitle(title);
         tv_title.setText("特殊人群");
+        title_infos.setText("请选择你当前状态");
         isShowBack(true);
-
     }
-
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_select_special;
@@ -47,17 +41,22 @@ public class ReportSpecial extends BaseActivity {
     @Bind(R.id.lv_special)
     ListView lv_special;
     GetJiaoQinBean specialBean;
-    SpecialAdapter adapter;
-    SpecialAdapter.ViewHolder  holder;
+    JiaoQinAdapter adapter;
+    JiaoQinAdapter.MyViewHolder  holder;
     private List<String> id_list;
     List<GetJiaoQinBean.ListBean> hisList;
-    @OnClick(R.id.bt_special)
-    public void ReprotSpe(){
+    @OnClick(R.id.bt_report_special)
+    public void ReprotSpecial(){
 
         String s=id_list.toString().replaceAll(" ","");
         String s2= s.substring(1,s.length()-1);
-        ToastUtil.showShort(ReportSpecial.this,s2);
+//        ToastUtil.showShort(ReportSpecial.this,s2);
         UserInfoBean.getInstance().setSpecialCrowdCode(s2);
+        readyGo(ReportOther.class);
+    }
+    @OnClick(R.id.bt_jump_special)
+    public void jumpSpecial(){
+        UserInfoBean.getInstance().setSpecialCrowdCode("");
         readyGo(ReportOther.class);
     }
     @Override
@@ -65,9 +64,6 @@ public class ReportSpecial extends BaseActivity {
         super.setTitle();
         tv_title.setText("特殊人群");
     }
-
-
-
     @Override
     protected void onNetworkConnected(NetUtils.NetType type) {
 
@@ -86,15 +82,15 @@ public class ReportSpecial extends BaseActivity {
         lv_special.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                holder= (SpecialAdapter.ViewHolder) view.getTag();
+                holder= (JiaoQinAdapter.MyViewHolder) view.getTag();
                 holder.cb.toggle();
-                HistoryAdapter.getIsSelected().put(position, holder.cb.isChecked());
+                JiaoQinAdapter.getIsSelected().put(position, holder.cb.isChecked());
                 // 调整选定条目
                 if (holder.cb.isChecked()){
-                    ToastUtil.showShort(ReportSpecial.this,"Checked"+holder.foodId);
+//                    ToastUtil.showShort(ReportSpecial.this,"Checked"+holder.foodId);
                     id_list.add(holder.foodId);
                 }else {
-                    ToastUtil.showShort(ReportSpecial.this,"UnChecked"+holder.foodId);
+//                    ToastUtil.showShort(ReportSpecial.this,"UnChecked"+holder.foodId);
                     removeUnChecked(holder.foodId);
                 }
             }
@@ -120,8 +116,8 @@ public class ReportSpecial extends BaseActivity {
             if (action==Action.GET_SPECIAL&&object!=null){
                 specialBean= (GetJiaoQinBean) object;
                 if (specialBean.getCode().equals("000000")){
-                         hisList=   specialBean.getList();
-                    adapter=new SpecialAdapter(this,hisList);
+                    hisList=   specialBean.getList();
+                    adapter=new JiaoQinAdapter(this,hisList);
                     lv_special.setAdapter(adapter);
                 }
             }

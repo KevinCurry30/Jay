@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D7D7D7"
     android:orientation="vertical">
 
     <include layout="@layout/comm_title" />
@@ -10,6 +11,7 @@
 
 
     <ListView
+        android:background="@color/white"
         android:id="@+id/lv_special"
         android:layout_weight="8"
         android:layout_width="match_parent"
@@ -17,17 +19,26 @@
         android:scrollbars="none">
     </ListView>
     <Button
-        android:layout_marginBottom="10dp"
-        android:layout_weight="1"
-        android:layout_marginTop="20dp"
-        android:id="@+id/bt_special"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="20dp"
+        android:text="下一步"
         android:textColor="@color/white"
+        android:textSize="13.3sp"
         android:background="@drawable/em_button_login_bg"
-        android:layout_gravity="center_horizontal"
-        android:text="确定"
-        android:textSize="20sp" />
+        android:id="@+id/bt_report_special"/>
+    <Button
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="15dp"
+        android:text="稍后再说"
+        android:textColor="#c5c5c5"
+        android:textSize="13.3sp"
+        android:background="@drawable/em_grey_button"
+        android:id="@+id/bt_jump_special"/>
 </LinearLayout>

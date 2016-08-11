@@ -3,6 +3,7 @@ package com.diligroup.utils;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -53,6 +54,17 @@ public class DateUtils {
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DATE);
         return year + "年" + (month + 1) + "月" + day + "日";
+    }
+
+    /**
+     * 获取当前日期 2016年7月20日
+     *
+     * @return
+     */
+    public static int getCurrentTime() {
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        return hour;
     }
 
     /**
@@ -183,5 +195,57 @@ public class DateUtils {
 
         }
         return date;
+    }
+
+    /**
+     * 2016-09-09 转换为2016-9-9
+     *
+     * @param date
+     * @return
+     */
+    public static String dateFormatChanged(String date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-d");
+        try {
+            return formatter.format(formatter.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 2016-9-9 转换为2016-09-09
+     *
+     * @param date
+     * @return
+     */
+    public static String dateFormatChanged_2(String date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            return formatter.format(formatter.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ArrayList dateList(ArrayList<String> mList) {
+        for (int i = 0; i < mList.size(); i++) {
+            mList.set(i,dateFormatChanged(mList.get(i)));
+        }
+        return mList;
+    }
+
+    /**
+     * 比较两个日期大小
+     *
+     * @param str1
+     * @param str2
+     * @return
+     */
+    public static int compareDate(String str1, String str2) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy年M月d");
+        int tem = formatter.parse(str1).compareTo(formatter.parse(str2));
+        return tem;
     }
 }

@@ -1,7 +1,5 @@
 package com.diligroup.bean;
 
-import android.graphics.Bitmap;
-
 import java.io.Serializable;
 
 /**
@@ -10,14 +8,14 @@ import java.io.Serializable;
 public class EventBusBean implements Serializable{
     private int code;
     private String detailInfo;
-    private Bitmap bitmap;
+    private String url;
 
-    public Bitmap getBitmap() {
-        return bitmap;
+    public String getUrl() {
+        return url;
     }
 
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getDetailInfo() {

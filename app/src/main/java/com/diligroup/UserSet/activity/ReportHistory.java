@@ -5,10 +5,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.diligroup.R;
-import com.diligroup.UserSet.HistoryAdapter;
-import com.diligroup.UserSet.TasteAdapter;
+import com.diligroup.UserSet.JiaoQinAdapter;
 import com.diligroup.base.BaseActivity;
-import com.diligroup.bean.GetHistoryBean;
 import com.diligroup.bean.GetJiaoQinBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
@@ -31,20 +29,26 @@ public class ReportHistory extends BaseActivity {
     @Bind(R.id.lv_history)
     ListView lv_history;
     GetJiaoQinBean historyBean;
-    HistoryAdapter adapter;
-    HistoryAdapter.ViewHolder  holder;
+    JiaoQinAdapter adapter;
+    JiaoQinAdapter.MyViewHolder  holder;
     private List<String> id_list;
     List<GetJiaoQinBean.ListBean> hisList;
 
-    @OnClick(R.id.bt_history)
+    @OnClick(R.id.bt_report_history)
     public void ReportHisty(){
 
     String s=id_list.toString().replaceAll(" ","");
     String s2= s.substring(1,s.length()-1);
-    ToastUtil.showShort(ReportHistory.this,s2);
+//    ToastUtil.showShort(ReportHistory.this,s2);
     UserInfoBean.getInstance().setChronicDiseaseCode(s2);
     readyGo(ReportSpecial.class);
     }
+    @OnClick(R.id.bt_jump_history)
+    public void jumpHistory(){
+        UserInfoBean.getInstance().setChronicDiseaseCode("");
+        readyGo(ReportSpecial.class);
+    }
+
     @Override
     public void setTitle() {
         super.setTitle();
@@ -74,15 +78,15 @@ public class ReportHistory extends BaseActivity {
         lv_history.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                holder= (HistoryAdapter.ViewHolder) view.getTag();
+                holder= (JiaoQinAdapter.MyViewHolder) view.getTag();
                 holder.cb.toggle();
-                HistoryAdapter.getIsSelected().put(position, holder.cb.isChecked());
+                JiaoQinAdapter.getIsSelected().put(position, holder.cb.isChecked());
                 // 调整选定条目
                 if (holder.cb.isChecked()){
-                    ToastUtil.showShort(ReportHistory.this,"Checked"+holder.foodId);
+//                    ToastUtil.showShort(ReportHistory.this,"Checked"+holder.foodId);
                     id_list.add(holder.foodId);
                 }else {
-                    ToastUtil.showShort(ReportHistory.this,"UnChecked"+holder.foodId);
+//                    ToastUtil.showShort(ReportHistory.this,"UnChecked"+holder.foodId);
                     removeUnChecked(holder.foodId);
                 }
             }
@@ -108,7 +112,7 @@ public class ReportHistory extends BaseActivity {
             historyBean= (GetJiaoQinBean) object;
             id_list=new ArrayList<>();
             hisList = historyBean.getList();
-            adapter = new HistoryAdapter(this,hisList);
+            adapter = new JiaoQinAdapter(this,hisList);
             lv_history.setAdapter(adapter);
         }
     }

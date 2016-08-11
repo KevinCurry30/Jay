@@ -1,74 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="gulei">
-        　	<item>小麦</item>
-        　　<item>大麦</item>
-        　　<item>荞麦</item>
-        　　<item>玉米</item>
+        　
+        <item>小麦</item>
+        　　
+        <item>大麦</item>
+        　　
+        <item>荞麦</item>
+        　　
+        <item>玉米</item>
     </string-array>
     <string-array name="doulei">
-        　	<item>红豆</item>
-        　　<item>绿豆</item>
-        　　<item>黄豆</item>
-        　　<item>豌豆</item>
+        　
+        <item>红豆</item>
+        　　
+        <item>绿豆</item>
+        　　
+        <item>黄豆</item>
+        　　
+        <item>豌豆</item>
     </string-array>
     <string-array name="shucai">
-        　	<item>红菜</item>
-        　　<item>红菜</item>
-        　　<item>红菜</item>
-        　　<item>红菜</item>
+        　
+        <item>红菜</item>
+        　　
+        <item>红菜</item>
+        　　
+        <item>红菜</item>
+        　　
+        <item>红菜</item>
     </string-array>
     <string-array name="fruits">
-        　	<item>水果</item>
-        　　<item>水果</item>
-        　　<item>水果</item>
-        　　<item>水果</item>
+        　
+        <item>水果</item>
+        　　
+        <item>水果</item>
+        　　
+        <item>水果</item>
+        　　
+        <item>水果</item>
         <item>水果</item>
     </string-array>
     <string-array name="milks">
-        　	<item>牛奶</item>
-        　　<item>牛奶</item>
-        　　<item>牛奶</item>
-        　　<item>牛奶</item>
+        　
+        <item>牛奶</item>
+        　　
+        <item>牛奶</item>
+        　　
+        <item>牛奶</item>
+        　　
+        <item>牛奶</item>
         <item>坚果</item>
     </string-array>
     <string-array name="jianguo">
-        　	<item>坚果</item>
-        　　<item>坚果</item>
-        　　<item>坚果</item>
-        　　<item>坚果</item>
+        　
+        <item>坚果</item>
+        　　
+        <item>坚果</item>
+        　　
+        <item>坚果</item>
+        　　
+        <item>坚果</item>
         <item>坚果</item>
     </string-array>
     <string-array name="light">
-        　	<item>管理人员</item>
-        　　<item>研发人员</item>
-        　　<item>文职人员</item>
-        　　<item>行政人员</item>
+        　
+        <item>管理人员</item>
+        　　
+        <item>研发人员</item>
+        　　
+        <item>文职人员</item>
+        　　
+        <item>行政人员</item>
         <item>医护人员</item>
         <item>工程师</item>
         <item>教师</item>
         <item>其他</item>
     </string-array>
     <string-array name="middle">
-        　	<item>销售人员</item>
-        　　<item>服务人员</item>
-        　　<item>采购人员</item>
-        　　<item>司机</item>
+        　
+        <item>销售人员</item>
+        　　
+        <item>服务人员</item>
+        　　
+        <item>采购人员</item>
+        　　
+        <item>司机</item>
         <item>学生</item>
         <item>其他</item>
     </string-array>
     <string-array name="heavy">
-        　	<item>生产人员</item>
-        　　<item>工人</item>
-        　　<item>军人</item>
-        　　<item>舞蹈</item>
+        　
+        <item>生产人员</item>
+        　　
+        <item>工人</item>
+        　　
+        <item>军人</item>
+        　　
+        <item>舞蹈</item>
         <item>竞技体育</item>
         <item>其他</item>
     </string-array>
 
     <string-array name="height">
-        　	<item>150 CM</item>
-        　　<item>151 CM</item>
+        　
+        <item>150 CM</item>
+        　　
+        <item>151 CM</item>
         <item>152 CM</item>
         <item>153 CM</item>
         <item>154 CM</item>
@@ -79,7 +117,8 @@
         <item>159 CM</item>
 
         <item>160 CM</item>
-        　　<item>161 CM</item>
+        　　
+        <item>161 CM</item>
         <item>162 CM</item>
         <item>163 CM</item>
         <item>164 CM</item>
@@ -101,7 +140,8 @@
         <item>179 CM</item>
 
         <item>180 CM</item>
-        　　<item>181 CM</item>
+        　　
+        <item>181 CM</item>
         <item>182 CM</item>
         <item>183 CM</item>
         <item>184 CM</item>
@@ -112,8 +152,10 @@
         <item>189 CM</item>
     </string-array>
     <string-array name="weight">
-        　	<item>45 Kg</item>
-        　　<item>46 Kg</item>
+        　
+        <item>45 Kg</item>
+        　　
+        <item>46 Kg</item>
         <item>47 Kg</item>
         <item>48 Kg</item>
         <item>49 Kg</item>
@@ -158,6 +200,29 @@
         <item>88 Kg</item>
         <item>89 Kg</item>
         <item>90 Kg</item>
+    </string-array>
+    <string-array name="mealchoice">
+        <item>早餐</item>
+        <item>午餐</item>
+        <item>晚餐</item>
+    </string-array>
+    <!--热菜大荤,热菜半荤,热素菜  凉荤菜,凉素菜, 主食  ,烘焙,soup_pressed,冷热饮  ,fruits_pressed,坚果,调味酱汁,-->
+    <string-array name="categories">
+        <item>热菜大荤</item>
+        <item>热菜半荤</item>
+        <item>热素菜</item>
+
+        <item>凉荤菜</item>
+        <item>凉素菜</item>
+        <item>主食</item>
+
+        <item>烘焙</item>
+        <item>汤粥</item>
+        <item>冷热饮</item>
+
+        <item>水果</item>
+        <item>坚果</item>
+        <item>调味酱汁</item>
     </string-array>
 
 </resources>

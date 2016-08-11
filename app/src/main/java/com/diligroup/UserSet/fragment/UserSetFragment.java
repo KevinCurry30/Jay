@@ -1,20 +1,28 @@
 package com.diligroup.UserSet.fragment;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.diligroup.R;
+import com.diligroup.UserSet.activity.ServiceCenter;
 import com.diligroup.UserSet.activity.SettingActivity;
 import com.diligroup.UserSet.activity.UserInfoActivity;
 import com.diligroup.base.BaseFragment;
-import com.diligroup.bean.EventBusBean;
+import com.diligroup.base.Constant;
+import com.diligroup.bean.UserInfoBean;
+import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.UpLoadPhotoUtils;
 import com.diligroup.view.CircleImageView;
+import com.squareup.picasso.Picasso;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
+import java.util.ArrayList;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -26,10 +34,9 @@ public class UserSetFragment extends BaseFragment implements View.OnClickListene
     CircleImageView iv_user_header;
     @Bind(R.id.tv_numb_phone)
     TextView tv_numb_phone;
+    private Bundle savedState;
 
-//    private static final int REQUEST_IMAGE = 2;
-//    protected static final int REQUEST_STORAGE_READ_ACCESS_PERMISSION = 101;//读权限
-//    private ArrayList<String> mSelectPath;
+
     @Override
     public int getLayoutXml() {
         return R.layout.fragment_user;
@@ -37,7 +44,8 @@ public class UserSetFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void setViews() {
-        EventBus.getDefault().register(this);
+        tv_numb_phone.setText(Constant.userNumber);
+//        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -60,7 +68,7 @@ public class UserSetFragment extends BaseFragment implements View.OnClickListene
 
     @OnClick(R.id.rl_go_service)
     public void jumpService() {
-        GoActivity(SettingActivity.class);
+        GoActivity(ServiceCenter.class);
     }
 
     @Override
@@ -71,12 +79,28 @@ public class UserSetFragment extends BaseFragment implements View.OnClickListene
                 break;
         }
     }
-    @Subscribe
-    public void onEvent(EventBusBean event) {
-        switch (event.getCode()){
-            case 10:
-                iv_user_header.setImageBitmap(event.getBitmap());
-                break;
+
+    public void chageHeadIcon(String url) {
+        if( null!=mRootView && mRootView.size()>0){
+        LogUtils.i("homeActivity调用fragmeng中方法");
+        Picasso.with(getActivity()).load(url).into(iv_user_header);
         }
+    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (mRootView == null) {
+            View view=inflater.inflate(getLayoutXml(), null);
+            mRootView = new ArrayList<View>();
+            mRootView.add(view);
+        } else {
+            ViewGroup parent = (ViewGroup) mRootView.get(0).getParent();
+            if (parent != null) {
+                parent.removeView(mRootView.get(0));
+            }
+        }
+        ButterKnife.bind(this,mRootView.get(0));
+       setViews();
+        setListeners();
+        return mRootView.get(0);
     }
 }

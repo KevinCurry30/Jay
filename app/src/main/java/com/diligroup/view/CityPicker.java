@@ -235,7 +235,6 @@ public class CityPicker extends LinearLayout {
 			@Override
 			public void endSelect(int id, String text) {
 				// TODO Auto-generated method stub
-
 				if (text.equals("") || text == null)
 					return;
 				if (tempCounyIndex != id) {

@@ -2,6 +2,7 @@ package com.diligroup.UserSet.activity;
 
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -32,7 +33,7 @@ public class ReportNoeat extends BaseActivity {
     @Bind(R.id.list_no_eat)
     ListView lv_noeat;
     List<GetJiaoQinBean.ListBean> datalist;
-    StringBuilder  builder;
+    StringBuilder builder;
     List<String> noeat_list;
     GetJiaoQinBean getJiaoQinBean;
     private Handler mHandler = new Handler() {
@@ -40,7 +41,6 @@ public class ReportNoeat extends BaseActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
-                    noeat_list=new ArrayList<>();
                     datalist = getJiaoQinBean.getList();
                     JiaoQinAdapter adapter = new JiaoQinAdapter(ReportNoeat.this, datalist);
                     lv_noeat.setAdapter(adapter);
@@ -60,18 +60,18 @@ public class ReportNoeat extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 holder = (JiaoQinAdapter.MyViewHolder) view.getTag();
-                holder.cb.toggle();
-                // 点哪个  就改变哪个checkbox 状态
+//                holder.cb.setEnabled(true);
+                holder.cb.toggle();// 点哪个  就改变哪个checkbox 状态
                 JiaoQinAdapter.getIsSelected().put(position, holder.cb.isChecked());
                 // 调整选定条目
-                    if (holder.cb.isChecked()){
-                        ToastUtil.showShort(ReportNoeat.this,"Checked"+holder.foodId);
-                        noeat_list.add(holder.foodId);
-                    }else {
-                        ToastUtil.showShort(ReportNoeat.this,"UnChecked"+holder.foodId);
-                        removeUnChecked(holder.foodId);
-                    }
-                LogUtils.e("NoEatList====="+noeat_list.toString());
+                if (holder.cb.isChecked()) {
+//                    ToastUtil.showShort(ReportNoeat.this, "Checked" + holder.foodId);
+                    noeat_list.add(holder.foodId);
+                } else {
+//                    ToastUtil.showShort(ReportNoeat.this, "UnChecked" + holder.foodId);
+                    removeUnChecked(holder.foodId);
+                }
+                LogUtils.e("NoEatList=====" + noeat_list.toString());
             }
         });
     }
@@ -105,23 +105,26 @@ public class ReportNoeat extends BaseActivity {
         isShowBack(true);
         Api.getNoEatFood(this);
         datalist = new ArrayList<>();
+        noeat_list = new ArrayList<>();
 
     }
 
     @OnClick(R.id.bt_ok_noeat)
     public void reportNoeat() {
+        String s = noeat_list.toString().replaceAll(" ", "");
+        String s2 = s.substring(1, s.length() - 1);
+        if (!TextUtils.isEmpty(s2)) {
+//            ToastUtil.showShort(ReportNoeat.this, s2);
+            UserInfoBean.getInstance().setNoEatFood(s2);
+            readyGo(ReportAllergy.class);
+        }
 
-        String s=noeat_list.toString().replaceAll(" ","");
-       String s2= s.substring(1,s.length()-1);
-        ToastUtil.showShort(ReportNoeat.this,s2);
-        UserInfoBean.getInstance().setNoEatFood(s2);
-        readyGo(ReportAllergy.class);
     }
 
     public void removeUnChecked(String foodId) {
-        if (noeat_list.size()>0){
-            for (int i=0;i<noeat_list.size();i++){
-                if (noeat_list.get(i).equals(foodId)){
+        if (noeat_list.size() > 0) {
+            for (int i = 0; i < noeat_list.size(); i++) {
+                if (noeat_list.get(i).equals(foodId)) {
                     noeat_list.remove(foodId);
                 }
             }
@@ -137,8 +140,7 @@ public class ReportNoeat extends BaseActivity {
     @Override
     public void onResponse(Request request, Action action, Object object) {
         if (object != null && action == Action.GET_NO_EAT) {
-             getJiaoQinBean = (GetJiaoQinBean) object;
-
+            getJiaoQinBean = (GetJiaoQinBean) object;
             mHandler.sendEmptyMessage(1);
 
         }

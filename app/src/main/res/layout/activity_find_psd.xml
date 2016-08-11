@@ -8,12 +8,13 @@
 
 
     <EditText
+        android:maxLength="11"
         android:id="@+id/input_phone2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:hint="请输入手机号"
         android:imeActionId="@+id/login"
         android:imeOptions="actionUnspecified"
@@ -49,6 +50,7 @@
     </LinearLayout>
 
     <EditText
+        android:maxLength="16"
         android:id="@+id/et_newpsd2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

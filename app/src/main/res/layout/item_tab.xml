@@ -8,8 +8,8 @@
     <ImageView
         android:layout_marginTop="5dp"
         android:id="@+id/img_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
         android:gravity="center_horizontal"
         android:src="@drawable/tab_home" />
 
@@ -17,10 +17,10 @@
         android:id="@+id/txt_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="3dp"
         android:gravity="center_horizontal"
         android:text="首页"
         android:textSize="12sp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="3dp"
         android:textColor="@color/black" />
 </LinearLayout>

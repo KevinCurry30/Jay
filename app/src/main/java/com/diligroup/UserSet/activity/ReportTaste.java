@@ -5,7 +5,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.diligroup.R;
-import com.diligroup.UserSet.TasteAdapter;
+import com.diligroup.UserSet.JiaoQinAdapter;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.bean.GetJiaoQinBean;
 import com.diligroup.bean.UserInfoBean;
@@ -29,8 +29,8 @@ public class ReportTaste extends BaseActivity {
     @Bind(R.id.lv_taste)
     ListView lv_taste;
     GetJiaoQinBean tasteBean;
-    TasteAdapter  adapter;
-    TasteAdapter.ViewHolder  holder;
+    JiaoQinAdapter adapter;
+    JiaoQinAdapter.MyViewHolder  holder;
     private List<String> id_list;
     List<GetJiaoQinBean.ListBean> tasteBean_list;
 
@@ -63,15 +63,15 @@ public class ReportTaste extends BaseActivity {
         lv_taste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                holder= (TasteAdapter.ViewHolder) view.getTag();
+                holder= (JiaoQinAdapter.MyViewHolder) view.getTag();
                 holder.cb.toggle();
-                TasteAdapter.getIsSelected().put(position, holder.cb.isChecked());
+                JiaoQinAdapter.getIsSelected().put(position, holder.cb.isChecked());
                 // 调整选定条目
                 if (holder.cb.isChecked()){
-                    ToastUtil.showShort(ReportTaste.this,"Checked"+holder.foodId);
+//                    ToastUtil.showShort(ReportTaste.this,"Checked"+holder.foodId);
                     id_list.add(holder.foodId);
                 }else {
-                    ToastUtil.showShort(ReportTaste.this,"UnChecked"+holder.foodId);
+//                    ToastUtil.showShort(ReportTaste.this,"UnChecked"+holder.foodId);
                     removeUnChecked(holder.foodId);
                 }
                 LogUtils.e("taste====="+id_list.toString());
@@ -87,13 +87,22 @@ public class ReportTaste extends BaseActivity {
             }
         }
     }
-    @OnClick(R.id.bt_ok_taste)
+    @OnClick(R.id.bt_report_taste)
     public void ReporTaste() {
         String s=id_list.toString().replaceAll(" ","");
         String s2= s.substring(1,s.length()-1);
-        ToastUtil.showShort(ReportTaste.this,s2);
+//        ToastUtil.showShort(ReportTaste.this,s2);
         UserInfoBean.getInstance().setTaste(s2);
-        readyGo(PhysiologicalPeriodActivity.class);
+        readyGo(ReportHistory.class);
+
+    }
+    @OnClick(R.id.bt_jump_taste)
+    public void jumpTaste() {
+//        String s=id_list.toString().replaceAll(" ","");
+//        String s2= s.substring(1,s.length()-1);
+//        ToastUtil.showShort(ReportTaste.this,s2);
+        UserInfoBean.getInstance().setTaste("");
+        readyGo(ReportHistory.class);
 
     }
     @Override
@@ -107,7 +116,7 @@ public class ReportTaste extends BaseActivity {
             tasteBean= (GetJiaoQinBean) object;
             id_list=new ArrayList<>();
             tasteBean_list = tasteBean.getList();
-             adapter = new TasteAdapter(this,tasteBean_list);
+             adapter = new JiaoQinAdapter(this,tasteBean_list);
             lv_taste.setAdapter(adapter);
         }
     }

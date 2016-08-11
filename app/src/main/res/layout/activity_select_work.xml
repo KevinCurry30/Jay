@@ -45,12 +45,15 @@
     </RelativeLayout>
 
     <GridView
+        android:divider="@color/gray"
+        android:dividerHeight="1dp"
         android:visibility="invisible"
         android:id="@+id/gv_light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:background="#F0F0F0"
+        android:background="@color/white"
+        android:listSelector="@drawable/listitem_selector"
         android:horizontalSpacing="2dp"
         android:numColumns="4"
         android:scrollbars="none"
@@ -95,12 +98,14 @@
     </RelativeLayout>
 
     <GridView
+        android:divider="@color/gray"
+        android:dividerHeight="1dp"
         android:visibility="invisible"
         android:id="@+id/gv_middle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:background="#F0F0F0"
+        android:background="@color/white"
         android:horizontalSpacing="2dp"
         android:numColumns="4"
         android:scrollbars="none"
@@ -146,11 +151,13 @@
 
     <GridView
         android:visibility="invisible"
+        android:divider="@color/gray"
+        android:dividerHeight="1dp"
         android:id="@+id/gv_heavy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:background="#F0F0F0"
+        android:background="@color/white"
         android:horizontalSpacing="2dp"
         android:numColumns="4"
         android:scrollbars="none"

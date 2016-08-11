@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.widget.Toast;
 
 import com.diligroup.utils.DeviceUtils;
+import com.diligroup.utils.LogUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -146,6 +147,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         stringBuffer.append("SystemVersion:" + DeviceUtils.getVersionRelease() + "\n");
         stringBuffer.append(sw.toString() + "\n");
         stringBuffer.append("---------Crash Log End---------\n");
+        LogUtils.e(stringBuffer.toString());
         return stringBuffer.toString();
     }
 

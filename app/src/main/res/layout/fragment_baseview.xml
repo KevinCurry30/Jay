@@ -15,11 +15,8 @@
         android:childDivider="@color/line_view"
         android:scrollbars="none" >
     </ListView>
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/id_swipe_ly"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    <android.support.v7.widget.RecyclerView
+
+    <com.diligroup.view.stickyListView.StickyListHeadersListView
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
@@ -28,5 +25,5 @@
         android:dividerHeight="1dp"
         android:id="@+id/home_recycleView"
         android:listSelector="#00000000"/>
-</android.support.v4.widget.SwipeRefreshLayout>
+
 </LinearLayout>

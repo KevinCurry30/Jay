@@ -1,19 +1,35 @@
 package com.diligroup.UserSet.activity;
 
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+
+import com.diligroup.Home.HomeActivity;
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
+import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
+import com.diligroup.net.Api;
+import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
+import com.diligroup.utils.ToastUtil;
 
+import butterknife.Bind;
+import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
 import okhttp3.Request;
 
 public class ReportOther extends BaseActivity {
-
-//    @Bind(R.id.comm_title)
-//    TextView tv_ttle;
-//    @Bind(R.id.lv_other)
-//    ListView lv_others;
-//    String[] otherDatas;
+    @Bind(R.id.cb_jianzhi)
+    CheckBox cb_jianzhi;
+    @Bind(R.id.cb_zengji)
+    CheckBox cb_zengji;
+    @Bind(R.id.cb_bugai)
+    CheckBox cb_bugai;
+    @Bind(R.id.cb_butie)
+    CheckBox cb_butie;
+    @Bind(R.id.cb_huyan)
+    CheckBox cb_huyan;
+    String otherTarget="";
 
     @Override
     protected int getContentViewLayoutID() {
@@ -29,64 +45,77 @@ public class ReportOther extends BaseActivity {
     protected void onNetworkDisConnected() {
 
     }
+
     @Override
     public void setTitle() {
         super.setTitle();
-        tv_title.setText("其他");
+        tv_title.setText("其他需求");
+        title_infos.setText("请选择要达到的其他目的");
     }
+
     @Override
     protected void initViewAndData() {
         isShowBack(true);
+        cb_jianzhi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked){
+                        otherTarget="1";
+                    }else{
+                        otherTarget="";
+                    }
+            }
+        });
+        cb_zengji.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    otherTarget="2";
+                }else{
+                    otherTarget="";
+                }
+            }
+        });  cb_bugai.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    otherTarget="0";
+                }else{
+                    otherTarget="";
+                }
+            }
+        });
 
-//        otherDatas = new String[]{"减脂", "增肌"};
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-//                android.R.layout.simple_list_item_multiple_choice, otherDatas);
-//        lv_others.setAdapter(adapter);
-//        lv_others.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        cb_butie.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    otherTarget="0";
+                }else{
+                    otherTarget="";
+                }
+            }
+        });
+        cb_huyan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    otherTarget="0";
+                }else{
+                    otherTarget="";
+                }
+            }
+        });
+
     }
 
-//    @OnClick(R.id.bt_ok_other)
-    public  void reportOther() {
-//        long[] authorsId = getListSelectededItemIds(lv_others);
-//        String name = "";
-//        String message;
-//        if (authorsId.length > 0) {
-//            // 用户至少选择了一ge
-//            for (int i = 0; i < authorsId.length; i++) {
-//                name += "," + otherDatas[(int) authorsId[i]];
-//            }
-//            //
-//            message = name.substring(1);
-//        } else {
-//            message = "请至少选择一个";
-//        }
-//        Toast.makeText(ReportOther.this, message, Toast.LENGTH_LONG)
-//                .show();
-//    }
-//
-//    // 避免使用getCheckItemIds()方法
-//    public long[] getListSelectededItemIds(ListView listView) {
-//
-//        long[] ids = new long[listView.getCount()];//getCount()即获取到ListView所包含的item总个数
-//        //定义用户选中Item的总个数
-//        int checkedTotal = 0;
-//        for (int i = 0; i < listView.getCount(); i++) {
-//            //如果这个Item是被选中的
-//            if (listView.isItemChecked(i)) {
-//                ids[checkedTotal++] = i;
-//            }
-//        }
-//
-//        if (checkedTotal < listView.getCount()) {
-//            //定义选中的Item的ID数组
-//            final long[] selectedIds = new long[checkedTotal];
-//            //数组复制 ids
-//            System.arraycopy(ids, 0, selectedIds, 0, checkedTotal);
-//            return selectedIds;
-//        } else {
-//            //用户将所有的Item都选了
-//            return ids;
-//        }
+    @OnClick(R.id.bt_report_user)
+    public void reportOther() {
+        UserInfoBean.getInstance().setOtherReq(otherTarget);
+        LogUtils.e("otherTarget=========="+otherTarget);
+        Api.updataUserInfo(this);
+        readyGo(HomeActivity.class);
+        this.finish();
     }
 
     @Override
@@ -98,4 +127,5 @@ public class ReportOther extends BaseActivity {
     public void onResponse(Request request, Action action, Object object) {
 
     }
+
 }

@@ -1,17 +1,29 @@
 package com.diligroup.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2016/7/25.
  */
-public class UserBeanFromService extends CommonBean {
-
+public class UserBeanFromService extends CommonBean implements Serializable{
+//public static UserBeanFromService  singleton;
+//    public static UserBeanFromService  getInstance(){
+//        if (singleton==null){
+//            singleton=new UserBeanFromService();
+//        }
+//        return singleton;
+//    }
     /**
+     * birthday : 2006-71-1
      * email :
-     * lastLoginTime : 1469414215463
+     * height : 70
+     * homeAdd :
+     * homeDistrictId : 0
+     * lastLoginTime : 1470299226177
      * mobileNum : 18600089822
      * nationCode :
      * password :
-     * registerTime : 1469078401164
+     * registerTime : 1470021982033
      * resouce : 1
      * sex : 0
      * status : 1
@@ -20,30 +32,34 @@ public class UserBeanFromService extends CommonBean {
      * userName :
      */
 
-    public UserBean user;
+    private UserBean user;
     /**
-     * carbohydrates : 100
-     * chronicDiseaseCode : 240001
-     * energyKJ : 500
-     * fat : 300
-     * id : 1
-     * job : 2
+     * carbohydrates : 0
+     * chronicDiseaseCode : 240003
+     * currentAdd :
+     * currentDistrictId : 0
+     * energyKJ : 0
+     * fat : 0
+     * headPhotoAdd :
+     * id : 2
+     * job :
      * jobType :
      * otherReq :
      * periodEndTime :
      * periodNum :
      * periodStartTime :
-     * protein : 200
+     * protein : 0
      * reqType : 0
-     * specialCrowdCode : 200001
-     * tabooCode : 1
+     * specialCrowdCode :
+     * storeId : 0
+     * tabooCode :
      * targetWeight :
-     * tasteCode : 1
-     * userId : 2
+     * tasteCode :
+     * userId : 11
      * weight :
      */
 
-    public UserDetailBean userDetail;
+    private UserDetailBean userDetail;
 
     public UserBean getUser() {
         return user;
@@ -62,7 +78,11 @@ public class UserBeanFromService extends CommonBean {
     }
 
     public static class UserBean {
+        private String birthday;
         private String email;
+        private String height;
+        private String homeAdd;
+        private int homeDistrictId;
         private long lastLoginTime;
         private String mobileNum;
         private String nationCode;
@@ -72,8 +92,16 @@ public class UserBeanFromService extends CommonBean {
         private int sex;
         private String status;
         private String userCode;
-        private String userId;
+        private int userId;
         private String userName;
+
+        public String getBirthday() {
+            return birthday;
+        }
+
+        public void setBirthday(String birthday) {
+            this.birthday = birthday;
+        }
 
         public String getEmail() {
             return email;
@@ -81,6 +109,30 @@ public class UserBeanFromService extends CommonBean {
 
         public void setEmail(String email) {
             this.email = email;
+        }
+
+        public String getHeight() {
+            return height;
+        }
+
+        public void setHeight(String height) {
+            this.height = height;
+        }
+
+        public String getHomeAdd() {
+            return homeAdd;
+        }
+
+        public void setHomeAdd(String homeAdd) {
+            this.homeAdd = homeAdd;
+        }
+
+        public int getHomeDistrictId() {
+            return homeDistrictId;
+        }
+
+        public void setHomeDistrictId(int homeDistrictId) {
+            this.homeDistrictId = homeDistrictId;
         }
 
         public long getLastLoginTime() {
@@ -155,11 +207,11 @@ public class UserBeanFromService extends CommonBean {
             this.userCode = userCode;
         }
 
-        public String getUserId() {
+        public int getUserId() {
             return userId;
         }
 
-        public void setUserId(String userId) {
+        public void setUserId(int userId) {
             this.userId = userId;
         }
 
@@ -173,10 +225,13 @@ public class UserBeanFromService extends CommonBean {
     }
 
     public static class UserDetailBean {
-        private String carbohydrates;
+        private int carbohydrates;
         private String chronicDiseaseCode;
+        private String currentAdd;
+        private int currentDistrictId;
         private int energyKJ;
         private int fat;
+        private String headPhotoAdd;
         private int id;
         private String job;
         private String jobType;
@@ -187,17 +242,18 @@ public class UserBeanFromService extends CommonBean {
         private int protein;
         private String reqType;
         private String specialCrowdCode;
+        private int storeId;
         private String tabooCode;
         private String targetWeight;
         private String tasteCode;
         private int userId;
         private String weight;
 
-        public String getCarbohydrates() {
+        public int getCarbohydrates() {
             return carbohydrates;
         }
 
-        public void setCarbohydrates(String carbohydrates) {
+        public void setCarbohydrates(int carbohydrates) {
             this.carbohydrates = carbohydrates;
         }
 
@@ -207,6 +263,22 @@ public class UserBeanFromService extends CommonBean {
 
         public void setChronicDiseaseCode(String chronicDiseaseCode) {
             this.chronicDiseaseCode = chronicDiseaseCode;
+        }
+
+        public String getCurrentAdd() {
+            return currentAdd;
+        }
+
+        public void setCurrentAdd(String currentAdd) {
+            this.currentAdd = currentAdd;
+        }
+
+        public int getCurrentDistrictId() {
+            return currentDistrictId;
+        }
+
+        public void setCurrentDistrictId(int currentDistrictId) {
+            this.currentDistrictId = currentDistrictId;
         }
 
         public int getEnergyKJ() {
@@ -223,6 +295,14 @@ public class UserBeanFromService extends CommonBean {
 
         public void setFat(int fat) {
             this.fat = fat;
+        }
+
+        public String getHeadPhotoAdd() {
+            return headPhotoAdd;
+        }
+
+        public void setHeadPhotoAdd(String headPhotoAdd) {
+            this.headPhotoAdd = headPhotoAdd;
         }
 
         public int getId() {
@@ -305,6 +385,14 @@ public class UserBeanFromService extends CommonBean {
             this.specialCrowdCode = specialCrowdCode;
         }
 
+        public int getStoreId() {
+            return storeId;
+        }
+
+        public void setStoreId(int storeId) {
+            this.storeId = storeId;
+        }
+
         public String getTabooCode() {
             return tabooCode;
         }
@@ -346,3 +434,4 @@ public class UserBeanFromService extends CommonBean {
         }
     }
 }
+

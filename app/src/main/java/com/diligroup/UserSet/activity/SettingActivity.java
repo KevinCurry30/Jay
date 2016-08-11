@@ -1,11 +1,19 @@
 package com.diligroup.UserSet.activity;
 
 
+import com.diligroup.Home.FoodDetailsActivity;
 import com.diligroup.R;
+import com.diligroup.base.AppManager;
 import com.diligroup.base.BaseActivity;
+import com.diligroup.base.Constant;
+import com.diligroup.login.LoginActivity;
 import com.diligroup.net.Action;
+import com.diligroup.net.Api;
 import com.diligroup.utils.NetUtils;
+import com.diligroup.utils.SharedPreferenceUtil;
 
+import butterknife.Bind;
+import butterknife.OnClick;
 import okhttp3.Request;
 
 /**
@@ -28,6 +36,11 @@ public class SettingActivity extends BaseActivity {
 
     }
 
+    @OnClick(R.id.rl_clearcache)
+    public void clearCache() {
+    readyGo(FoodDetailsActivity.class);
+    }
+
     @Override
     protected void initViewAndData() {
         isShowBack(true);
@@ -47,5 +60,14 @@ public class SettingActivity extends BaseActivity {
     @Override
     public void onResponse(Request request, Action action, Object object) {
 
+    }
+
+    @OnClick(R.id.bt_exit)
+    public void exit() {
+        Api.loginOut(Constant.userNumber, this);
+        SharedPreferenceUtil spUtils = new SharedPreferenceUtil("auto_login");
+        spUtils.clear();
+        readyGo(LoginActivity.class);
+        AppManager.getAppManager().finishActivity(this);
     }
 }

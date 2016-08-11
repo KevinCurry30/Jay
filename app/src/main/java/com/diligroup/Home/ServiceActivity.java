@@ -45,16 +45,22 @@ public class ServiceActivity extends BaseActivity {
     protected void initViewAndData() {
 
     }
+    @Override
     public void setTitle() {
         super.setTitle();
-        setTitle("服务评价");
+        tv_title.setText("服务评价");
         isShowBack(true);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+        initDate();
+    }
+
+    private void initDate() {
+        //1:菜品评价 2:服务评价)
+//        Api.dishVarietyEvaluate(Constant.USER_ID,"1","2","")
     }
 
     @Override

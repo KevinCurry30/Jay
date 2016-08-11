@@ -33,6 +33,7 @@ import com.diligroup.utils.DateUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,7 +41,6 @@ import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import okhttp3.Request;
 
 /**
@@ -106,9 +106,13 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
 
     HashMap<String, View> tempList = new HashMap<>();
     ArrayList<String> selectDate = new ArrayList<>();
+    ArrayList<String> templateDateList;
+    ArrayList<String> dayList = new ArrayList<>();
     Intent mIntent;
     private Typeface typeFace;
     private boolean isFromHome;//
+    private String homeDate;
+    int cycles;//生理期
 
     @Override
     public void setTitle() {
@@ -118,18 +122,6 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
         isShowBack(true);
     }
 
-    @OnClick(R.id.nextstep)
-    public void reportPhy() {
-        UserInfoBean.getInstance().setPeriodStartTime("");
-        UserInfoBean.getInstance().setPeriodEndTime("");
-        readyGo(ReportHistory.class);
-    }
-    @OnClick(R.id.say_laater)
-    public void jumpOver(){
-        UserInfoBean.getInstance().setPeriodStartTime("");
-        UserInfoBean.getInstance().setPeriodEndTime("");
-        readyGo(ReportHistory.class);
-    }
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_physiological_period;
@@ -145,33 +137,40 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
 
     }
 
-
     @Override
     protected void initViewAndData() {
         ButterKnife.bind(this);
         isFromHome = getIntent().getBooleanExtra("isFromHome", false);
+        homeDate = getIntent().getStringExtra("currentDate");
+        templateDateList = (ArrayList<String>) getIntent().getSerializableExtra("dateList");
         setViews();
         setListeners();
     }
 
     private void setViews() {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
         if (isFromHome) {
             physiological_layout.setVisibility(View.GONE);
             gone_fl.setVisibility(View.GONE);
             nextStep.setVisibility(View.GONE);
             say_latter.setVisibility(View.GONE);
+            currentDate = DateUtils.dateFormatChagee(homeDate);
+            tv_title.setText("选择门店供应菜品的日期");
+        } else {
+            currentDate = sdf.format(date); // 当期日期
         }
-
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
-        currentDate = sdf.format(date); // 当期日期
         year_c = Integer.parseInt(currentDate.split("-")[0]);
         month_c = Integer.parseInt(currentDate.split("-")[1]);
         day_c = Integer.parseInt(currentDate.split("-")[2]);
 
         gestureDetector = new GestureDetector(this, new MyGestureListener());
         flipper.removeAllViews();
-        calV = new CalendarAdapter(this, getResources(), jumpMonth, jumpYear, year_c, month_c, day_c);
+        if (isFromHome) {
+            calV = new CalendarAdapter(this, getResources(), jumpMonth, jumpYear, year_c, month_c, day_c, isFromHome, templateDateList);
+        } else {
+            calV = new CalendarAdapter(this, getResources(), jumpMonth, jumpYear, year_c, month_c, day_c);
+        }
         addGridView();
         gridView.setAdapter(calV);
         flipper.addView(gridView, 0);
@@ -198,7 +197,7 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        int cycles;
+
         switch (v.getId()) {
             case R.id.nextMonth: // 下一个月
                 enterNextMonth(gvFlag);
@@ -207,8 +206,22 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
                 enterPrevMonth(gvFlag);
                 break;
             case R.id.nextstep:
+                //如果是第一次录入用户信息，需要跳转到慢性病activity 按钮文字展示“下一步” 否则按钮文字展示确定
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-d");
                 mIntent = new Intent();
-                mIntent.putExtra("cycle", selectDate);
+                try {
+                    if (formatter.parse(selectDate.get(0)).compareTo(formatter.parse(selectDate.get(1))) > 0) {
+                        String temp = selectDate.get(0);
+                        selectDate.set(0, selectDate.get(1).substring(5));
+                        selectDate.set(1, temp.substring(5));
+                    }
+                    mIntent.putExtra("cycle", selectDate);
+                    UserInfoBean.getInstance().setPeriodStartTime(selectDate.get(0));
+                    UserInfoBean.getInstance().setPeriodEndTime(selectDate.get(1));
+                    UserInfoBean.getInstance().setPeriodNum(cycle_num + "");
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 setResult(10, mIntent);
                 this.finish();
                 break;
@@ -241,7 +254,11 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
         addGridView(); // 添加一个gridView
         jumpMonth++; // 下一个月
 
-        calV = new CalendarAdapter(this, this.getResources(), jumpMonth, jumpYear, year_c, month_c, day_c);
+        if (isFromHome) {
+            calV = new CalendarAdapter(this, getResources(), jumpMonth, jumpYear, year_c, month_c, day_c, isFromHome, templateDateList);
+        } else {
+            calV = new CalendarAdapter(this, getResources(), jumpMonth, jumpYear, year_c, month_c, day_c);
+        }
         gridView.setAdapter(calV);
         addTextToTopTextView(currentMonth); // 移动到下一月后，将当月显示在头标题中
         gvFlag++;
@@ -261,7 +278,12 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
         addGridView(); // 添加一个gridView
         jumpMonth--; // 上一个月
 
-        calV = new CalendarAdapter(this, this.getResources(), jumpMonth, jumpYear, year_c, month_c, day_c);
+//        calV = new CalendarAdapter(this, this.getResources(), jumpMonth, jumpYear, year_c, month_c, day_c);
+        if (isFromHome) {
+            calV = new CalendarAdapter(this, getResources(), jumpMonth, jumpYear, year_c, month_c, day_c, isFromHome, templateDateList);
+        } else {
+            calV = new CalendarAdapter(this, getResources(), jumpMonth, jumpYear, year_c, month_c, day_c);
+        }
         gridView.setAdapter(calV);
         gvFlag++;
         addTextToTopTextView(currentMonth); // 移动到上一月后，将当月显示在头标题中
@@ -374,9 +396,6 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
 
             }
         });
-//        params.setMargins(30, 0, 30, 0);
-//        gridView.setGravity(Gravi
-// ty.CENTER_HORIZONTAL);
         gridView.setLayoutParams(params);
     }
 
@@ -438,16 +457,32 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
     public String getItemClickDate(int position) {
         int startPosition = calV.getStartPositon();
         int endPosition = calV.getEndPosition();
-        if (startPosition <= position + 7 && position <= endPosition - 7) {
-            String scheduleDay = calV.getDateByClickItem(position).split("\\.")[0]; // 这一天的阳历
+        String scheduleDay = calV.getDateByClickItem(position).split("\\.")[0]; // 这一天的阳历
+        if (isFromHome) {
+            for (int i = 0; i < templateDateList.size(); i++) {
+                String[] tempArr = templateDateList.get(i).split("-");
+                if (tempArr[0].equals(calV.getShowYear()) && tempArr[1].equals(calV.getShowMonth())) {
+                    dayList.add(tempArr[2]);
+                }
+            }
+            if (startPosition <= position + 7 && position <= endPosition - 7 && dayList.contains(scheduleDay)) {
+                String scheduleYear = calV.getShowYear();
+                String scheduleMonth = calV.getShowMonth();
+//            Toast.makeText(PhysiologicalPeriodActivity.this, scheduleYear + "-" + scheduleMonth + "-" + scheduleDay, Toast.LENGTH_LONG).show();
+//                scheduleMonth = scheduleMonth.length() == 1 ? "0" + scheduleMonth : scheduleMonth;
+//                scheduleDay = scheduleDay.length() == 1 ? "0" + scheduleDay : scheduleDay;
+                return scheduleYear + "-" + scheduleMonth + "-" + scheduleDay;
+            }
+        } else if (startPosition <= position + 7 && position <= endPosition - 7) {
+
             // String scheduleLunarDay =
             // calV.getDateByClickItem(position).split("\\.")[1];
             // //这一天的阴历
             String scheduleYear = calV.getShowYear();
             String scheduleMonth = calV.getShowMonth();
 //            Toast.makeText(PhysiologicalPeriodActivity.this, scheduleYear + "-" + scheduleMonth + "-" + scheduleDay, Toast.LENGTH_LONG).show();
-            scheduleMonth = scheduleMonth.length() == 1 ? "0" + scheduleMonth : scheduleMonth;
-            scheduleDay = scheduleDay.length() == 1 ? "0" + scheduleDay : scheduleDay;
+//            scheduleMonth = scheduleMonth.length() == 1 ? "0" + scheduleMonth : scheduleMonth;
+//            scheduleDay = scheduleDay.length() == 1 ? "0" + scheduleDay : scheduleDay;
             return scheduleYear + "-" + scheduleMonth + "-" + scheduleDay;
 
         }
@@ -474,5 +509,12 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
     public int getItemClickYear(int position) {
         int currentYear = Integer.parseInt(calV.getShowYear());
         return currentYear;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        jumpMonth = 0;
+        jumpYear = 0;
     }
 }

@@ -1,9 +1,12 @@
 package com.diligroup.login;
 
 
+import android.os.CountDownTimer;
 import android.text.TextUtils;
+import android.widget.Button;
 import android.widget.EditText;
 
+import com.baidu.mapapi.map.Text;
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.bean.CommonBean;
@@ -36,6 +39,10 @@ public class RegistActivity extends BaseActivity {
     String phoneNum;
     String registCode;
     String psd;
+    @Bind(R.id.bt_getcode)
+    Button submit;
+    private TimeCount time;
+
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_regist;
@@ -50,7 +57,6 @@ public class RegistActivity extends BaseActivity {
     public void setTitle() {
         super.setTitle();
         tv_title.setText("注册");
-
     }
 
     @Override
@@ -61,16 +67,23 @@ public class RegistActivity extends BaseActivity {
     @Override
     protected void initViewAndData() {
         isShowBack(true);
+        time = new TimeCount(60000, 1000);
     }
 
     //获取注册验证码
     @OnClick(R.id.bt_getcode)
     public void getRegistCode() {
+
         phoneNum = et_phone.getText().toString();
-        if (!TextUtils.isEmpty(phoneNum)&& StringUtils.isMobileNumber(phoneNum)){
-            Api.getCode(phoneNum,"1",this);
-        }else{
-            ToastUtil.showShort(this,"请检查手机号码");
+        if (!TextUtils.isEmpty(phoneNum)) {
+            if (StringUtils.isMobileNumber(phoneNum)) {
+                time.start();// 开始计时
+                Api.getCode(phoneNum, "1", this);
+            } else {
+                ToastUtil.showShort(this, "手机号码格式不正确");
+            }
+        } else {
+            ToastUtil.showShort(this, "请输入手机号码");
         }
     }
 
@@ -79,26 +92,31 @@ public class RegistActivity extends BaseActivity {
         phoneNum = et_phone.getText().toString();
         registCode = et_code.getText().toString();
         psd = et_psd.getText().toString();
-        if (!TextUtils.isEmpty(phoneNum)&& StringUtils.isMobileNumber(phoneNum)) {
-            if (!TextUtils.isEmpty(registCode)&&!TextUtils.isEmpty(smsCode)) {
-                if (registCode.equals(smsCode)){
-                    if (!TextUtils.isEmpty(psd)) {
-                        LogUtils.e("passwork=========="+ DigestUtils.stringMD5(psd));
-                        Api.register(phoneNum, DigestUtils.stringMD5(psd), this);
+        if (!TextUtils.isEmpty(phoneNum)) {
+            if (StringUtils.isMobileNumber(phoneNum)) {
+                if (!TextUtils.isEmpty(registCode) && !TextUtils.isEmpty(smsCode)) {
+                    if (registCode.equals(smsCode)) {
+                        if (!TextUtils.isEmpty(psd)) {
+                            if (psd.matches("(?=.*[0-9])(?=.*[a-z]).{6,16}")) {
+                                Api.register(phoneNum, DigestUtils.stringMD5(psd), this);
+                            } else {
+                                ToastUtil.showShort(this, "请输入6~16数字和字母的组合");
+                            }
+                        } else {
+                            ToastUtil.showShort(this, "请输入密码");
+                        }
                     } else {
-                        ToastUtil.showShort(this, "请输入密码");
+                        ToastUtil.showShort(RegistActivity.this, "验证码不正确");
                     }
-                }else{
-                    ToastUtil.showShort(RegistActivity.this,"验证码不正确");
+
+                } else {
+                    ToastUtil.showShort(this, "请输入验证码");
                 }
-
             } else {
-                ToastUtil.showShort(this, "请输入验证码");
+                ToastUtil.showShort(this, "手机号码格式不正确");
             }
-
-
         } else {
-            ToastUtil.showShort(this, "请输入正确的手机号码");
+            ToastUtil.showShort(this, "请输入手机号码");
 
         }
     }
@@ -106,20 +124,20 @@ public class RegistActivity extends BaseActivity {
 
     @Override
     public void onError(Request request, Action action, Exception e) {
-                    switch (action){
-                        case SMSCODE:
-                            ToastUtil.showShort(RegistActivity.this,"获取验证码失败");
-                            break;
-                        case REGISTER:
-                            ToastUtil.showShort(RegistActivity.this,"注册失败，服务器出问题了");
-                            break;
-                    }
+        switch (action) {
+            case SMSCODE:
+                ToastUtil.showShort(RegistActivity.this, "获取验证码失败");
+                break;
+            case REGISTER:
+                ToastUtil.showShort(RegistActivity.this, "注册失败，服务器出问题了");
+                break;
+        }
     }
 
     @Override
     public void onResponse(Request request, Action action, Object object) {
-        if (object!=null){
-            switch (action){
+        if (object != null) {
+            switch (action) {
                 case REGISTER:
                     CommonBean registBean = (CommonBean) object;
                     if (registBean.getCode().equals("000000")) {
@@ -133,18 +151,38 @@ public class RegistActivity extends BaseActivity {
                     }
                     break;
                 case SMSCODE:
-                    ProvingCodeBean smsBean= (ProvingCodeBean) object;
-                    if (smsBean.getCode().equals("000000")){
-                        smsCode=smsBean.sendResponse.getSmsCode();
-                        LogUtils.e("smsCode======"+smsCode);
+                    ProvingCodeBean smsBean = (ProvingCodeBean) object;
+                    if (smsBean.getCode().equals("000000")) {
+                        smsCode = smsBean.sendResponse.getSmsCode();
+                        LogUtils.e("smsCode======" + smsCode);
                         break;
                     }
 
             }
-        }else{
+        } else {
             ToastUtil.showShort(this, "服务器出问题了");
 
         }
 
+    }
+
+    class TimeCount extends CountDownTimer {
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onFinish() {// 计时完毕
+            submit.setText("获取验证码");
+            submit.setClickable(true);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {// 计时过程
+            if (submit != null) {
+                submit.setClickable(false);//防止重复点击
+                submit.setText(millisUntilFinished / 1000 + "s");
+            }
+        }
     }
 }

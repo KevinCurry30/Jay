@@ -1,8 +1,10 @@
 package com.diligroup.net;
 
+import com.diligroup.base.Constant;
+import com.diligroup.bean.UserInfoBean;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by hjf on 2016/6/27.
@@ -133,16 +135,7 @@ public class Api {
         map.put("mobileNum", phoneNum);
         RequestManager.getInstance().getAsync(Action.LOGINOUT,map,callback);
     }
-    /**
-     * 修改用户信息
-     */
-    public  static  void updataUserInfo(){
-        Map<String, String> map = new HashMap<>();
-        map.put("transCode", TransCode.updataUserInfos);
-        map.put("type", "update");
-        map.put("type", "update");
 
-    }
     /**
      * 上传头像
      * @param fileName png jpeg
@@ -163,7 +156,7 @@ public class Api {
         map.put("type","update");
         map.put("userId ",userId );
         map.put("headPhotoAdd", headPhotoAdd);
-        RequestManager.getInstance().postAsync(Action.REPORT_USERINFOS,map,callback);
+        RequestManager.getInstance().postAsync(Action.UPDATA_USER_INFOS,map,callback);
     }
     /**
      * 获取职业信息分类
@@ -172,7 +165,7 @@ public class Api {
         Map<String, String> map = new HashMap<>();
         map.put("transCode", TransCode.GetWorkType);
         map.put("type", "findAll1");
-//        map.put("status", "1");
+        map.put("status", "1");
         RequestManager.getInstance().getAsync(Action.GET_WORK_TYPE,map,callback);
 
     }
@@ -192,19 +185,19 @@ public class Api {
 
     }
     /**
-     * 获取 过敏食材
+     * 获取 过敏食材 大分类
      */
-    public static void getAllergyFood(RequestManager.ResultCallback  callback){
-        Map<String, String> map = new HashMap<>();
-        map.put("transCode", TransCode.GET_ALLERGY_FOOD);
-        map.put("type", "findAllAllergy");
-//        map.put("dictType","7");
-//        map.put("currentPage", "1");
-////        map.put("status", "1");
-//        map.put("pageSize", "10");
-        RequestManager.getInstance().getAsync(Action.GET_ALLERGY,map,callback);
-
-    }
+//    public static void getAllergyFood(RequestManager.ResultCallback  callback){
+//        Map<String, String> map = new HashMap<>();
+//        map.put("transCode", TransCode.GET_ALLERGY_FOOD);
+//        map.put("type", "findAllAllergy");
+////        map.put("dictType","7");
+////        map.put("currentPage", "1");
+//////        map.put("status", "1");
+////        map.put("pageSize", "10");
+//        RequestManager.getInstance().getAsync(Action.GET_ALLERGY,map,callback);
+//
+//    }
 
     /**
      * 获取 口味列表
@@ -248,5 +241,146 @@ public class Api {
 //        map.put("status", "1");
         map.put("pageSize", "10");
         RequestManager.getInstance().getAsync(Action.GET_HISTORY,map,callback);
+    }
+    /**
+     * 获取首页门店供应列表
+     */
+    public static void homeStoreSupplyList(String custId,String templateDate,String mealTypeCode,String dishesTypeCode,String currentPage,RequestManager.ResultCallback callback){
+
+        Map<String, String> map = new HashMap<>();
+        map.put("transCode", TransCode.HOME_LIST);
+        map.put("type", "findAll");
+        map.put("custId",custId);
+        map.put("templateDate", templateDate);
+//        map.put("mealTypeCode", mealTypeCode);
+//        map.put("dishesTypeCode", dishesTypeCode);
+//        map.put("currentPage", currentPage);
+//        map.put("pageSize", "10");
+//        map.put("flag", "1");
+        RequestManager.getInstance().getAsync(Action.GET_HOME_LIST,map,callback);
+    }
+    /**
+     * 获取首页门店供应搜索
+     */
+    public static void storeSupplySearch(String custId,String templateDate,String dishesName,RequestManager.ResultCallback callback){
+
+        Map<String, String> map = new HashMap<>();
+        map.put("transCode", TransCode.HOME_LIST);
+        map.put("type", "findAll");
+        map.put("custId",custId);
+        map.put("templateDate", templateDate);
+        map.put("dishesName",dishesName);
+        RequestManager.getInstance().getAsync(Action.GET_HOME_LIST,map,callback);
+    }
+    /**
+     * 修改用户信息
+     */
+    public  static  void updataUserInfo(RequestManager.ResultCallback callback){
+        Map<String, String> map = new HashMap<>();
+        map.put("userId",String.valueOf(Constant.userId));
+        map.put("transCode", TransCode.updataUserInfos);
+        map.put("type","update");
+        map.put("mobileNum", Constant.userNumber);
+        map.put("jobType ",UserInfoBean.getInstance().getJob());
+        map.put("birthday", UserInfoBean.getInstance().getBirthday());
+        map.put("sex ",String.valueOf(UserInfoBean.getInstance().getSex()));
+        map.put("height", UserInfoBean.getInstance().getHeight());
+        map.put("weight", UserInfoBean.getInstance().getWeight());
+        map.put("tabooCode", UserInfoBean.getInstance().getNoEatFood());
+        map.put("allergyFood",UserInfoBean.getInstance().getAllergyFood());
+        map.put("homeAdd", UserInfoBean.getInstance().getHomeAddress());
+        map.put("currentAddress",UserInfoBean.getInstance().getCurrentAddress());
+        map.put("jobType",UserInfoBean.getInstance().getJobType());
+        map.put("taste",UserInfoBean.getInstance().getTaste());
+        map.put("chronicDiseaseCode", UserInfoBean.getInstance().getChronicDiseaseCode());
+        map.put("specialCrowdCode", UserInfoBean.getInstance().getSpecialCrowdCode());
+        map.put("otherReq", UserInfoBean.getInstance().getOtherReq());
+        map.put("periodStartTime",UserInfoBean.getInstance().getPeriodStartTime());
+        map.put("periodEndTime", UserInfoBean.getInstance().getPeriodEndTime());
+        RequestManager.getInstance().getAsync(Action.UPDATA_USER_INFOS,map,callback);
+
+    }
+
+    /**
+     * 根据大分类 获取 过敏食材小分类
+     */
+    public static void getAllergyDetails(String  allergyTypeId ,RequestManager.ResultCallback callback){
+        Map<String, String> map = new HashMap<>();
+        map.put("type","findAll");
+        map.put("status","1");
+//        map.put("allergyType1",allergyTypeId);
+        map.put("transCode", TransCode.GET_ALLERGY_DETAILS);
+        RequestManager.getInstance().getAsync(Action.GET_ALLERGY_DETAILS,map,callback);
+    }
+
+    /**
+     * 获取菜品详情
+     * @param dishesCode
+     * @param callback
+     */
+    public static void getFoodDetails(String dishesCode ,RequestManager.ResultCallback callback){
+        Map<String, String> map = new HashMap<>();
+        map.put("type","findDetail");
+        map.put("dishesCode",dishesCode );
+//        map.put("allergyType1",allergyTypeId);
+        map.put("transCode", TransCode.GET_DETAILS);
+        RequestManager.getInstance().getAsync(Action.GET_DETAILS,map,callback);
+
+    }
+
+    /**
+     * 获取自定义菜品成品分类
+     * @param callback
+     * transCode=M0038&type=findAll&dictType=1
+     */
+    public static void getCustomerFoodList(RequestManager.ResultCallback callback){
+        Map<String, String> map = new HashMap<>();
+        map.put("type","findAll");
+        map.put("transCode",TransCode.GET_COSTOMER_FOOD_LIST );
+        map.put("dictType","1");
+        RequestManager.getInstance().getAsync(Action.GET_COSTOMER_FOODLIST,map,callback);
+    }
+
+    /**
+     * 获取 饮食记录
+     * @param time
+     * @param callback
+     */
+    public static void getDietRecord(String time ,RequestManager.ResultCallback  callback){
+        Map<String, String> map = new HashMap<>();
+        map.put("type","findAll");
+        map.put("transCode",TransCode.GET_DIET_RECORD );
+        map.put("time",time);
+        map.put("userId","1");
+        RequestManager.getInstance().getAsync(Action.GET_DIET_RECORD,map,callback);
+    }
+
+    public static void customer_search(String cityCode, String dishName, RequestManager.ResultCallback  callback) {
+        Map<String, String> map = new HashMap<>();
+        map.put("type","findAll");
+        map.put("transCode",TransCode.CUSTOMER_SEARCH );
+        map.put("sortCode",cityCode);
+        map.put("status","1");
+        map.put("dishesName",dishName);
+        RequestManager.getInstance().getAsync(Action.CUSTOMER_SEARCH,map,callback);
+    }
+    /**
+     * 获取自定义菜品根据成品分类id查询接口
+     * @param callback
+     * transCode:M0021
+     * sortCode=230100 省市区code
+     * mealCode 餐别：早餐20001，午餐20002，晚餐20003，夜宵20004，加餐	20005
+     * typeCode 成品分类编号
+     */
+    public static void findFoodByCategoryId(String mealType ,String typeCode ,RequestManager.ResultCallback callback){
+        Map<String, String> map = new HashMap<>();
+        map.put("type","findByCondition");
+        map.put("transCode",TransCode.CUSTOMER_FINDBY_CATEGORY);
+        map.put("currentPage","1");
+        map.put("pageSize",Constant.pageSize);
+        map.put("sortCode",Constant.cityCode);
+        map.put("mealType",mealType);
+        map.put("typeCode",typeCode);
+        RequestManager.getInstance().getAsync(Action.CUSTOMER_FIND_BY_CATEGORYID,map,callback);
     }
 }

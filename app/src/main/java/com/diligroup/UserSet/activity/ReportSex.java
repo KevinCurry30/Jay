@@ -34,32 +34,32 @@ public class ReportSex extends BaseActivity {
     @Override
     public void setTitle() {
         super.setTitle();
-        tv_title.setText("性别");
+        tv_title.setText("基础信息");
         title_infos.setText("您的性别?");
     }
 
     @Override
     protected void initViewAndData() {
         isShowBack(true);
-
+        sexMark=3;
     }
 
 
-    @OnClick(R.id.ll_boy)
+    @OnClick(R.id.ib_boy)
     public void reportBoy(){
-
             sexMark=1;
-        ToastUtil.showShort(this,"男");
+//        ToastUtil.showShort(this,"男");
     }
-    @OnClick(R.id.ll_girl)
+    @OnClick(R.id.ib_gril)
     public void reportGirl(){
             sexMark=0;
-        ToastUtil.showShort(this,"女");
+//        ToastUtil.showShort(this,"女");
     }
     @OnClick(R.id.bt_ok_sex)
     public void reportSex(){
         if (sexMark==1||sexMark==0){
             UserInfoBean.getInstance().setSex(sexMark);
+//            ToastUtil.showShort(ReportSex.this,String.valueOf(sexMark));
             readyGo(ReportBirthday.class);
             return;
         }

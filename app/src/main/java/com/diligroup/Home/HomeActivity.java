@@ -3,17 +3,17 @@ package com.diligroup.Home;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.diligroup.After.fragment.AfterFragment;
@@ -24,21 +24,19 @@ import com.diligroup.UserSet.fragment.UserSetFragment;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.base.Constant;
 import com.diligroup.bean.CommonBean;
-import com.diligroup.bean.EventBusBean;
-import com.diligroup.dialog.RotateShowProgressDialog;
+import com.diligroup.bean.UploadInfo;
+import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
 import com.diligroup.net.Api;
 import com.diligroup.net.RequestManager;
+import com.diligroup.utils.FileUtils;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.PictureFileUtils;
 import com.diligroup.utils.ToastUtil;
 import com.diligroup.utils.UpLoadPhotoUtils;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +54,8 @@ public class HomeActivity extends BaseActivity implements RequestManager.ResultC
     ViewPager mViewPager;
     @Bind(R.id.tab_layout)
     TabLayout mTablayout;
+    @Bind(R.id.title_root)
+    RelativeLayout title_root;
     private int[] tabIcons = {
             R.drawable.selector_tab1,
             R.drawable.selector_tab2,
@@ -64,10 +64,14 @@ public class HomeActivity extends BaseActivity implements RequestManager.ResultC
     };
     private List<String> titles;
     private String path;
+    private String fileName;
+    private File file;
+    private MyPagerAdapter adapter;
 
     @Override
     protected int getContentViewLayoutID() {
-        return R.layout.activity_main;    }
+        return R.layout.activity_main;
+    }
 
     @Override
     protected void onNetworkConnected(NetUtils.NetType type) {
@@ -78,6 +82,7 @@ public class HomeActivity extends BaseActivity implements RequestManager.ResultC
     protected void onNetworkDisConnected() {
 
     }
+
     @Override
     protected void initViewAndData() {
         isShowBack(false);
@@ -105,7 +110,7 @@ public class HomeActivity extends BaseActivity implements RequestManager.ResultC
     @Override
     public void setTitle() {
         super.setTitle();
-        tv_title.setText("首页");
+        title_root.setVisibility(View.GONE);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -127,13 +132,12 @@ public class HomeActivity extends BaseActivity implements RequestManager.ResultC
     }
 
     private void setupViewPager(ViewPager mViewPager) {
-        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
+        adapter = new MyPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new HomeFragment(), getString(R.string.home));
         adapter.addFragment(new BeforeFragment(), getString(R.string.before));
         adapter.addFragment(new AfterFragment(), getString(R.string.after));
         adapter.addFragment(new UserSetFragment(), getString(R.string.user));
         mViewPager.setAdapter(adapter);
-
     }
 
     @Override
@@ -143,17 +147,20 @@ public class HomeActivity extends BaseActivity implements RequestManager.ResultC
 
     @Override
     public void onResponse(Request request, Action action, Object object) {
-        if(action==Action.UPLOAD_PHOTO && null !=object){
-            CommonBean bean= (CommonBean) object;
-            if(bean.getCode()== Constant.RESULT_SUCESS){
-                ToastUtil.showLong(this,"上传成功");
-//                if (extras != null) {
-//                    Bitmap photo = extras.getParcelable("data");
-//                    EventBusBean bus_bean=new EventBusBean();
-//                    bus_bean.setBitmap(photo);
-//                    bus_bean.setCode(10);
-//                    EventBus.getDefault().post(bean);
-//                }
+        if (action == Action.UPLOAD_PHOTO && null != object) {
+            UploadInfo bean = (UploadInfo) object;
+            if (bean.getCode().equals( Constant.RESULT_SUCESS)) {
+                ToastUtil.showLong(this, "上传成功");
+
+                final UserSetFragment userSetFragment = (UserSetFragment) (adapter.getItem(3));
+                userSetFragment.chageHeadIcon(bean.getFilePath());
+                UserInfoBean.getInstance().setHeadPhotoAdd(bean.getFilePath());
+                Api.perfectInfoAfterUpLoad(Constant.userId+"",bean.getFilePath(),this);
+            }
+        }else if(action==Action.UPDATA_USER_INFOS && object!=null){
+            CommonBean bean1=(CommonBean)object;
+            if(bean1.getCode().equals(Constant.RESULT_SUCESS)){
+                LogUtils.i("完善信息成功==");
             }
         }
     }
@@ -161,7 +168,6 @@ public class HomeActivity extends BaseActivity implements RequestManager.ResultC
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragments = new ArrayList<>();
-//        private final List<String> mFragmentTitles = new ArrayList<>();
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -169,7 +175,6 @@ public class HomeActivity extends BaseActivity implements RequestManager.ResultC
 
         public void addFragment(Fragment fragment, String title) {
             mFragments.add(fragment);
-//            mFragmentTitles.add(title);
         }
 
         @Override
@@ -195,20 +200,19 @@ public class HomeActivity extends BaseActivity implements RequestManager.ResultC
                         sb.append(p);
                     }
                     LogUtils.i("onActivityResult方法=", sb.toString());
-                    new UpLoadPhotoUtils(this).startPhotoZoom(Uri.fromFile(new File(sb.toString())));
+                    String tempStr = sb.toString();
+                    fileName = tempStr.substring(tempStr.lastIndexOf("/") + 1);
+                    file = new File(sb.toString());
+                    new UpLoadPhotoUtils(this).startPhotoZoom(Uri.fromFile(file));
                 }
                 break;
             case CROP_CODE:
                 if (resultCode == RESULT_OK) {
-//                    detialPathAndShowImage();  上传图片
-                    Api.upLoadPicture("张三","jpeg",this);
                     Bundle extras = data.getExtras();
                     if (extras != null) {
                         Bitmap photo = extras.getParcelable("data");
-                        EventBusBean bean=new EventBusBean();
-                        bean.setBitmap(photo);
-                        bean.setCode(10);
-                        EventBus.getDefault().post(bean);
+                        photo = PictureFileUtils.zoomImage(photo, 150, 150);
+                        Api.upLoadPicture(new String(Base64.encode(FileUtils.Bitmap2Bytes(photo), Base64.DEFAULT)), fileName, this);
                     }
                 } else {
                     finish();
@@ -216,55 +220,7 @@ public class HomeActivity extends BaseActivity implements RequestManager.ResultC
                 break;
         }
     }
-    /**
-     * 选择的图片加入到集合
-     */
-    private void detialPathAndShowImage() {
-        if (!TextUtils.isEmpty(path) && new File(path).exists()) {
-            new PictureZoomTask().execute();
-        } else {
-            this.finish();
-        }
-    }
-
-    class PictureZoomTask extends AsyncTask<String, Integer, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            RotateShowProgressDialog.ShowProgressOn(HomeActivity.this, false);
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            //上传
-                /*ToastUtil.showToast(UploadAvatar.this, "上传成功了");
-				UploadAvatar.this.finish();*/
-            RotateShowProgressDialog.ShowProgressOff();
-            if (result == null) {
-//                RotateShowProgressDialog.ShowProgressOff();
-//                HomeActivity.this.finish();
-            } else {
-//                CrmUserDetail user = SharePreCache.getUser(UploadAvatar.this);
-//                AppApi.upLoadPicture(UploadAvatar.this, user.getId(),path, UploadAvatar.this);
-            }
-        }
-
-        @Override
-        protected String doInBackground(String... arg0) {
-            //String path = arg0[0];
-            try {
-                path = PictureFileUtils.compressImage(HomeActivity.this, path, "", 80);
-            } catch (FileNotFoundException e) {
-                ToastUtil.showLong(HomeActivity.this, "获取图片失败");
-                return null;
-            }
-
-            return path;
-        }
-
-    }
-
-    ViewPager.OnPageChangeListener  changeListener=new ViewPager.OnPageChangeListener() {
+    ViewPager.OnPageChangeListener changeListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -272,17 +228,20 @@ public class HomeActivity extends BaseActivity implements RequestManager.ResultC
 
         @Override
         public void onPageSelected(int position) {
-            switch (position){
+            switch (position) {
                 case 0:
-                    tv_title.setText(titles.get(0));
+                    title_root.setVisibility(View.GONE);
                     break;
                 case 1:
+                    title_root.setVisibility(View.VISIBLE);
                     tv_title.setText(titles.get(1));
                     break;
                 case 2:
+                    title_root.setVisibility(View.VISIBLE);
                     tv_title.setText(titles.get(2));
                     break;
                 case 3:
+                    title_root.setVisibility(View.VISIBLE);
                     tv_title.setText(titles.get(3));
                     break;
             }

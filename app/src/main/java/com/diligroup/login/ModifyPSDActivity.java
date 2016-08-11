@@ -1,6 +1,8 @@
 package com.diligroup.login;
 
+import android.os.CountDownTimer;
 import android.text.TextUtils;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.diligroup.R;
@@ -32,15 +34,18 @@ public class ModifyPSDActivity extends BaseActivity {
     EditText et_phone;
     @Bind(R.id.et_newpsd2)
     EditText et_psd;
-
+    @Bind(R.id.bt_getcode2)
+    Button bt_getCode;
     String phoneNumber;
     String codeNumber;
     String password;
     String server_code;
+    private TimeCount time;
+
     @Override
     public void setTitle() {
         super.setTitle();
-        tv_title.setText("找回密码");
+        tv_title.setText("忘记密码");
     }
 
     //获取验证码
@@ -48,10 +53,15 @@ public class ModifyPSDActivity extends BaseActivity {
     public void getCode() {
         phoneNumber = et_phone.getText().toString();
 
-        if (!TextUtils.isEmpty(phoneNumber) && StringUtils.isMobileNumber(phoneNumber)) {
-            Api.getCode(phoneNumber,"2",this);
+        if (!TextUtils.isEmpty(phoneNumber)) {
+            if (StringUtils.isMobileNumber(phoneNumber)) {
+                Api.getCode(phoneNumber, "2", this);
+                time.start();// 开始计时
+            } else {
+                ToastUtil.showShort(this, "手机号码格式不正确");
+            }
         } else {
-            ToastUtil.showShort(this, "请检查手机号码");
+            ToastUtil.showShort(this, "请输入手机号码");
         }
     }
 
@@ -75,30 +85,39 @@ public class ModifyPSDActivity extends BaseActivity {
         phoneNumber = et_phone.getText().toString();
         codeNumber = et_code.getText().toString();
         password = et_psd.getText().toString();
-        if (!TextUtils.isEmpty(phoneNumber) && StringUtils.isMobileNumber(phoneNumber)) {
-            if (!TextUtils.isEmpty(codeNumber)) {
-                if (server_code.equals(codeNumber)){
-                    if (!password.isEmpty()&&password.length()>=6) {
-                            Api.modifyPsd(phoneNumber, DigestUtils.stringMD5(password),this);
-                    } else{
-                        ToastUtil.showShort(this, "请输入密码");}
-                }else{
-                    ToastUtil.showShort(this, "验证码不正确");
+        if (!TextUtils.isEmpty(phoneNumber)) {
+            if (StringUtils.isMobileNumber(phoneNumber)) {
+                if (!TextUtils.isEmpty(codeNumber)) {
+                    if (!TextUtils.isEmpty(server_code)&&server_code.equals(codeNumber)) {
+                        if (!password.isEmpty()) {
+                            if (password.matches("(?=.*[0-9])(?=.*[a-z]).{6,16}")){
+                                Api.modifyPsd(phoneNumber, DigestUtils.stringMD5(password), this);
+                            }else{
+                                ToastUtil.showShort(this, "请输入6~16数字和字母的组合");
+                            }
+                        } else {
+                            ToastUtil.showShort(this, "请输入密码");
+                        }
+                    } else {
+                        ToastUtil.showShort(this, "验证码不正确");
+                    }
 
+                } else {
+                    ToastUtil.showShort(this, "请输入验证码");
                 }
-
             } else {
-                ToastUtil.showShort(this, "请输入验证码");
+                ToastUtil.showShort(this, "手机号码格式不正确");
             }
+
         } else {
-            ToastUtil.showShort(this, "请检查手机号码");
+            ToastUtil.showShort(this, "请输入手机号码");
         }
     }
 
     @Override
     protected void initViewAndData() {
         isShowBack(true);
-
+        time = new TimeCount(60000, 1000);
     }
 
 
@@ -109,29 +128,50 @@ public class ModifyPSDActivity extends BaseActivity {
 
     @Override
     public void onResponse(Request request, Action action, Object object) {
-        if (object!=null){
-            switch (action){
+        if (object != null) {
+            switch (action) {
                 case MODIFY:
-                    CommonBean commonBean= (CommonBean) object;
-                    if (commonBean.equals("000000")){
-                        ToastUtil.showShort(ModifyPSDActivity.this,"修改密码成功");
+                    CommonBean commonBean = (CommonBean) object;
+                    if (commonBean.getCode().equals("000000")) {
+                        ToastUtil.showShort(ModifyPSDActivity.this, "修改密码成功");
                         readyGo(LoginActivity.class);
-                    }else{
-                        ToastUtil.showShort(ModifyPSDActivity.this,"修改密码失败");
+                    } else {
+                        ToastUtil.showShort(ModifyPSDActivity.this, "修改密码失败");
                     }
                     break;
                 case SMSCODE:
-                    ProvingCodeBean codeBean= (ProvingCodeBean) object;
+                    ProvingCodeBean codeBean = (ProvingCodeBean) object;
                     if (codeBean.getCode().equals("000000"))
-                        server_code=codeBean.sendResponse.getSmsCode();
-                    if (!TextUtils.isEmpty(codeBean.sendResponse.getErrCode())){
-                        ToastUtil.showShort(ModifyPSDActivity.this,"获取验证码失败");
+                        server_code = codeBean.sendResponse.getSmsCode();
+                    if (!TextUtils.isEmpty(codeBean.sendResponse.getErrCode())) {
+                        ToastUtil.showShort(ModifyPSDActivity.this, "获取验证码失败");
                     }
                     break;
             }
-        }else{
-            ToastUtil.showShort(ModifyPSDActivity.this,"服务器出问题了");
+        } else {
+            ToastUtil.showShort(ModifyPSDActivity.this, "服务器出问题了");
         }
 
+    }
+
+    class TimeCount extends CountDownTimer {
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onFinish() {// 计时完毕
+            bt_getCode.setText("获取验证码");
+            bt_getCode.setClickable(true);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {// 计时过程
+            if (bt_getCode != null) {
+                bt_getCode.setClickable(false);//防止重复点击
+                bt_getCode.setText(millisUntilFinished / 1000 + "s");
+            }
+
+        }
     }
 }

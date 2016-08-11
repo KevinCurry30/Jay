@@ -42,31 +42,36 @@ public class ReportWeight extends BaseActivity {
     @Override
     protected void initViewAndData() {
         isShowBack(true);
-
-        wheelView.setOffset(3);
+        if (UserInfoBean.getInstance().getSex()!=null&&UserInfoBean.getInstance().getSex()==0){
+            wheelView.setSeletion(5);
+            select_weight="50";
+        }
+        if (UserInfoBean.getInstance().getSex()!=null&&UserInfoBean.getInstance().getSex()==1){
+            wheelView.setSeletion(25);
+            select_weight="70";
+        }
         wheelView.setItems(Arrays.asList(getResources().getStringArray(R.array.weight)));
         wheelView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
                 select_weight = item;
-//                Log.d("===========WEIGHT=========", "selectedIndex: " + selectedIndex + ", item: " + item);
+
             }
         });
     }
 
     @OnClick(R.id.bt_ok_weight)
     public void reportWeight() {
-        ToastUtil.showShort(this, select_weight);
+//        ToastUtil.showShort(this, select_weight);
         UserInfoBean.getInstance().setHeight(select_weight);
         readyGo(ReportNoeat.class);
-//        String userbirthday=ReportUserInfos.getUserBirthday();
-//        LogUtils.e("WEIGHT==========="+select_weight);
+
     }
 
     @Override
     public void setTitle() {
         super.setTitle();
-        tv_title.setText("体重");
+        tv_title.setText("基础信息");
         title_infos.setText("您的体重?");
     }
 

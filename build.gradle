@@ -16,6 +16,15 @@ allprojects {
         maven { url "https://jitpack.io" }
     }
 }
+ext {
+    compileSdkVersion = 23
+    buildToolsVersion = '23.0.2'
+    supportLibsVersion = '23.1.1'
+    targetSdkVersion = 22
+    minSdkVersion = 11
+    versionCode = 13
+    versionName = "0.4.3"
+}
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

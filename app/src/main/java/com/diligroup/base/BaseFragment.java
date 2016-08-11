@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import butterknife.ButterKnife;
 
 /**
@@ -16,7 +18,7 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseFragment extends Fragment {
 
-
+    protected List<View> mRootView;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -47,4 +49,5 @@ public abstract class BaseFragment extends Fragment {
         Intent intent = new Intent(this.getActivity(), classes);
         startActivity(intent);
     }
+
 }

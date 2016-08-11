@@ -1,29 +1,20 @@
 package com.diligroup.utils;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
-import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.diligroup.R;
+import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.animation.PropertyValuesHolder;
 
 import java.lang.reflect.Field;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
-import me.nereo.multi_image_selector.MultiImageSelector;
 
 /**
  * Created by 郝九凤 on 2016/7/7.
@@ -48,6 +39,7 @@ public class CommonUtils {
         else
             return mobiles.matches(telRegex);
     }
+
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
      */
@@ -63,13 +55,14 @@ public class CommonUtils {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
+
     /**
      * 获得屏幕高度
+     *
      * @param context
      * @return
      */
-    public static int getScreenWidth(Context context)
-    {
+    public static int getScreenWidth(Context context) {
         WindowManager wm = (WindowManager) context
                 .getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();
@@ -83,14 +76,14 @@ public class CommonUtils {
      * @param context
      * @return
      */
-    public static int getScreenHeight(Context context)
-    {
+    public static int getScreenHeight(Context context) {
         WindowManager wm = (WindowManager) context
                 .getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(outMetrics);
         return outMetrics.heightPixels;
     }
+
     /**
      * 获得通知蓝的高度
      *
@@ -114,8 +107,122 @@ public class CommonUtils {
         return statusBarHeight;
     }
 
-    public static void callPhone(Context context,String phone){
-        Intent intent=new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+    public static void callPhone(Context context, String phone) {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
         context.startActivity(intent);
+    }
+
+    public static void propertyValuesHolder(View view) {
+        PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat("alpha", 1f,
+                2f, 1f);
+        PropertyValuesHolder pvhY = PropertyValuesHolder.ofFloat("scaleX", 1f,
+                2f, 1f);
+        PropertyValuesHolder pvhZ = PropertyValuesHolder.ofFloat("scaleY", 1f,
+                2f, 1f);
+        ObjectAnimator.ofPropertyValuesHolder(view, pvhX, pvhY, pvhZ).setDuration(1000).start();
+    }
+
+    public static void showCategoryIcon(int code, ImageView dishIcon, boolean isSelected) {
+        switch (code) {
+            case 10001://烘焙
+                if (isSelected) {
+                    dishIcon.setImageResource(R.mipmap.baking_pressed);
+                } else {
+                    dishIcon.setImageResource(R.mipmap.bading_normal);
+                }
+                break;
+            case 10002://坚果
+                if (isSelected) {
+                    dishIcon.setImageResource(R.mipmap.nut_pressed);
+                } else {
+                    dishIcon.setImageResource(R.mipmap.nut_normal);
+                }
+                break;
+            case 10003://冷热饮
+                if (isSelected) {
+                    dishIcon.setImageResource(R.mipmap.hotandcode_drink_pressed);
+                } else {
+                    dishIcon.setImageResource(R.mipmap.hotandcodedrindk_normal);
+                }
+                break;
+            case 10004://凉荤菜
+                if (isSelected) {
+                    dishIcon.setImageResource(R.mipmap.cold_meal_pressed);
+                } else {
+                    dishIcon.setImageResource(R.mipmap.cold_meal_normal);
+                }
+                break;
+            case 10005://凉素菜
+                if (isSelected) {
+                    dishIcon.setImageResource(R.mipmap.cold_vegetable_dish_pressed);
+                } else {
+                    dishIcon.setImageResource(R.mipmap.cold_vegetable_dish_normal);
+                }
+                break;
+            case 10006://热菜半荤
+                if (isSelected) {
+                    dishIcon.setImageResource(R.mipmap.semi_hot_meat_pressed);
+                } else {
+                    dishIcon.setImageResource(R.mipmap.semi_hot_meat_normal);
+                }
+                break;
+            case 10007://热菜大荤
+                if (isSelected) {
+                    dishIcon.setImageResource(R.mipmap.dish_meat_pressed);
+                } else {
+                    dishIcon.setImageResource(R.mipmap.dish_meat_normal);
+                }
+                break;
+            case 10008://热素菜
+                if (isSelected) {
+                    dishIcon.setImageResource(R.mipmap.hot_su_food_pressed);
+                } else {
+                    dishIcon.setImageResource(R.mipmap.hot_su_food_normal);
+                }
+                break;
+            case 10009://水果
+                if (isSelected) {
+                    dishIcon.setImageResource(R.mipmap.fruits_pressed);
+                } else {
+                    dishIcon.setImageResource(R.mipmap.fruit_normal);
+                }
+
+                break;
+            case 10010://糖粥
+                if (isSelected) {
+                    dishIcon.setImageResource(R.mipmap.soup_pressed);
+                } else {
+                    dishIcon.setImageResource(R.mipmap.soup_normal);
+                }
+                break;
+            case 10011://主食
+                if (isSelected) {
+                    dishIcon.setImageResource(R.mipmap.staple_food_pressed);
+                } else {
+                    dishIcon.setImageResource(R.mipmap.staple_food_normal);
+                }
+                break;
+            case 10012://酱腌小菜
+                if (isSelected) {
+                    dishIcon.setImageResource(R.mipmap.staple_food_pressed);
+                } else {
+                    dishIcon.setImageResource(R.mipmap.staple_food_normal);
+                }
+                break;
+            case 10013://调味酱汁
+                if (isSelected) {
+                    dishIcon.setImageResource(R.mipmap.tiaoweizhi_pressed);
+                } else {
+                    dishIcon.setImageResource(R.mipmap.tiaoweizhi_normal);
+                }
+                break;
+            case 10014://其他类
+                if (isSelected) {
+                    dishIcon.setImageResource(R.mipmap.staple_food_pressed);
+                } else {
+                    dishIcon.setImageResource(R.mipmap.staple_food_normal);
+                }
+                break;
+        }
     }
 }

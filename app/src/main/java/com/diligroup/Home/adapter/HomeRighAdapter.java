@@ -3,16 +3,23 @@ package com.diligroup.Home.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.diligroup.Home.FeedbackActivity;
+import com.diligroup.Home.FoodDetailsActivity;
 import com.diligroup.R;
-import com.diligroup.bean.MyItemClickListener;
+import com.diligroup.bean.HomeStoreSupplyList;
+import com.diligroup.bean.MyStickyHeadChangeListener;
 import com.squareup.picasso.Picasso;
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -21,45 +28,98 @@ import butterknife.ButterKnife;
 /**
  * Created by hjf on 2016/7/19.
  */
-public class HomeRighAdapter extends RecyclerView.Adapter{
+public class HomeRighAdapter extends RecyclerView.Adapter implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
     Context mContext;
-    List<String> mList;
-
-    public void setListener(MyItemClickListener listener) {
-        this.listener = listener;
-    }
-
-    MyItemClickListener listener;
-    public HomeRighAdapter(Context mContext, List<String> mList) {
+    List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> mList;
+    private List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> rightDishesList=new ArrayList<>();//所有右侧成品分类列表
+    MyStickyHeadChangeListener listener;
+    public HomeRighAdapter(Context mContext, List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> mList,MyStickyHeadChangeListener listener) {
         super();
         this.mContext = mContext;
         this.mList = mList;
+        this.listener=listener;
+        initListDate();
+    }
+    public  void setDate(List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> mList){
+        this.mList=mList;
+        notifyDataSetChanged();
+    }
+    private void initListDate() {
+        rightDishesList.clear();
+        if (mList!=null && mList.size() > 0) {
+            for (int i = 0; i < mList.size(); i++) {
+                if(mList.get(i).getDishesSupplyDtlList()!=null){
+                    for(int j=0;j<mList.get(i).getDishesSupplyDtlList().size();j++){
+                        mList.get(i).getDishesSupplyDtlList().get(j).setHeaderCode(mList.get(i).getDishesTypeCode());
+                        mList.get(i).getDishesSupplyDtlList().get(j).setHeaderName(mList.get(i).getDishesTypeName());
+                    }
+                    rightDishesList.addAll(mList.get(i).getDishesSupplyDtlList());
+                }
+            }
+        }
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = View.inflate(parent.getContext(), R.layout.home_rightlist, null);
-        return new MyViewHoder(view,listener);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View convertView = inflater.inflate(R.layout.home_rightlist, parent, false);
+        MyItemViewHoder myViewHoder = new MyItemViewHoder(convertView);
+        return myViewHoder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        MyViewHoder viewHoder = (MyViewHoder) holder;
-//        String name=mList.get(position);
-        Picasso.with(mContext).load(R.mipmap.banner_2).into(viewHoder.home_right_icon);
-        viewHoder.homeDishesName.setText("大萝卜");
-        viewHoder.homeDishesIngredients.setText("配料：" + "小葱+蘑菇");
-        viewHoder.home_evaluate.setText("菜品评价");
-        viewHoder.home_evaluate.setTextColor(mContext.getResources().getColor(R.color.common_orenge));
-        viewHoder.home_evaluate.setOnClickListener(new MyOnClickListener(position));
+        MyItemViewHoder myViewHoder = (MyItemViewHoder) holder;
+        Picasso.with(mContext).load(R.mipmap.banner_3).into(myViewHoder.home_right_icon);
+        myViewHoder.homeDishesName.setText(rightDishesList.get(position).getDishesName());
+        StringBuilder tempStr=new StringBuilder();
+        for(int i=0;i<rightDishesList.get(position).getAccessoriesList().size();i++){
+            if(TextUtils.isEmpty(tempStr.toString())){
+                tempStr.append(rightDishesList.get(position).getAccessoriesList().get(i).getFoodName());
+            }else{
+                tempStr.append("+"+rightDishesList.get(position).getAccessoriesList().get(i).getFoodName());
+            }
+        }
+        if(rightDishesList.get(position).isShow()){
+            myViewHoder.home_evaluate.setVisibility(View.VISIBLE);
+        }else{
+            myViewHoder.home_evaluate.setVisibility(View.INVISIBLE);
+        }
+        myViewHoder.homeDishesIngredients.setText("配料：" +tempStr.toString());
+        myViewHoder.home_evaluate.setOnClickListener(new MyOnClickListener(position));
+        myViewHoder.home_right_view.setOnClickListener(new MyOnClickListener(position));
+    }
 
+    @Override
+    public long getHeaderId(int position) {
+        if( position>0 && !rightDishesList.get(position).getHeaderCode().equals(rightDishesList.get(position-1).getHeaderCode())){
+            listener.headChange(position,rightDishesList.get(position).getHeaderCode());
+        }
+        return Long.parseLong(rightDishesList.get(position).getHeaderCode());
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View v = inflater.inflate(R.layout.stickview_home_head, parent, false);
+        return new MyHeaderViewHolder(v);
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
+        MyHeaderViewHolder hvh = (MyHeaderViewHolder) holder;
+        hvh.sticklistHeadtext.setText(rightDishesList.get(position).getHeaderName());
     }
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        return rightDishesList==null?0:rightDishesList.size();
     }
-
     class MyOnClickListener implements View.OnClickListener {
         int position;
 
@@ -69,18 +129,21 @@ public class HomeRighAdapter extends RecyclerView.Adapter{
 
         @Override
         public void onClick(View v) {
+            Intent mIntent;
             switch (v.getId()) {
                 case R.id.home_evaluate:
-                    Intent mIntent = new Intent(mContext, FeedbackActivity.class);
-//                    mIntent.putExtra("dishName", mList.get(position).get);
+                    mIntent = new Intent(mContext, FeedbackActivity.class);
+                    mContext.startActivity(mIntent);
+                    break;
+                case R.id.home_right_view:
+                    mIntent = new Intent(mContext, FoodDetailsActivity.class);
                     mContext.startActivity(mIntent);
                     break;
             }
         }
     }
 
-
-    class MyViewHoder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class MyItemViewHoder extends RecyclerView.ViewHolder {
         @Bind(R.id.home_right_icon)
         ImageView home_right_icon;//右侧icon
         @Bind(R.id.home_dishes_name)
@@ -89,20 +152,23 @@ public class HomeRighAdapter extends RecyclerView.Adapter{
         TextView homeDishesIngredients;//食品配料
         @Bind(R.id.home_evaluate)
         TextView home_evaluate;//菜品评价
-        MyItemClickListener listener;
-        public MyViewHoder(View itemView, MyItemClickListener listener) {
+        @Bind(R.id.home_right_view)
+        RelativeLayout home_right_view;
+
+        public MyItemViewHoder(View itemView) {
             super(itemView);
-            this.listener=listener;
             ButterKnife.bind(this, itemView);
-//            home_right_icon= (ImageView) itemView.findViewById(R.id.home_right_icon);
-//            homeDishesName= (TextView) itemView.findViewById(R.id.home_dishes_name);
-//            itemView.findViewById(R.id.ad)
-            itemView.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View v) {
-            listener.onItemClick(v,getPosition());
+    }
+
+    class MyHeaderViewHolder extends RecyclerView.ViewHolder {
+        TextView sticklistHeadtext;
+
+        public MyHeaderViewHolder(View headView) {
+            super(headView);
+            sticklistHeadtext = (TextView) headView.findViewById(R.id.sticklist_headtext);
         }
+
     }
 }

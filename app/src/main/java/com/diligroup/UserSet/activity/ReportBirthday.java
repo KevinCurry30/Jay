@@ -58,12 +58,12 @@ public class ReportBirthday extends BaseActivity {
     }
 
     @OnClick(R.id.bt_getTime)
-    public void getTime() {
+    public void getBirthday() {
 
-        ToastUtil.showShort(ReportBirthday.this, "您选择的日期是：" + data_select.getYear() + "年" + (data_select.getMonth() + 1) + "月" + data_select.getDayOfMonth() + "日。");
+//        ToastUtil.showShort(ReportBirthday.this, "您选择的日期是：" + data_select.getYear() + "年" + (data_select.getMonth() + 1) + "月" + data_select.getDayOfMonth() + "日。");
         int old=currentYear-data_select.getYear();
-        String brithday=data_select.getYear()+"-"+data_select.getMonth()+1+"-"+data_select.getDayOfMonth();
-        ToastUtil.showShort(ReportBirthday.this,"你当前"+old+"岁");
+        String brithday=data_select.getYear()+"-"+(data_select.getMonth()+1)+"-"+data_select.getDayOfMonth();
+//        ToastUtil.showShort(ReportBirthday.this,"你当前"+old+"岁");
         UserInfoBean.getInstance().setBirthday(brithday);
         readyGo(ReportWork.class);
     }
@@ -71,7 +71,7 @@ public class ReportBirthday extends BaseActivity {
     @Override
     public void setTitle() {
         super.setTitle();
-        tv_title.setText("您的生日");
+        tv_title.setText("基础信息");
         title_infos.setText("您的生日？");
     }
 

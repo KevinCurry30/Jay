@@ -100,7 +100,7 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
     public void onResponse(Request request, Action action, Object object) {
         if(action==Action.DISEVALUATE  && object!=null){
             CommonBean bean= (CommonBean) object;
-            if(bean.getCode()== Constant.RESULT_SUCESS){
+            if(bean.getCode().equals(Constant.RESULT_SUCESS)){
                 LogUtils.i("菜品评价接口调用成功");
             }
         }

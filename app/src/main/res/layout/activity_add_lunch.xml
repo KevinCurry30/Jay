@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context="com.diligroup.Home.AddLunchActivity">
+    tools:context=".After.AddLunchActivity">
 
     <include layout="@layout/comm_title"
         android:id="@+id/common_title_root"/>

@@ -42,8 +42,16 @@ public class ReportHeight extends BaseActivity {
     @Override
     protected void initViewAndData() {
         isShowBack(true);
-        wheelView.setOffset(1);
+        if (UserInfoBean.getInstance().getSex()!=null&&UserInfoBean.getInstance().getSex()==0){
+            wheelView.setSeletion(13);
+            selectHeight="163";
+        }
+        if (UserInfoBean.getInstance().getSex()!=null&&UserInfoBean.getInstance().getSex()==1){
+            wheelView.setSeletion(25);
+            selectHeight="175";
+        }
         wheelView.setItems(Arrays.asList(getResources().getStringArray(R.array.height)));
+
         wheelView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
@@ -57,13 +65,13 @@ public class ReportHeight extends BaseActivity {
     public void reprotHeight(){
         UserInfoBean.getInstance().setHeight(selectHeight);
         readyGo(ReportWeight.class);
-        ToastUtil.showShort(this,selectHeight);
+//        ToastUtil.showShort(this,selectHeight);
     }
 
     @Override
     public void setTitle() {
         super.setTitle();
-        tv_title.setText("身高");
+        tv_title.setText("基础信息");
         title_infos.setText("您的身高?");
     }
 

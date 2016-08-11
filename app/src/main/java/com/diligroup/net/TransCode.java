@@ -22,4 +22,12 @@ public class TransCode {
     public static String GET_OTHER="M0038";
     public static String GET_TASTE="M0038";
     public static String GET_HISTORY="M0038";
+    public static String HOME_LIST="C0112";
+    public static String GET_ALLERGY_DETAILS="M0064";
+    public static String GET_DETAILS="M0067";
+
+    public static String GET_COSTOMER_FOOD_LIST="M0038";
+    public static String GET_DIET_RECORD="C0116";
+    public static String CUSTOMER_SEARCH="M0021";
+    public static String CUSTOMER_FINDBY_CATEGORY="M0068";
 }

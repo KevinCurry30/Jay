@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F0F0F0">
+
+        <TextView
+            android:id="@+id/home_preDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="12dp"
+            android:text="前一天"
+            android:textColor="@color/black1" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/home_preDay"
+
+            android:background="@color/line_view" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/home_today"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2016年7月18日"
+                android:textColor="@color/black1"
+                android:textSize="13.3sp" />
+
+            <TextView
+                android:id="@+id/home_weekday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="(今天，周一)"
+                android:textColor="@color/common_green"
+                android:textSize="9.3sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/home_nextDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="12dp"
+            android:text="后一天"
+            android:textColor="@color/black1" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/home_nextDay"
+            android:background="@color/line_view" />
+    </RelativeLayout>
+
+    <include layout="@layout/meals_selector" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FCF3E2">
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/iv_red_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:lines="1"
+            android:text="温馨提示：如果您需要更准确的评价，请你添加完成您的三餐"
+            android:textColor="#FF6735"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="18dp"
+        android:text="我们为您推荐 的食谱营养均衡，可以满足您一天的营养素要求。如果您的摄入量没有到达外面的推荐量，您可以适当加餐，以保证充足的营养摄入。如果您的摄入量超过推荐量，您需要增加运动来消耗更多的能量。"
+        android:textColor="@color/black" />
+    <TextView
+        android:text=" 我们为您推荐的食谱食物种类丰富，搭配合理 肉类适量，蔬菜充足，符合中国居民膳食指南推荐的“食物多样，谷类为主”的平衡膳食模式，您可以根据个人爱好适当增加水果的摄入，以保证每天摄入食物的丰富多样性。"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="18dp"
+        android:textColor="@color/black" />
+</LinearLayout>

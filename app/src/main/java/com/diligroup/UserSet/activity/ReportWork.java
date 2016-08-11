@@ -1,5 +1,6 @@
 package com.diligroup.UserSet.activity;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,7 @@ public class ReportWork extends BaseActivity {
     //    private String[] lightWork;
 //    private String[] middleWork;
 //    private String[] heavyWork;
-    private String userSelect;
+
     @Bind(R.id.gv_light)
     GridView gv_light;
     @Bind(R.id.gv_middle)
@@ -57,8 +58,13 @@ public class ReportWork extends BaseActivity {
     List<GetJobBean.QlistBean> light_list;
     List<GetJobBean.ZlistBean> middle_list;
     List<GetJobBean.WlistBean> heavy_list;
-    List<String> jobName;
-
+//    List<String> jobName;
+    List<String> light_job_name;
+    List<String> middle_job_name;
+    List<String> heavy_job_name;
+    private String userSelect;
+    private  String jobCode;
+    private  WorkAdapter  adapter;
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_select_work;
@@ -78,50 +84,63 @@ public class ReportWork extends BaseActivity {
     protected void initViewAndData() {
         isShowBack(true);
         Api.getWorkType(this);
-//        initData();
-        jobName = new ArrayList<>();
-//        gv_middle.setAdapter(new WorkAdapter(middleWork));
-//        gv_heavy.setAdapter(new WorkAdapter(heavyWork));
+        light_job_name=new ArrayList<>();
+        middle_job_name=new ArrayList<>();
+        heavy_job_name=new ArrayList<>();
+
         gv_light.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                userSelect=lightWork[position];
+                adapter.setSeclection(position);
+                userSelect=light_list.get(position).getProfName();
+                jobCode=light_list.get(position).getCode();
+
             }
         });
         gv_middle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                userSelect=middleWork[position];
+                adapter.setSeclection(position);
+                 userSelect=middle_list.get(position).getProfName();
+                jobCode=middle_list.get(position).getCode();
 
             }
         });
         gv_heavy.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                userSelect=heavyWork[position];
+                adapter.setSeclection(position);
+                userSelect=heavy_list.get(position).getProfName();
+                jobCode=heavy_list.get(position).getCode();
 
             }
         });
     }
 
-//    private void initData() {
-//        heavyWork = getResources().getStringArray(R.array.heavy);
-//        middleWork =getResources().getStringArray(R.array.middle);
-//        lightWork = getResources().getStringArray(R.array.light);
-//    }
 
     @Override
     public void setTitle() {
         super.setTitle();
-        tv_title.setText("选择职业");
+        tv_title.setText("基础信息");
         title_infos.setText("您的职业?");
     }
 
     @OnClick(R.id.bt_commit_work)
     public void reportWorkData() {
-        ToastUtil.showLong(this, "You  work ====" + userSelect);
-        UserInfoBean.getInstance().setJob(userSelect);
-        readyGo(ReportHeight.class);
+
+        if (userSelect!=null){
+//            ToastUtil.showLong(this, "You  work ====" + userSelect);
+//            ToastUtil.showLong(this, "You  jobCode ====" + jobCode);
+//            UserInfoBean.getInstance().setJob("");
+            UserInfoBean.getInstance().setJob(userSelect);
+            UserInfoBean.getInstance().setJobType(jobCode);
+            readyGo(ReportHeight.class);
+
+        }else{
+            ToastUtil.showShort(ReportWork.this,"请选择职业");
+        }
+
+
     }
 
     @Override
@@ -140,7 +159,8 @@ public class ReportWork extends BaseActivity {
                     gv_light.setVisibility(View.VISIBLE);
                     tv_light.setText("轻体力");
                     getLightJob(light_list);
-                    gv_light.setAdapter(new WorkAdapter(jobName));
+                    adapter=new WorkAdapter(light_job_name);
+                    gv_light.setAdapter(adapter);
                 }
                 if (jobdata.getZlist() != null && jobdata.getZlist().size() > 0) {
                     middle_list = jobdata.getZlist();
@@ -148,7 +168,8 @@ public class ReportWork extends BaseActivity {
                     gv_middle.setVisibility(View.VISIBLE);
                     tv_middle.setText("中等体力");
                     getMiddleJob(middle_list);
-                    gv_light.setAdapter(new WorkAdapter(jobName));
+                    adapter=new WorkAdapter(middle_job_name);
+                    gv_middle.setAdapter(adapter);
                 }
                 if (jobdata.getWlist() != null && jobdata.getWlist().size() > 0) {
                     heavy_list = jobdata.getWlist();
@@ -156,7 +177,8 @@ public class ReportWork extends BaseActivity {
                     gv_heavy.setVisibility(View.VISIBLE);
                     tv_heavy.setText("重体力");
                     getHeavyJob(heavy_list);
-                    gv_light.setAdapter(new WorkAdapter(jobName));
+                    adapter=new WorkAdapter(heavy_job_name);
+                    gv_heavy.setAdapter(adapter);
                 }
             }
 
@@ -165,21 +187,26 @@ public class ReportWork extends BaseActivity {
     }
 
     private void getLightJob(List<GetJobBean.QlistBean> list) {
+
         for (int i = 0; i < list.size(); i++) {
-            jobName.add(list.get(i).getProfName());
+            light_job_name.add(list.get(i).getProfName());
         }
+
     }
 
     private void getMiddleJob(List<GetJobBean.ZlistBean> list) {
+
         for (int i = 0; i < list.size(); i++) {
-            jobName.add(list.get(i).getProfName());
+            middle_job_name.add(list.get(i).getProfName());
         }
+
     }
 
     private void getHeavyJob(List<GetJobBean.WlistBean> list) {
         for (int i = 0; i < list.size(); i++) {
-            jobName.add(list.get(i).getProfName());
+            heavy_job_name.add(list.get(i).getProfName());
         }
+
     }
 
     private class WorkAdapter extends BaseAdapter {
@@ -190,13 +217,18 @@ public class ReportWork extends BaseActivity {
         public int getCount() {
             return listJob.size();
         }
-
+        private int clickTemp = -1;
+        //标识选择的Item
+        public void setSeclection(int position) {
+            clickTemp = position;
+        }
         WorkAdapter(List<String> jobList) {
 
             this.listJob = jobList;
             mInflater = LayoutInflater.from(ReportWork.this);
 
         }
+
 
         @Override
         public Object getItem(int position) {
@@ -215,16 +247,23 @@ public class ReportWork extends BaseActivity {
                 holder = new ViewHolder();
                 convertView = mInflater.inflate(R.layout.grid_item, null);
                 holder.tv_work = (TextView) convertView.findViewById(R.id.tv_work_name);
+                holder.rl_gv= (RelativeLayout) convertView.findViewById(R.id.rl_gv_item);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
             holder.tv_work.setText(listJob.get(position));
+            if (clickTemp == position) {
+                holder.rl_gv.setBackgroundColor(Color.parseColor("#DDDDDD"));
+            } else {
+                holder.rl_gv.setBackgroundColor(Color.TRANSPARENT);
+            }
             return convertView;
         }
     }
 
     class ViewHolder {
         TextView tv_work;
+        RelativeLayout  rl_gv;
     }
 }

@@ -14,6 +14,7 @@
         android:layout_marginTop="35dp">
 
         <AutoCompleteTextView
+            android:maxLength="11"
             android:id="@+id/input_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,6 +32,7 @@
         android:layout_height="wrap_content">
 
         <EditText
+            android:maxLength="16"
             android:id="@+id/input_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

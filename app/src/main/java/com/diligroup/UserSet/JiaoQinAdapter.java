@@ -31,9 +31,6 @@ public class JiaoQinAdapter extends BaseAdapter {
         isSelected = new HashMap<>();
         initDate();
     }
-
-
-
     // 初始化isSelected的数据
     private void initDate() {
         for (int i = 0; i <data_list.size(); i++) {
@@ -76,7 +73,7 @@ public class JiaoQinAdapter extends BaseAdapter {
         LayoutInflater inflater = LayoutInflater.from(mCon);
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.noeat_item,null);
+            convertView = inflater.inflate(R.layout.jiaoqing_item,null);
             holder = new MyViewHolder();
             holder.cb = (CheckBox) convertView.findViewById(R.id.cb_noeat_item);
             holder.tvName = (TextView) convertView.findViewById(R.id.tv_noeat_item);

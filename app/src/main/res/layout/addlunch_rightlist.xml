@@ -6,8 +6,7 @@
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/addlunch_right_icon"
@@ -21,8 +20,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
+            android:layout_alignTop="@id/addlunch_right_icon"
+            android:layout_alignBottom="@id/addlunch_right_icon"
             android:layout_toRightOf="@id/addlunch_right_icon"
             android:orientation="vertical"
             android:paddingRight="10dp">
@@ -31,10 +31,10 @@
                 android:id="@+id/addlunch_dishes_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="胡萝卜"
+                android:maxLength="7"
                 android:textColor="#323232"
                 android:textSize="14sp" />
 
@@ -43,9 +43,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="配料：黄瓜+小葱"
+                android:singleLine="false"
+                android:text="配料：黄瓜+小葱配料：黄瓜+小葱配料：黄瓜+小葱"
                 android:textColor="#B5ADA1"
                 android:textSize="12sp" />
 
@@ -62,35 +61,64 @@
                 android:paddingRight="4dp"
                 android:paddingTop="2dp"
                 android:singleLine="true"
+                android:visibility="gone"
                 android:text="菜品评价"
                 android:textColor="#ff6633"
                 android:textSize="11sp" />
         </LinearLayout>
     </RelativeLayout>
-
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="7dp"
+    android:paddingRight="5dp"
+    android:layout_gravity="bottom">
+    <LinearLayout
+        android:layout_width="80dp"
+        android:layout_height="29dp"
+        android:id="@+id/weightlayout"
+        android:visibility="gone"
+        android:background="@drawable/rectangle_kuang">
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/input_weight"
+            android:layout_height="match_parent"
+            android:background="@null"/>
+        <View android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/common_backgroud"/>
+        <TextView android:layout_width="26dp"
+            android:layout_height="wrap_content"
+            android:text="g"
+            android:gravity="center"
+            android:textColor="#B5ADA1"/>
+    </LinearLayout>
+        
         <LinearLayout
             android:id="@+id/iv_shopping"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="7dp"
-            android:layout_gravity="bottom"
-            android:paddingRight="5dp">
+           android:layout_marginTop="5dp" >
 
             <ImageView
                 android:id="@+id/addlunch_reducedish"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:padding="3dp"
-                android:src="@mipmap/reduce_dishes" />
+                android:visibility="gone"
+                android:src="@mipmap/reduce_pressed" />
 
             <TextView
                 android:id="@+id/addlunch_dishes_num"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="8dp"
-                android:text="2"
                 android:textColor="@color/black1"
                 android:textSize="16sp" />
 
@@ -98,7 +126,9 @@
                 android:id="@+id/addlunch_adddish"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:padding="3dp"
-                android:src="@mipmap/add_dishes" />
+                android:layout_gravity="right"
+                android:layout_marginRight="3dp"
+                android:src="@mipmap/add_dishes_normal" />
         </LinearLayout>
+</LinearLayout>
 </LinearLayout>

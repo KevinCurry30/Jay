@@ -4,9 +4,9 @@ package com.diligroup.net;
  * Created by hjf on 2016/6/27 0027.
  */
 public class Urls {
-//    private static final String HOST="http://192.168.100.67:8181/gateway";
+    private static final String HOST="http://192.168.100.67:8181/gateway";
 
-    private static final String HOST="http://192.168.101.70:8180/gateway";
+//    private static final String HOST="http://192.168.101.77:8181/gateway";
     public  static String BASE=HOST + "/dis/prepose.action";
 
     /*登录*/
@@ -24,6 +24,10 @@ public class Urls {
     public static String GETBANNER=HOST+"/dis/prepose.action";
     public static String UPDATA_USERINFOS=HOST+"/dis/prepose.action";
     public static String DISHEVALUATE=HOST+"/dis/prepose.action";
+    /*获取自定义菜品成品分类 */
+    public static String GET_COSTOMER_FOOD_LIST=HOST+"/dis/prepose.action";
+    /*获取自定义菜品搜索 */
+    public static String COSTOMER_SEARCH=HOST+"/dis/prepose.action";
     /* 上传头像 */
     public static String UPLOAD_PHOTO=HOST+"/dis/uploadByteArray.action";
     /*获取  公共职业信息列表数据*/
@@ -32,4 +36,8 @@ public class Urls {
     public static String GET_NO_EAT=HOST+"/dis/prepose.action";
     /*获取过敏食材*/
     public static String GET_ALLERGY=HOST+"/dis/prepose.action";
+    /* 首页获取门店供应列表 */
+    public static String GET_HOMELIST=HOST+"/dis/prepose.action";
+    /* 自定义根据成品分类查询菜品列表 */
+    public static String CUSTOMER_FINDBY_CATEGORYID=HOST+"/dis/prepose.action";
 }

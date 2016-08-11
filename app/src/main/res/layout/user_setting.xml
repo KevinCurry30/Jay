@@ -32,13 +32,19 @@
             android:text="音效"
             android:textSize="15sp" />
 
-       <Switch
-           android:layout_marginEnd="10dp"
-           android:layout_width="wrap_content"
-           android:layout_centerVertical="true"
+       <ToggleButton
            android:layout_alignParentEnd="true"
-           android:checked="true"
-           android:layout_height="wrap_content" />
+           android:layout_marginEnd="10dp"
+           android:layout_centerVertical="true"
+           android:id="@+id/mTogBtn"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:background="@android:color/transparent"
+           android:button="@drawable/selector_butn_toggle"
+           android:checked="false"
+           android:text=""
+           android:textOff=""
+           android:textOn=""/>
 
     </RelativeLayout>
 
@@ -48,8 +54,8 @@
         android:background="#D7D7D7" />
 
     <RelativeLayout
+        android:clickable="true"
         android:background="@color/white"
-
         android:id="@+id/rl_clearcache"
         android:layout_width="match_parent"
         android:layout_height="60dp">

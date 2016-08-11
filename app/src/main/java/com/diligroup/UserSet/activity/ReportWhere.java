@@ -47,6 +47,7 @@ public class ReportWhere extends BaseActivity {
     @Override
     protected void initViewAndData() {
         isShowBack(true);
+        select_city= select_where.getCity_string();
         select_where.setOnSelectingListener(new CityPicker.OnSelectingListener() {
             @Override
             public void selected(boolean selected) {
@@ -59,8 +60,13 @@ public class ReportWhere extends BaseActivity {
 
     @OnClick(R.id.bt_ok_where)
     public void reportWhere(){
-        ToastUtil.showShort(this,select_city);
+//        ToastUtil.showShort(this,select_city);
         UserInfoBean.getInstance().setHomeAddress(select_city);
+        readyGo(ReportAddress.class);
+    }
+    @OnClick(R.id.bt_later_where)
+    public void reportLater(){
+        UserInfoBean.getInstance().setHomeAddress("");
         readyGo(ReportAddress.class);
     }
 

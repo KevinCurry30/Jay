@@ -18,6 +18,7 @@ public  class UserInfoBean  {
     public String birthday;
     //职业
     public String job;
+    public String jobType;
     //身高
     public String height;
     //体重
@@ -79,7 +80,13 @@ public  class UserInfoBean  {
     public void setJob(String job) {
         this.job = job;
     }
+    public String getJobType() {
+        return jobType;
+    }
 
+    public void setJobType(String jobType) {
+        this.jobType = jobType;
+    }
     public String getHeight() {
         return height;
     }

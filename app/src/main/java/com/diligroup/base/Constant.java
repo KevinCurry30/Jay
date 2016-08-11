@@ -15,6 +15,12 @@ public class Constant {
     public static final String WX_APPSECRET = "6074a64d434a73d24ad44372f3590ce2";
 
     public static final String RESULT_SUCESS = "000000";
-
+    public static  String storeId="1" ;
+    public static  String cityCode="230100" ;//哈尔滨市
+    public static  String cusId="1000198" ;//大学
+    public static  String pageSize="20" ;//
+    public static  String sortCode="230100 " ;//
+    public static String  userNumber;
+    public static int  userId;
 
 }

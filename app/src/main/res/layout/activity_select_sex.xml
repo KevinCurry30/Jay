@@ -2,18 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D7D7D7"
     android:orientation="vertical">
 
     <include layout="@layout/comm_title" />
 
-<include
-    layout="@layout/title_info"/>
+    <include layout="@layout/title_info" />
 
     <RelativeLayout
         android:id="@+id/rl_sex"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="15dp"
+        android:background="@color/white">
 
         <View
             android:id="@+id/line_center"
@@ -24,7 +25,6 @@
             android:background="#DCDCDC" />
 
         <LinearLayout
-            android:clickable="true"
             android:id="@+id/ll_boy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,11 +33,12 @@
             android:layout_toLeftOf="@id/line_center"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/iv_man"
+            <ImageButton
+                android:id="@+id/ib_boy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/iv_sex_boy" />
+                android:background="@drawable/selector_boy"
+               />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -49,8 +50,6 @@
 
 
         <LinearLayout
-            android:clickable="true"
-            android:id="@+id/ll_girl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -58,10 +57,12 @@
             android:layout_toRightOf="@id/line_center"
             android:orientation="vertical">
 
-            <ImageView
+            <ImageButton
+                android:id="@+id/ib_gril"
+                android:background="@drawable/selector_girl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/iv_sex_girl" />
+               />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -74,12 +75,12 @@
     </RelativeLayout>
 
     <Button
-        android:textColor="@color/white"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/em_button_login_bg"
         android:id="@+id/bt_ok_sex"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="确定" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/em_button_login_bg"
+        android:text="确定"
+        android:textColor="@color/white" />
 </LinearLayout>

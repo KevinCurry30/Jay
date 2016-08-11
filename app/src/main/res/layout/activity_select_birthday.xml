@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#D7D7D7"
     >
 
     <include
@@ -11,7 +12,9 @@
     <include
         layout="@layout/title_info"/>
     <DatePicker
-        android:layout_marginTop="15dp"
+
+        android:background="@color/white"
+        android:layout_marginTop="20dp"
         android:id="@+id/data_select"
         android:layoutMode="clipBounds"
         android:calendarViewShown="false"
@@ -22,7 +25,7 @@
     <Button
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:text="获取选定时间"
+        android:text="确定"
         android:id="@+id/bt_getTime"
         android:textColor="@color/white"
         android:background="@drawable/em_button_login_bg"
