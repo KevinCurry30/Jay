@@ -1,5 +1,8 @@
 package com.diligroup.UserSet.activity;
 
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.bean.UserInfoBean;
@@ -7,6 +10,7 @@ import com.diligroup.net.Action;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
 
+import butterknife.Bind;
 import butterknife.OnClick;
 import okhttp3.Request;
 
@@ -16,6 +20,10 @@ import okhttp3.Request;
 public class ReportSex extends BaseActivity {
 
     private int sexMark;
+    @Bind(R.id.ib_boy)
+    CheckBox  cb_boy;
+    @Bind(R.id.ib_gril)
+    CheckBox  cb_girl;
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_select_sex;
@@ -42,19 +50,30 @@ public class ReportSex extends BaseActivity {
     protected void initViewAndData() {
         isShowBack(true);
         sexMark=3;
+        cb_boy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    cb_girl.setChecked(false);
+                    sexMark=1;
+                }else {
+                    sexMark=3;
+                }
+            }
+        });
+        cb_girl.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    cb_boy.setChecked(false);
+                    sexMark=0;
+                }else {
+                    sexMark=3;
+                }
+            }
+        });
     }
 
-
-    @OnClick(R.id.ib_boy)
-    public void reportBoy(){
-            sexMark=1;
-//        ToastUtil.showShort(this,"男");
-    }
-    @OnClick(R.id.ib_gril)
-    public void reportGirl(){
-            sexMark=0;
-//        ToastUtil.showShort(this,"女");
-    }
     @OnClick(R.id.bt_ok_sex)
     public void reportSex(){
         if (sexMark==1||sexMark==0){

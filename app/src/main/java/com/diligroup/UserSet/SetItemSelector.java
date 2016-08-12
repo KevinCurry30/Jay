@@ -24,7 +24,59 @@ public class SetItemSelector {
                 }else {
                     iv_icon.setImageResource(R.drawable.iv_dou_normal);
                 }
+            case 2:
+                if (isClicked){
+                    iv_icon.setImageResource(R.drawable.iv_shucai_pressed);
+                }else {
+                    iv_icon.setImageResource(R.drawable.iv_shucai_normal);
+                }
+            case 3:
+                if (isClicked){
+                    iv_icon.setImageResource(R.drawable.iv_fruit_pressed);
+                }else {
+                    iv_icon.setImageResource(R.drawable.iv_fruit_normal);
+                }
+            case 4:
+                if (isClicked){
+                    iv_icon.setImageResource(R.drawable.iv_jianguo_pressed);
+                }else {
+                    iv_icon.setImageResource(R.drawable.iv_jianguo_normal);
+                }
+            case 5:
+                if (isClicked){
+                    iv_icon.setImageResource(R.drawable.iv_milk_pressed);
+                }else {
+                    iv_icon.setImageResource(R.drawable.iv_milk_normal);
+                }
+            case 6:
+                if (isClicked){
+                    iv_icon.setImageResource(R.drawable.iv_egg_pressed);
+                }else {
+                    iv_icon.setImageResource(R.drawable.iv_egg_normal);
+                }
+            case 7:
+                if (isClicked){
+                    iv_icon.setImageResource(R.drawable.iv_egg_pressed);
+                }else {
+                    iv_icon.setImageResource(R.drawable.iv_dou_normal);
+                }
                 break;
+            case 8:
+                if (isClicked){
+                    iv_icon.setImageResource(R.drawable.iv_egg_pressed);
+                }else {
+                    iv_icon.setImageResource(R.drawable.iv_dou_normal);
+                }
+                break;
+            case 9:
+                if (isClicked){
+                    iv_icon.setImageResource(R.drawable.iv_egg_pressed);
+                }else {
+                    iv_icon.setImageResource(R.drawable.iv_dou_normal);
+                }
+                break;
+
+
         }
     }
 }

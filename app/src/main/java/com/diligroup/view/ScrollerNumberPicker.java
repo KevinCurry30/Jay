@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -13,6 +14,7 @@ import android.os.Message;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.diligroup.R;
 
@@ -406,15 +408,16 @@ public class ScrollerNumberPicker extends View {
 
 		if (linePaint == null) {
 			linePaint = new Paint();
-			linePaint.setColor(lineColor);
+			linePaint.setColor(Color.parseColor("#FCF3E2"));
 			linePaint.setAntiAlias(true);
 			linePaint.setStrokeWidth(1f);
 		}
 
-		canvas.drawLine(0, controlHeight / 2 - unitHeight / 2 + 2,
-				controlWidth, controlHeight / 2 - unitHeight / 2 + 2, linePaint);
-		canvas.drawLine(0, controlHeight / 2 + unitHeight / 2 - 2,
-				controlWidth, controlHeight / 2 + unitHeight / 2 - 2, linePaint);
+//		canvas.drawLine(0, controlHeight / 2 - unitHeight / 2 + 2,
+//				controlWidth, controlHeight / 2 - unitHeight / 2 + 2, linePaint);
+//		canvas.drawLine(0, controlHeight / 2 + unitHeight / 2 - 2,
+//				controlWidth, controlHeight / 2 + unitHeight / 2 - 2, linePaint);
+		canvas.drawRect(0,controlHeight / 2 - unitHeight / 2 + 2,controlWidth,controlHeight / 2 - unitHeight / 2 + 2+unitHeight,linePaint);
 	}
 
 	/**
@@ -672,8 +675,7 @@ public class ScrollerNumberPicker extends View {
 		 * @return
 		 */
 		public boolean isInView() {
-			if (y + move > controlHeight
-					|| (y + move + unitHeight / 2 + textRect.height() / 2) < 0)
+			if (y + move > controlHeight|| (y + move + unitHeight / 2 + textRect.height() / 2) < 0)
 				return false;
 			return true;
 		}

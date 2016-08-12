@@ -8,46 +8,56 @@
 
     <include layout="@layout/comm_title" />
 
-    <android.support.design.widget.TextInputLayout
+    <EditText
+        android:background="@drawable/edit_text_selector"
+        android:maxLength="11"
+        android:id="@+id/input_username"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="35dp">
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="35dp"
+        android:hint="请输入手机号"
+        android:imeActionId="@+id/login"
+        android:imeOptions="actionUnspecified"
+        android:inputType="number"
+        android:paddingLeft="10dp"
+        android:maxLines="1"
+        android:singleLine="true" />
 
-        <AutoCompleteTextView
-            android:maxLength="11"
-            android:id="@+id/input_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:hint="请输入手机号码"
-            android:inputType="number"
-            android:maxLines="1"
-            android:singleLine="true" />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/tv_notice_number"
+        android:textColor="#FE0000"
+        android:textSize="16sp"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="23dp"
+        android:text="手机号码不正确"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:background="@drawable/edit_text_selector"
+        android:maxLength="16"
+        android:layout_height="40dp"
+        android:paddingLeft="10dp"
+        android:id="@+id/input_password"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <EditText
-            android:maxLength="16"
-            android:id="@+id/input_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp"
-            android:hint="请输入密码"
-            android:imeActionId="@+id/login"
-            android:imeActionLabel="登录"
-            android:imeOptions="actionUnspecified"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:singleLine="true" />
-
-    </android.support.design.widget.TextInputLayout>
+        android:layout_marginLeft="20dp"
+        android:inputType="textPassword"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="2dp"
+        android:hint="请输入密码" />
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/tv_notice_password"
+        android:textColor="#FE0000"
+        android:layout_marginTop="6dp"
+        android:textSize="16sp"
+        android:layout_marginLeft="23dp"
+        android:text="手机号码不正确"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <!-- Login progress -->
     <ProgressBar
         android:id="@+id/login_progress"
@@ -63,8 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginRight="23dp"
         android:text="忘记密码" />
 
     <LinearLayout
@@ -94,10 +103,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/em_button_login_bg"
+            android:background="@drawable/bt_regist_selector"
             android:gravity="center"
             android:text="注册"
-            android:textColor="@color/white"
+            android:textColor="#333333"
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>

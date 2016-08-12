@@ -12,7 +12,7 @@
     <RelativeLayout
         android:visibility="invisible"
         android:id="@+id/rl_light"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">
@@ -26,7 +26,7 @@
 
         <TextView
             android:id="@+id/tv_light"
-            android:textSize="12sp"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -40,32 +40,31 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
             android:text="75%时间坐或站立;25%时间站着活动"
             android:textColor="#FF6531" />
     </RelativeLayout>
 
     <GridView
-        android:divider="@color/gray"
-        android:dividerHeight="1dp"
         android:visibility="invisible"
         android:id="@+id/gv_light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:background="@color/white"
-        android:listSelector="@drawable/listitem_selector"
-        android:horizontalSpacing="2dp"
+        android:layout_marginTop="1dp"
+        android:background="#D9D9D9"
+        android:columnWidth="60dp"
         android:numColumns="4"
-        android:scrollbars="none"
+        android:listSelector="@null"
+        android:verticalSpacing="1.0px"
+        android:horizontalSpacing="1.0px"
+        android:soundEffectsEnabled="true"
+        android:smoothScrollbar="true"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="2dp"/>
-
-
-
+      />
     <RelativeLayout
         android:visibility="invisible"
         android:id="@+id/rl_middle"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">
@@ -79,7 +78,7 @@
 
         <TextView
             android:id="@+id/tv_middle"
-            android:textSize="12sp"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -93,31 +92,34 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
             android:text="25%时间坐或站立;75%时间特殊活动"
             android:textColor="#FF6531" />
     </RelativeLayout>
 
     <GridView
-        android:divider="@color/gray"
-        android:dividerHeight="1dp"
+
         android:visibility="invisible"
         android:id="@+id/gv_middle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:background="@color/white"
-        android:horizontalSpacing="2dp"
+        android:layout_marginTop="1dp"
+        android:background="#D9D9D9"
+        android:columnWidth="60dp"
         android:numColumns="4"
-        android:scrollbars="none"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="2dp">
+        android:listSelector="@null"
+        android:verticalSpacing="1.0px"
+        android:horizontalSpacing="1.0px"
+        android:soundEffectsEnabled="true"
+        android:smoothScrollbar="true"
+        android:stretchMode="columnWidth">
 
     </GridView>
 
     <RelativeLayout
         android:visibility="invisible"
         android:id="@+id/rl_heavy"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">
@@ -131,7 +133,7 @@
 
         <TextView
             android:id="@+id/tv_heavy"
-            android:textSize="12sp"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -145,24 +147,26 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
             android:text="40%时间坐或站立;60%时间特殊活动"
             android:textColor="#FF6531" />
     </RelativeLayout>
 
     <GridView
         android:visibility="invisible"
-        android:divider="@color/gray"
-        android:dividerHeight="1dp"
         android:id="@+id/gv_heavy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:background="@color/white"
-        android:horizontalSpacing="2dp"
+        android:layout_marginTop="1dp"
+        android:background="#D9D9D9"
+        android:columnWidth="60dp"
         android:numColumns="4"
-        android:scrollbars="none"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="2dp">
+        android:listSelector="@null"
+        android:verticalSpacing="1.0px"
+        android:horizontalSpacing="1.0px"
+        android:soundEffectsEnabled="true"
+        android:smoothScrollbar="true"
+        android:stretchMode="columnWidth">
     </GridView>
 
     <Button
@@ -172,6 +176,7 @@
         android:id="@+id/bt_commit_work"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:background="@drawable/em_button_login_bg"

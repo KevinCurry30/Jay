@@ -3,8 +3,10 @@ package com.diligroup.login;
 
 import android.os.CountDownTimer;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.baidu.mapapi.map.Text;
 import com.diligroup.R;
@@ -42,6 +44,12 @@ public class RegistActivity extends BaseActivity {
     @Bind(R.id.bt_getcode)
     Button submit;
     private TimeCount time;
+    @Bind(R.id.tv_notice1)
+    TextView tv_notice_phone;
+    @Bind(R.id.tv_notice2)
+    TextView tv_notice_code;
+    @Bind(R.id.tv_notice3)
+    TextView tv_notice_psd;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -80,10 +88,14 @@ public class RegistActivity extends BaseActivity {
                 time.start();// 开始计时
                 Api.getCode(phoneNum, "1", this);
             } else {
-                ToastUtil.showShort(this, "手机号码格式不正确");
+                tv_notice_phone.setVisibility(View.VISIBLE);
+                tv_notice_phone.setText("手机号码格式不正确");
+//                ToastUtil.showShort(this, "手机号码格式不正确");
             }
         } else {
-            ToastUtil.showShort(this, "请输入手机号码");
+            tv_notice_phone.setVisibility(View.VISIBLE);
+            tv_notice_phone.setText("请输入手机号码");
+//            ToastUtil.showShort(this, "请输入手机号码");
         }
     }
 
@@ -100,23 +112,35 @@ public class RegistActivity extends BaseActivity {
                             if (psd.matches("(?=.*[0-9])(?=.*[a-z]).{6,16}")) {
                                 Api.register(phoneNum, DigestUtils.stringMD5(psd), this);
                             } else {
-                                ToastUtil.showShort(this, "请输入6~16数字和字母的组合");
+                                tv_notice_psd.setVisibility(View.VISIBLE);
+                                tv_notice_psd.setText("请输入6~16数字和字母的组合");
+//                                ToastUtil.showShort(this, "请输入6~16数字和字母的组合");
                             }
                         } else {
-                            ToastUtil.showShort(this, "请输入密码");
+                            tv_notice_psd.setVisibility(View.VISIBLE);
+                            tv_notice_psd.setText("请输入密码");
+//                            ToastUtil.showShort(this, "请输入密码");
                         }
                     } else {
-                        ToastUtil.showShort(RegistActivity.this, "验证码不正确");
+                        tv_notice_code.setVisibility(View.VISIBLE);
+                        tv_notice_code.setText("验证码不正确");
+//                        ToastUtil.showShort(RegistActivity.this, "验证码不正确");
                     }
 
                 } else {
-                    ToastUtil.showShort(this, "请输入验证码");
+                    tv_notice_code.setVisibility(View.VISIBLE);
+                    tv_notice_code.setText("请输入验证码");
+//                    ToastUtil.showShort(this, "请输入验证码");
                 }
             } else {
-                ToastUtil.showShort(this, "手机号码格式不正确");
+                tv_notice_phone.setVisibility(View.VISIBLE);
+                tv_notice_phone.setText("手机号码格式不正确");
+//                ToastUtil.showShort(this, "手机号码格式不正确");
             }
         } else {
-            ToastUtil.showShort(this, "请输入手机号码");
+            tv_notice_phone.setVisibility(View.VISIBLE);
+            tv_notice_phone.setText("请输入手机号码");
+//            ToastUtil.showShort(this, "请输入手机号码");
 
         }
     }

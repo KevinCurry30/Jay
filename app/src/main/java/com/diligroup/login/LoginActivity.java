@@ -1,10 +1,12 @@
 package com.diligroup.login;
 
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.diligroup.Home.HomeActivity;
 import com.diligroup.R;
@@ -32,7 +34,7 @@ import okhttp3.Request;
  */
 public class LoginActivity extends BaseActivity {
     @Bind(R.id.input_username)
-    AutoCompleteTextView phoneNumber;
+    EditText phoneNumber;
     @Bind(R.id.input_password)
     EditText et_password;
     @Bind(R.id.login_progress)
@@ -49,6 +51,10 @@ public class LoginActivity extends BaseActivity {
 //    Button bt_login;
     String phoneNum;
     String passdWord;
+    @Bind(R.id.tv_notice_number)
+    TextView tv_number;
+    @Bind(R.id.tv_notice_password)
+    TextView tv_psd;
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_login;
@@ -94,18 +100,23 @@ public class LoginActivity extends BaseActivity {
         if (!TextUtils.isEmpty(phoneNum) ) {
             if (StringUtils.isMobileNumber(phoneNum)){
                 if (!TextUtils.isEmpty(passdWord)) {
-
                     Api.login(phoneNum, DigestUtils.stringMD5(passdWord), this);
                     LogUtils.e(DigestUtils.stringMD5(passdWord));
                 } else {
-                    ToastUtil.showShort(this, "密码不能为空");
+                    tv_psd.setVisibility(View.VISIBLE);
+                    tv_psd.setText("密码不能为空");
+//                    ToastUtil.showShort(this, "密码不能为空");
                 }
             }else{
-                ToastUtil.showShort(this, "手机号码格式不正确");
+                tv_number.setVisibility(View.VISIBLE);
+                tv_number.setText("手机号码格式不正确");
+//                ToastUtil.showShort(this, "手机号码格式不正确");
             }
 
         } else {
-            ToastUtil.showShort(this, "请输入手机号码");
+            tv_number.setVisibility(View.VISIBLE);
+            tv_number.setText("请输入手机号码");
+//            ToastUtil.showShort(this, "请输入手机号码");
         }
 
     }
@@ -155,11 +166,15 @@ public class LoginActivity extends BaseActivity {
                 return;
             }
             if (userInfo.getCode().equals("APP_C010005")){
-                ToastUtil.showShort(this, "密码不正确");
+                tv_psd.setVisibility(View.VISIBLE);
+                tv_psd.setText("密码不正确");
+//                ToastUtil.showShort(this, "密码不正确");
                 return;
             }
             if (userInfo.getCode().equals("APP_C010001")){
-                ToastUtil.showShort(this, "密码不正确");
+                tv_psd.setVisibility(View.VISIBLE);
+                tv_psd.setText("密码不正确");
+//                ToastUtil.showShort(this, "密码不正确");
 
             }
 

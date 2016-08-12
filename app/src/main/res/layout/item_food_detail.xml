@@ -8,7 +8,7 @@
     android:focusable="false"
     android:focusableInTouchMode="false"
     android:layout_alignParentLeft="true"
-    android:layout_margin="15dp"
+    android:layout_margin="12dp"
     android:id="@+id/cb_item_check"
     android:layout_centerVertical="true"
     android:layout_width="wrap_content"
@@ -16,7 +16,7 @@
     <TextView
         android:textColor="@color/black"
         android:id="@+id/tv_nzw_name"
-        android:layout_margin="15dp"
+        android:layout_margin="12dp"
         android:layout_alignParentRight="true"
         android:gravity="end|right"
         android:text="农作物"

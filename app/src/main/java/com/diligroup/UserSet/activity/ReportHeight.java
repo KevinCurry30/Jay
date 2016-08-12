@@ -42,6 +42,7 @@ public class ReportHeight extends BaseActivity {
     @Override
     protected void initViewAndData() {
         isShowBack(true);
+        wheelView.setOffset(3);
         if (UserInfoBean.getInstance().getSex()!=null&&UserInfoBean.getInstance().getSex()==0){
             wheelView.setSeletion(13);
             selectHeight="163";

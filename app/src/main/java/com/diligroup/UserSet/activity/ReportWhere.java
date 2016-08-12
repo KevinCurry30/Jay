@@ -19,7 +19,7 @@ import okhttp3.Request;
  */
 public class ReportWhere extends BaseActivity {
     @Bind(R.id.select_where)
-    CityPicker select_where;
+    CityPicker cityPicker;
     String select_city;
 
     @Override
@@ -37,7 +37,8 @@ public class ReportWhere extends BaseActivity {
     @Override
     public void setTitle() {
         super.setTitle();
-        tv_title.setText("地址");
+        tv_title.setText("籍贯");
+        title_infos.setText("请选择您的籍贯");
     }
 
     @Override
@@ -47,12 +48,13 @@ public class ReportWhere extends BaseActivity {
     @Override
     protected void initViewAndData() {
         isShowBack(true);
-        select_city= select_where.getCity_string();
-        select_where.setOnSelectingListener(new CityPicker.OnSelectingListener() {
+//        cityPicker.set
+        select_city= cityPicker.getCity_string();
+        cityPicker.setOnSelectingListener(new CityPicker.OnSelectingListener() {
             @Override
             public void selected(boolean selected) {
                 if (selected){
-                    select_city= select_where.getCity_string();
+                    select_city= cityPicker.getCity_string();
                 }
             }
         });

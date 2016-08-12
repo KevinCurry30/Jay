@@ -1,6 +1,8 @@
 package com.diligroup.UserSet.activity;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,19 +15,24 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.diligroup.Home.adapter.LeftAdapter;
 import com.diligroup.R;
+import com.diligroup.UserSet.AllergyAdapter;
 import com.diligroup.UserSet.JiaoQinAdapter;
 import com.diligroup.UserSet.SetItemSelector;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.bean.GetAllergyDetailBean;
 import com.diligroup.bean.GetFoodTypeBean;
+import com.diligroup.bean.MyItemClickListener;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
 import com.diligroup.net.Api;
+import com.diligroup.utils.CommonUtils;
 import com.diligroup.utils.FoodTypeUtils;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
+import com.diligroup.view.DividerItemDecoration;
 import com.diligroup.view.FlowLayout;
 import com.diligroup.view.TagAdapter;
 import com.diligroup.view.TagFlowLayout;
@@ -43,7 +50,7 @@ import okhttp3.Request;
 /**
  * 上报 过敏 食材
  */
-public class ReportAllergy extends BaseActivity {
+public class ReportAllergy extends BaseActivity implements MyItemClickListener {
 
     @Bind(R.id.list_foods_detail)
     ListView lv_foodDetail;
@@ -56,11 +63,13 @@ public class ReportAllergy extends BaseActivity {
     List<GetAllergyDetailBean.ListBean> allergyList;
     List<String> foodNameList;
     ViewHolder foodHolder;
-    @Bind(R.id.lv_left)
-    ListView lv_foodType;
+    @Bind(R.id.typwleft_listView)
+    RecyclerView  rv_left;
     //    @Bind(R.id.ll_guleis)
-//    LinearLayout ll_gulei;
+     AllergyAdapter allergyAdapter;
+    //    LinearLayout ll_gulei;
     List<GetFoodTypeBean> typeNameList;
+     DividerItemDecoration dividerItemDecoration;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -96,14 +105,22 @@ public class ReportAllergy extends BaseActivity {
     protected void initViewAndData() {
         isShowBack(true);
 //        Api.getAllergyFood(this);
+        dividerItemDecoration = new DividerItemDecoration(
+                this, DividerItemDecoration.VERTICAL_LIST);
+//        dividerItemDecoration.setWidth(CommonUtils.px2dip(this, 1));
         typeNameList = FoodTypeUtils.GetFoodTypeList();
-        lv_foodType.setAdapter(new FoodTypeAdapter());
+        allergyAdapter = new AllergyAdapter(this, typeNameList,this);
+        rv_left.addItemDecoration(dividerItemDecoration);//垂直列表的分割线
+        rv_left.setHasFixedSize(true);//保持固定大小，提高性能
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        rv_left.setLayoutManager(layoutManager);
+        rv_left.setAdapter(allergyAdapter);
+
         mInflater = LayoutInflater.from(ReportAllergy.this);
         foodIdList = new ArrayList<>();
         foodNameList = new ArrayList<>();
 //        ll_gulei.setPressed(true);
         Api.getAllergyDetails("", this);
-
         lv_foodDetail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -164,81 +181,19 @@ public class ReportAllergy extends BaseActivity {
         }
     }
 
-    class FoodTypeAdapter extends BaseAdapter {
-
-        public FoodTypeAdapter() {
-            selectPosion(0);
+    @Override
+    public void onItemClick(View view, int position) {
+        switch (position){
+            case 0:
+                ToastUtil.showShort(ReportAllergy.this,"Clicked_1");
+                break;
         }
-
-        @Override
-        public int getCount() {
-            return typeNameList.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return typeNameList.get(position);
-        }
-
-        /**
-         * 指定哪一个被选中
-         *
-         * @param position
-         */
-        public void selectPosion(int position) {
-            for (int i = 0; i < typeNameList.size(); i++) {
-                if (i == position) {
-                    typeNameList.get(i).setClicked(true);
-                } else {
-                    typeNameList.get(i).setClicked(false);
-                }
-            }
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            TypeHolder typeHolder;
-            if (convertView == null) {
-                typeHolder = new TypeHolder();
-                convertView = LayoutInflater.from(ReportAllergy.this).inflate(R.layout.item_allergy, null);
-                typeHolder.tv_name = (TextView) convertView.findViewById(R.id.tv_allergy_name);
-                typeHolder.iv_icon = (ImageView) convertView.findViewById(R.id.iv_allergy_icon);
-                typeHolder.ll_item = (LinearLayout) convertView.findViewById(R.id.ll_item_type);
-                convertView.setTag(typeHolder);
-            }
-            typeHolder = (TypeHolder) convertView.getTag();
-            typeHolder.tv_name.setText(typeNameList.get(position).getFoodTypeName());
-            if (typeNameList.get(position).isClicked) {
-                SetItemSelector.setSelector(position, true, typeHolder.iv_icon);
-            } else {
-                SetItemSelector.setSelector(position, false, typeHolder.iv_icon);
-
-            }
-            typeHolder.ll_item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    selectPosion(position);
-                }
-            });
-            return convertView;
-        }
-    }
-
-    class TypeHolder {
-        TextView tv_name;
-        ImageView iv_icon;
-        LinearLayout ll_item;
     }
 
     //  小分类  adapter
     private class FoodAdapter extends BaseAdapter {
         List<GetAllergyDetailBean.ListBean> foodList;
-        private LayoutInflater mInflater;
+//        private LayoutInflater mInflater;
         //Iterator iterator;
         // 用来控制CheckBox的选中状况
         private HashMap<Integer, Boolean> isSelected;
@@ -246,7 +201,7 @@ public class ReportAllergy extends BaseActivity {
         public FoodAdapter(Context context, List<GetAllergyDetailBean.ListBean> foodList) {
             this.foodList = foodList;
             isSelected = new HashMap<>();
-            this.mInflater = LayoutInflater.from(context);
+//            this.mInflater = LayoutInflater.from(context);
 //            iterator = foodIdList.iterator();
             initDate();
         }

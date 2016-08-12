@@ -33,12 +33,13 @@
             android:layout_toLeftOf="@id/line_center"
             android:orientation="vertical">
 
-            <ImageButton
+            <CheckBox
+                android:button="@null"
                 android:id="@+id/ib_boy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_boy"
-               />
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -57,12 +58,13 @@
             android:layout_toRightOf="@id/line_center"
             android:orientation="vertical">
 
-            <ImageButton
+            <CheckBox
+                android:button="@null"
                 android:id="@+id/ib_gril"
                 android:background="@drawable/selector_girl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-               />
+                />
 
             <TextView
                 android:layout_width="wrap_content"

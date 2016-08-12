@@ -215,6 +215,17 @@ public class ReportWork extends BaseActivity {
 
         @Override
         public int getCount() {
+
+
+            if (listJob.size()%4==1){
+                return listJob.size()+3;
+            }
+            if (listJob.size()%4==2){
+                return listJob.size()+2;
+            }
+            if (listJob.size()%4==3){
+                return listJob.size()+1;
+            }
             return listJob.size();
         }
         private int clickTemp = -1;
@@ -242,22 +253,25 @@ public class ReportWork extends BaseActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder = null;
+            ViewHolder holder;
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = mInflater.inflate(R.layout.grid_item, null);
                 holder.tv_work = (TextView) convertView.findViewById(R.id.tv_work_name);
-                holder.rl_gv= (RelativeLayout) convertView.findViewById(R.id.rl_gv_item);
+//                holder.rl_gv= (RelativeLayout) convertView.findViewById(R.id.rl_gv_item);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            holder.tv_work.setText(listJob.get(position));
-            if (clickTemp == position) {
-                holder.rl_gv.setBackgroundColor(Color.parseColor("#DDDDDD"));
-            } else {
-                holder.rl_gv.setBackgroundColor(Color.TRANSPARENT);
+            if (position<listJob.size()){
+                holder.tv_work.setText(listJob.get(position));
             }
+
+//            if (clickTemp == position) {
+//                holder.rl_gv.setBackgroundColor(Color.parseColor("#DDDDDD"));
+//            } else {
+//                holder.rl_gv.setBackgroundColor(Color.TRANSPARENT);
+//            }
             return convertView;
         }
     }
