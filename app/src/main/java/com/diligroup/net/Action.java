@@ -13,6 +13,7 @@ import com.diligroup.bean.GetJiaoQinBean;
 import com.diligroup.bean.GetJobBean;
 import com.diligroup.bean.HomeStoreSupplyList;
 import com.diligroup.bean.ProvingCodeBean;
+import com.diligroup.bean.StoreSupplySearchBean;
 import com.diligroup.bean.UploadInfo;
 import com.diligroup.bean.UserBeanFromService;
 
@@ -35,6 +36,7 @@ public enum Action {
     DISEVALUATE(Urls.DISHEVALUATE),
     /*上传头像*/
     UPLOAD_PHOTO(Urls.UPLOAD_PHOTO),
+    /*获取首页门店供应列表*/
     GET_HOME_LIST(Urls.GET_HOMELIST),
     /*上报更新用户信息*/
     UPDATA_USER_INFOS(Urls.UPDATA_USERINFOS),
@@ -54,6 +56,7 @@ public enum Action {
     GET_DIET_RECORD(Urls.BASE),
     /*自定义菜品搜索*/
     CUSTOMER_SEARCH(Urls.GET_COSTOMER_FOOD_LIST),
+    STORESUPPLY_SEARCH(Urls.GET_HOMELIST),
     CUSTOMER_FIND_BY_CATEGORYID(Urls.CUSTOMER_FINDBY_CATEGORYID),
     /**
      * 获取菜品详情
@@ -114,6 +117,8 @@ public enum Action {
                 return  CustomerSearchResultBean.class;
             case CUSTOMER_FIND_BY_CATEGORYID:
                 return FindFoodByCategory.class;
+            case STORESUPPLY_SEARCH:
+                return StoreSupplySearchBean.class;
         }
         return null;
     }

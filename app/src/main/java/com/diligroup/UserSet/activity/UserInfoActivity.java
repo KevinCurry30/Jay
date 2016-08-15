@@ -106,7 +106,10 @@ public class UserInfoActivity extends BaseActivity {
         rl_time_of_month.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                readyGoForResult(PhysiologicalPeriodActivity.class, 10);
+//                readyGoForResult(PhysiologicalPeriodActivity.class, 10);
+                Intent mIntent =new Intent(UserInfoActivity.this,PhysiologicalPeriodActivity.class);
+                mIntent.putExtra("isFromMy",true);
+                startActivityForResult(mIntent,10);
             }
         });
     }

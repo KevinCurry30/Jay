@@ -34,7 +34,7 @@
             android:textColor="@color/black1"
             android:textSize="16sp" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/addlunche_custome_delete"
             android:layout_width="13.3dp"
             android:layout_height="13.3dp"
@@ -78,7 +78,8 @@
 
             <ListView
                 android:id="@+id/cuostomer_recyclerView"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:background="@color/white"></ListView>
@@ -98,6 +99,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/common_marginleft"
                 android:text="最近搜索"
+                android:id="@+id/cus_nearsearch"
                 android:textColor="@color/black1"
                 android:textSize="11sp" />
 

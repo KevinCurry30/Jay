@@ -12,9 +12,13 @@ import android.widget.RadioGroup;
 import com.diligroup.After.adapter.AddLunchAdapter;
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
+import com.diligroup.bean.AddFoodCompleteBean;
 import com.diligroup.net.Action;
 import com.diligroup.utils.CommonUtils;
 import com.diligroup.utils.NetUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import okhttp3.Request;
@@ -35,6 +39,14 @@ public class AddLunchActivity extends BaseActivity implements RadioGroup.OnCheck
     RadioGroup addlunchRgroup;
     @Bind(R.id.addlunch_tabline)
     View addlunch_tabline;
+    private String currentDay;
+    private String mealType;
+
+    public List<AddFoodCompleteBean> getAddMealList() {
+        return addMealList;
+    }
+
+    private List<AddFoodCompleteBean> addMealList = new ArrayList<>();//已经添加的餐别菜品
 
     @Override
     protected int getContentViewLayoutID() {
@@ -66,10 +78,13 @@ public class AddLunchActivity extends BaseActivity implements RadioGroup.OnCheck
 
     @Override
     protected void initViewAndData() {
+        mealType = getIntent().getStringExtra("mealType");
+        currentDay = getIntent().getStringExtra("currentDay");
+
         addlunchRgroup.check(R.id.addlunch_storeSuppy);
         addlunchRgroup.setOnCheckedChangeListener(this);
-        final LinearLayout.LayoutParams params= (LinearLayout.LayoutParams) addlunch_tabline.getLayoutParams();
-        params.width= CommonUtils.getScreenWidth(this)/2;
+        final LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) addlunch_tabline.getLayoutParams();
+        params.width = CommonUtils.getScreenWidth(this) / 2;
         addlunch_tabline.setLayoutParams(params);
 
         vPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -83,10 +98,10 @@ public class AddLunchActivity extends BaseActivity implements RadioGroup.OnCheck
 
             @Override
             public void onPageSelected(int position) {
-                if(position==0){
+                if (position == 0) {
                     addlunchStoreSuppy.setChecked(true);
                     addlunchCustomer.setChecked(false);
-                }else if(position==1){
+                } else if (position == 1) {
                     addlunchStoreSuppy.setChecked(false);
                     addlunchCustomer.setChecked(true);
                 }
@@ -97,14 +112,14 @@ public class AddLunchActivity extends BaseActivity implements RadioGroup.OnCheck
 
             }
         });
-        AddLunchAdapter adapter = new AddLunchAdapter(getSupportFragmentManager(), this);
+        AddLunchAdapter adapter = new AddLunchAdapter(getSupportFragmentManager(), this, mealType, currentDay);
         vPager.setAdapter(adapter);
         vPager.setCurrentItem(0);
     }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        switch (checkedId){
+        switch (checkedId) {
             case R.id.addlunch_customer:
                 vPager.setCurrentItem(1);
                 break;
@@ -123,4 +138,37 @@ public class AddLunchActivity extends BaseActivity implements RadioGroup.OnCheck
     public void onResponse(Request request, Action action, Object object) {
 
     }
+
+    /**
+     * 添加菜品
+     *wayType“:菜品来源（1自定义，2来自门店）
+     * @param bean
+     */
+    public void addFood(AddFoodCompleteBean bean) {
+        for (int i = 0; i < addMealList.size(); i++) {
+            if (addMealList.get(i).getDishesCode().equals(bean.getDishesCode()) && addMealList.get(i).getWayType().equals(bean.getWayType())) {
+                addMealList.get(i).setWeight(Float.parseFloat(addMealList.get(i).getWeight())+Float.parseFloat(bean.getWeight())+"");
+            }
+            addMealList.add(bean);
+        }
+    }
+
+    /**
+     * 删除菜品
+     *
+     * @param bean
+     */
+    public void deleteFood(AddFoodCompleteBean bean) {
+        if (addMealList.contains(bean)) {
+            for (int i = 0; i < addMealList.size(); i++) {
+                if (addMealList.get(i).getDishesCode().equals(bean.getDishesCode()) && addMealList.get(i).getWayType().equals(bean.getWayType())) {
+                    addMealList.get(i).setWeight(Float.parseFloat(addMealList.get(i).getWeight())-Float.parseFloat(bean.getWeight())+"");
+                }
+                if (Integer.parseInt(addMealList.get(i).getWeight())== 0) {
+                    addMealList.remove(addMealList.get(i));
+                }
+            }
+        }
+    }
+
 }

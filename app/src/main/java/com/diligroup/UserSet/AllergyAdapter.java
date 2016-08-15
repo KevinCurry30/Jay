@@ -62,7 +62,6 @@ public class AllergyAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         MyHomeViewHoder viewHoder = (MyHomeViewHoder) holder;
         viewHoder.dishName.setText(mlist.get(position).getFoodTypeName());
-
         if (mlist.get(position).isClicked()) {
             SetItemSelector.setSelector(position, true, viewHoder.dishIcon);
 //            CommonUtils.showCategoryIcon(Integer.parseInt(mlist.get(position).getFoodTypeName()),viewHoder.dishIcon,true);

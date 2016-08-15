@@ -12,7 +12,8 @@ import android.widget.PopupWindow;
 import com.diligroup.Home.adapter.MealChoiceAdapter;
 import com.diligroup.R;
 import com.diligroup.bean.MyItemClickListener;
-import com.diligroup.view.DividerItemDecoration;
+import com.diligroup.utils.CommonUtils;
+import com.diligroup.utils.LogUtils;
 
 /**
  * Created by hjf on 2016/8/4.
@@ -62,11 +63,8 @@ public class MealChoicePopwindow extends PopupWindow implements MyItemClickListe
 
     private void initAdapter() {
         MealChoiceAdapter adapter=new MealChoiceAdapter(mContext,this);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-                mContext, DividerItemDecoration.VERTICAL_LIST);
-        pop_recyclerview.addItemDecoration(dividerItemDecoration);//垂直列表的分割线
-        pop_recyclerview.setHasFixedSize(true);//保持固定大小，提高性能
 
+        CommonUtils.initRerecyelerView(mContext,pop_recyclerview);
         LinearLayoutManager layoutManager_1 = new LinearLayoutManager(mContext);
         pop_recyclerview.setLayoutManager(layoutManager_1);
         pop_recyclerview.setAdapter(adapter);
@@ -74,7 +72,7 @@ public class MealChoicePopwindow extends PopupWindow implements MyItemClickListe
 
     @Override
     public void onItemClick(View view, int position) {
-//        LogUtils.i("当前点击的item=="+position);
+        LogUtils.i("当前点击的item=="+position);
         listener.onItemClick(view,position);
         this.dismiss();
     }

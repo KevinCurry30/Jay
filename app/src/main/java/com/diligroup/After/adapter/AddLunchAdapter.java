@@ -15,18 +15,22 @@ public class AddLunchAdapter extends FragmentPagerAdapter{
 		super(fm);
 	}
 	private  String[] TITLES;
-	
-	public AddLunchAdapter(FragmentManager fm,Context mContext) {
+
+	String mealType;
+	String whichDay;
+	public AddLunchAdapter(FragmentManager fm,Context mContext,String mealType,String whichDay) {
 		super(fm);
+		this.mealType=mealType;
+		this.whichDay=whichDay;
 		TITLES = new String[]{ mContext.getResources().getString(R.string.store_supply), mContext.getResources().getString(R.string.custoom) };
 	}
 
 	@Override
 	public Fragment getItem(int arg0) {
 		if(arg0==0){
-			return new StoreSupplyFragment().newInstance();
+			return new StoreSupplyFragment().newInstance(mealType,whichDay);
 		}else{
-			return new CustomFragment().newInstance();
+			return new CustomFragment().newInstance(mealType,whichDay);
 		}
 	}
 

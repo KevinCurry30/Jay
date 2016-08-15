@@ -3,6 +3,7 @@ package com.diligroup.net;
 import com.diligroup.base.Constant;
 import com.diligroup.bean.UserInfoBean;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -252,7 +253,7 @@ public class Api {
         map.put("type", "findAll");
         map.put("custId",custId);
         map.put("templateDate", templateDate);
-//        map.put("mealTypeCode", mealTypeCode);
+        map.put("mealTypeCode", mealTypeCode);
 //        map.put("dishesTypeCode", dishesTypeCode);
 //        map.put("currentPage", currentPage);
 //        map.put("pageSize", "10");
@@ -262,7 +263,7 @@ public class Api {
     /**
      * 获取首页门店供应搜索
      */
-    public static void storeSupplySearch(String custId,String templateDate,String dishesName,RequestManager.ResultCallback callback){
+    public static void storeSupplySearch(String custId,String templateDate,String dishesName,RequestManager.ResultCallback callback) throws IOException {
 
         Map<String, String> map = new HashMap<>();
         map.put("transCode", TransCode.HOME_LIST);
@@ -270,7 +271,7 @@ public class Api {
         map.put("custId",custId);
         map.put("templateDate", templateDate);
         map.put("dishesName",dishesName);
-        RequestManager.getInstance().getAsync(Action.GET_HOME_LIST,map,callback);
+        RequestManager.getInstance().getSync(Action.STORESUPPLY_SEARCH,map,callback);
     }
     /**
      * 修改用户信息
@@ -355,7 +356,7 @@ public class Api {
         RequestManager.getInstance().getAsync(Action.GET_DIET_RECORD,map,callback);
     }
 
-    public static void customer_search(String cityCode, String dishName, RequestManager.ResultCallback  callback) {
+    public static void customer_search(String cityCode, String dishName, RequestManager.ResultCallback  callback) throws IOException {
         Map<String, String> map = new HashMap<>();
         map.put("type","findAll");
         map.put("transCode",TransCode.CUSTOMER_SEARCH );

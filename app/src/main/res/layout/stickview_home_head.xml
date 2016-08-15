@@ -4,9 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
-
-    <include layout="@layout/line_view" />
-
     <TextView
         android:id="@+id/sticklist_headtext"
         android:layout_width="match_parent"

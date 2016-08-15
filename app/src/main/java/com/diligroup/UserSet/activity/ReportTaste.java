@@ -5,7 +5,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.diligroup.R;
-import com.diligroup.UserSet.JiaoQinAdapter;
+import com.diligroup.UserSet.ListitemAdapter;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.bean.GetJiaoQinBean;
 import com.diligroup.bean.UserInfoBean;
@@ -29,8 +29,7 @@ public class ReportTaste extends BaseActivity {
     @Bind(R.id.lv_taste)
     ListView lv_taste;
     GetJiaoQinBean tasteBean;
-    JiaoQinAdapter adapter;
-    JiaoQinAdapter.MyViewHolder  holder;
+
     private List<String> id_list;
     List<GetJiaoQinBean.ListBean> tasteBean_list;
 
@@ -63,18 +62,19 @@ public class ReportTaste extends BaseActivity {
         lv_taste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                holder= (JiaoQinAdapter.MyViewHolder) view.getTag();
+                ListitemAdapter.ViewHolder holder= (ListitemAdapter.ViewHolder) view.getTag();
                 holder.cb.toggle();
-                JiaoQinAdapter.getIsSelected().put(position, holder.cb.isChecked());
-                // 调整选定条目
-                if (holder.cb.isChecked()){
-//                    ToastUtil.showShort(ReportTaste.this,"Checked"+holder.foodId);
-                    id_list.add(holder.foodId);
-                }else {
-//                    ToastUtil.showShort(ReportTaste.this,"UnChecked"+holder.foodId);
-                    removeUnChecked(holder.foodId);
-                }
-                LogUtils.e("taste====="+id_list.toString());
+//                lv_taste.setItemChecked(position,true);
+//                JiaoQinAdapter.getIsSelected().put(position, holder.cb.isChecked());
+//                // 调整选定条目
+//                if (holder.cb.isChecked()){
+////                    ToastUtil.showShort(ReportTaste.this,"Checked"+holder.foodId);
+//                    id_list.add(holder.foodId);
+//                }else {
+////                    ToastUtil.showShort(ReportTaste.this,"UnChecked"+holder.foodId);
+//                    removeUnChecked(holder.foodId);
+//                }
+//                LogUtils.e("taste====="+id_list.toString());
             }
         });
     }
@@ -116,7 +116,7 @@ public class ReportTaste extends BaseActivity {
             tasteBean= (GetJiaoQinBean) object;
             id_list=new ArrayList<>();
             tasteBean_list = tasteBean.getList();
-             adapter = new JiaoQinAdapter(this,tasteBean_list);
+            ListitemAdapter adapter = new ListitemAdapter(this,tasteBean_list);
             lv_taste.setAdapter(adapter);
         }
     }

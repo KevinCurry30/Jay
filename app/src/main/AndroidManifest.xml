@@ -47,9 +47,19 @@
         <activity android:name=".login.RegistActivity">
 
         </activity>
-        <activity android:name=".UserSet.activity.ReportBirthday" />
-        <activity android:name=".UserSet.activity.ReportHeight"></activity>
-        <activity android:name=".UserSet.activity.ReportNoeat"></activity>
+        <activity android:name=".UserSet.activity.ReportBirthday" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".UserSet.activity.ReportHeight">
+
+        </activity>
+        <activity android:name=".UserSet.activity.ReportNoeat">
+
+        </activity>
         <activity android:name=".UserSet.activity.ReportOther"></activity>
         <activity android:name=".UserSet.activity.ReportWork">
 
@@ -136,11 +146,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".UserSet.activity.ReportWhere">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".UserSet.activity.ReportHistory"></activity>
         <activity android:name=".UserSet.activity.ReportAddress"></activity>

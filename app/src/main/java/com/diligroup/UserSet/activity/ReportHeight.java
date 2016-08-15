@@ -23,7 +23,6 @@ public class ReportHeight extends BaseActivity {
     @Bind(R.id.wv_height)
     WheelView wheelView;
     String selectHeight;
-
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_select_height;
@@ -43,6 +42,8 @@ public class ReportHeight extends BaseActivity {
     protected void initViewAndData() {
         isShowBack(true);
         wheelView.setOffset(3);
+
+        wheelView.setItems(Arrays.asList(getResources().getStringArray(R.array.height)));
         if (UserInfoBean.getInstance().getSex()!=null&&UserInfoBean.getInstance().getSex()==0){
             wheelView.setSeletion(13);
             selectHeight="163";
@@ -51,7 +52,6 @@ public class ReportHeight extends BaseActivity {
             wheelView.setSeletion(25);
             selectHeight="175";
         }
-        wheelView.setItems(Arrays.asList(getResources().getStringArray(R.array.height)));
 
         wheelView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override

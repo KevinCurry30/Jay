@@ -1,13 +1,16 @@
 package com.diligroup.After.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.diligroup.Home.FoodDetailsActivity;
 import com.diligroup.R;
 import com.diligroup.bean.HomeStoreSupplyList;
 import com.diligroup.utils.CommonUtils;
@@ -63,7 +66,10 @@ public class StoreSupplyRighAdapter extends BaseAdapter implements StickyListHea
 
     @Override
     public long getHeaderId(int position) {
-        return Long.parseLong(rightDishesList.get(position).getHeaderCode());
+        if(position!=rightDishesList.size()){
+            return Long.parseLong(rightDishesList.get(position).getHeaderCode());
+        }
+        return Long.parseLong(rightDishesList.get(position-1).getHeaderCode());
     }
 
     @Override
@@ -96,6 +102,7 @@ public class StoreSupplyRighAdapter extends BaseAdapter implements StickyListHea
             myViewHoder.addlunchReducedish = (ImageView) convertView.findViewById(R.id.addlunch_reducedish);
             myViewHoder.addlunchAdddish = (ImageView) convertView.findViewById(R.id.addlunch_adddish);
             myViewHoder.addlunchDishesNum = (TextView) convertView.findViewById(R.id.addlunch_dishes_num);
+            myViewHoder.root_view = (RelativeLayout) convertView.findViewById(R.id.root_view);
             convertView.setTag(myViewHoder);
         } else {
             myViewHoder = (MyViewHoder) convertView.getTag();
@@ -124,6 +131,7 @@ public class StoreSupplyRighAdapter extends BaseAdapter implements StickyListHea
 
         myViewHoder.addlunchAdddish.setOnClickListener(new MyOnClickListener(position,myViewHoder.addlunchDishesNum));
         myViewHoder.addlunchReducedish.setOnClickListener(new MyOnClickListener(position,null));
+        myViewHoder.root_view.setOnClickListener(new MyOnClickListener(position,null));
         return convertView;
     }
 
@@ -135,6 +143,7 @@ public class StoreSupplyRighAdapter extends BaseAdapter implements StickyListHea
         ImageView addlunchReducedish;//“-”
         TextView addlunchDishesNum;//食物数量
         ImageView addlunchAdddish;//“+”
+        View root_view;//布局
 //
 //
 //        public MyViewHoder() {
@@ -165,6 +174,11 @@ public class StoreSupplyRighAdapter extends BaseAdapter implements StickyListHea
                 case R.id.addlunch_reducedish:
                     rightDishesList.get(position).setFoodNums(rightDishesList.get(position).getFoodNums()-1);
                     notifyDataSetChanged();
+                    break;
+                case R.id.root_view:
+                    Intent mIntent = new Intent(mContext, FoodDetailsActivity.class);
+                    mIntent.putExtra("foodCode", rightDishesList.get(position).getDishesCode());
+                    mContext.startActivity(mIntent);
                     break;
                 default:
                     break;

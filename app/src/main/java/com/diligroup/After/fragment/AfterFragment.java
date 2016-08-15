@@ -62,6 +62,7 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
         Api.getDietRecord("",this);
     }
 
+    //餐别：早餐20001，午餐20002，晚餐20003，夜宵20004，加餐	20005
     @Override
     public int getLayoutXml() {
         return R.layout.fragment_after;
@@ -105,21 +106,24 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
     @OnClick(R.id.ll_breakfast)
     public void clickBreakfast() {
         Intent  intent=new Intent(getActivity(), AddLunchActivity.class);
-        intent.putExtra("","");
+        intent.putExtra("mealType","20001");
+        intent.putExtra("currentDay",homeToday.getText().toString().trim());
         startActivity(intent);
     }
 
     @OnClick(R.id.ll_lunch)
     public void clickLunch() {
         Intent  intent=new Intent(getActivity(), AddLunchActivity.class);
-        intent.putExtra("","");
+        intent.putExtra("mealType","20002");
+        intent.putExtra("currentDay",homeToday.getText().toString().trim());
         startActivity(intent);
     }
 
     @OnClick(R.id.ll_dinner)
     public void clickDinner() {
         Intent  intent=new Intent(getActivity(), AddLunchActivity.class);
-        intent.putExtra("","");
+        intent.putExtra("currentDay",homeToday.getText().toString().trim());
+        intent.putExtra("mealType","20003");
         startActivity(intent);
     }
 

@@ -55,7 +55,7 @@ public class FindFoodByCategory extends CommonBean {
      * zn : 83.7
      */
 
-    private List<DishesLibListBean> dishesLibList;
+    private List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> dishesLibList;
 
     public int getTotalCount() {
         return totalCount;
@@ -65,402 +65,445 @@ public class FindFoodByCategory extends CommonBean {
         this.totalCount = totalCount;
     }
 
-    public List<DishesLibListBean> getDishesLibList() {
+    public List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> getDishesLibList() {
         return dishesLibList;
     }
 
-    public void setDishesLibList(List<DishesLibListBean> dishesLibList) {
+    public void setDishesLibList(List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> dishesLibList) {
         this.dishesLibList = dishesLibList;
     }
 
-    public static class DishesLibListBean {
-        private String allergens;
-        private String headerCode;
-
-        public int getNum() {
-            return num;
-        }
-
-        public void setNum(int num) {
-            this.num = num;
-        }
-
-        private int num;//多少份
-        public String getHeaderCode() {
-            return headerCode;
-        }
-
-        public void setHeaderCode(String headerCode) {
-            this.headerCode = headerCode;
-        }
-
-        public String getHeaderName() {
-            return headerName;
-        }
-
-        public void setHeaderName(String headerName) {
-            this.headerName = headerName;
-        }
-
-        private String headerName;
-        private double ash;
-        private double ca;
-        private double carbohydrates;
-        private double carotene;
-        private double cholesterol;
-        private String createDate;
-        private long createTime;
-        private int creatorId;
-        private double cu;
-        private String dishesCode;
-        private int dishesLibId;
-        private String dishesName;
-        private double energyKC;
-        private double fat;
-        private double fe;
-        private double fiber;
-        private String isCultureFit;
-        private String isPropertyFit;
-        private String isSpaceFit;
-        private double k;
-        private double mg;
-        private double mn;
-        private double na;
-        private double nickAcid;
-        private double p;
-        private int priority;
-        private double proWeight;
-        private double protein;
-        private String remark;
-        private double riboflavin;
-        private double se;
-        private String sortCode;
-        private String status;
-        private double thiamine;
-        private double va;
-        private double vc;
-        private double ve;
-        private double yesuan;
-        private double zn;
-
-        public String getAllergens() {
-            return allergens;
-        }
-
-        public void setAllergens(String allergens) {
-            this.allergens = allergens;
-        }
-
-        public double getAsh() {
-            return ash;
-        }
-
-        public void setAsh(double ash) {
-            this.ash = ash;
-        }
-
-        public double getCa() {
-            return ca;
-        }
-
-        public void setCa(double ca) {
-            this.ca = ca;
-        }
-
-        public double getCarbohydrates() {
-            return carbohydrates;
-        }
-
-        public void setCarbohydrates(double carbohydrates) {
-            this.carbohydrates = carbohydrates;
-        }
-
-        public double getCarotene() {
-            return carotene;
-        }
-
-        public void setCarotene(double carotene) {
-            this.carotene = carotene;
-        }
-
-        public double getCholesterol() {
-            return cholesterol;
-        }
-
-        public void setCholesterol(double cholesterol) {
-            this.cholesterol = cholesterol;
-        }
-
-        public String getCreateDate() {
-            return createDate;
-        }
-
-        public void setCreateDate(String createDate) {
-            this.createDate = createDate;
-        }
-
-        public long getCreateTime() {
-            return createTime;
-        }
-
-        public void setCreateTime(long createTime) {
-            this.createTime = createTime;
-        }
-
-        public int getCreatorId() {
-            return creatorId;
-        }
-
-        public void setCreatorId(int creatorId) {
-            this.creatorId = creatorId;
-        }
-
-        public double getCu() {
-            return cu;
-        }
-
-        public void setCu(double cu) {
-            this.cu = cu;
-        }
-
-        public String getDishesCode() {
-            return dishesCode;
-        }
-
-        public void setDishesCode(String dishesCode) {
-            this.dishesCode = dishesCode;
-        }
-
-        public int getDishesLibId() {
-            return dishesLibId;
-        }
-
-        public void setDishesLibId(int dishesLibId) {
-            this.dishesLibId = dishesLibId;
-        }
-
-        public String getDishesName() {
-            return dishesName;
-        }
-
-        public void setDishesName(String dishesName) {
-            this.dishesName = dishesName;
-        }
-
-        public double getEnergyKC() {
-            return energyKC;
-        }
-
-        public void setEnergyKC(double energyKC) {
-            this.energyKC = energyKC;
-        }
-
-        public double getFat() {
-            return fat;
-        }
-
-        public void setFat(double fat) {
-            this.fat = fat;
-        }
-
-        public double getFe() {
-            return fe;
-        }
-
-        public void setFe(double fe) {
-            this.fe = fe;
-        }
-
-        public double getFiber() {
-            return fiber;
-        }
-
-        public void setFiber(double fiber) {
-            this.fiber = fiber;
-        }
-
-        public String getIsCultureFit() {
-            return isCultureFit;
-        }
-
-        public void setIsCultureFit(String isCultureFit) {
-            this.isCultureFit = isCultureFit;
-        }
-
-        public String getIsPropertyFit() {
-            return isPropertyFit;
-        }
-
-        public void setIsPropertyFit(String isPropertyFit) {
-            this.isPropertyFit = isPropertyFit;
-        }
-
-        public String getIsSpaceFit() {
-            return isSpaceFit;
-        }
-
-        public void setIsSpaceFit(String isSpaceFit) {
-            this.isSpaceFit = isSpaceFit;
-        }
-
-        public double getK() {
-            return k;
-        }
-
-        public void setK(double k) {
-            this.k = k;
-        }
-
-        public double getMg() {
-            return mg;
-        }
-
-        public void setMg(double mg) {
-            this.mg = mg;
-        }
-
-        public double getMn() {
-            return mn;
-        }
-
-        public void setMn(double mn) {
-            this.mn = mn;
-        }
-
-        public double getNa() {
-            return na;
-        }
-
-        public void setNa(double na) {
-            this.na = na;
-        }
-
-        public double getNickAcid() {
-            return nickAcid;
-        }
-
-        public void setNickAcid(double nickAcid) {
-            this.nickAcid = nickAcid;
-        }
-
-        public double getP() {
-            return p;
-        }
-
-        public void setP(double p) {
-            this.p = p;
-        }
-
-        public int getPriority() {
-            return priority;
-        }
-
-        public void setPriority(int priority) {
-            this.priority = priority;
-        }
-
-        public double getProWeight() {
-            return proWeight;
-        }
-
-        public void setProWeight(double proWeight) {
-            this.proWeight = proWeight;
-        }
-
-        public double getProtein() {
-            return protein;
-        }
-
-        public void setProtein(double protein) {
-            this.protein = protein;
-        }
-
-        public String getRemark() {
-            return remark;
-        }
-
-        public void setRemark(String remark) {
-            this.remark = remark;
-        }
-
-        public double getRiboflavin() {
-            return riboflavin;
-        }
-
-        public void setRiboflavin(double riboflavin) {
-            this.riboflavin = riboflavin;
-        }
-
-        public double getSe() {
-            return se;
-        }
-
-        public void setSe(double se) {
-            this.se = se;
-        }
-
-        public String getSortCode() {
-            return sortCode;
-        }
-
-        public void setSortCode(String sortCode) {
-            this.sortCode = sortCode;
-        }
-
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-
-        public double getThiamine() {
-            return thiamine;
-        }
-
-        public void setThiamine(double thiamine) {
-            this.thiamine = thiamine;
-        }
-
-        public double getVa() {
-            return va;
-        }
-
-        public void setVa(double va) {
-            this.va = va;
-        }
-
-        public double getVc() {
-            return vc;
-        }
-
-        public void setVc(double vc) {
-            this.vc = vc;
-        }
-
-        public double getVe() {
-            return ve;
-        }
-
-        public void setVe(double ve) {
-            this.ve = ve;
-        }
-
-        public double getYesuan() {
-            return yesuan;
-        }
-
-        public void setYesuan(double yesuan) {
-            this.yesuan = yesuan;
-        }
-
-        public double getZn() {
-            return zn;
-        }
-
-        public void setZn(double zn) {
-            this.zn = zn;
-        }
-    }
+//    public static class DishesLibListBean {
+//        private String allergens;
+//        private String headerCode;
+//
+//        public boolean isShowWeight() {
+//            return ShowWeight;
+//        }
+//
+//        public void setShowWeight(boolean showWeight) {
+//            this.ShowWeight = showWeight;
+//        }
+//
+//        private boolean ShowWeight;//是否展示菜品重量
+//
+//        public int getNum() {
+//            return num;
+//        }
+//
+//        public void setNum(int num) {
+//            this.num = num;
+//        }
+//
+//        private int num;//多少份
+//        public String getHeaderCode() {
+//            return headerCode;
+//        }
+//
+//        public void setHeaderCode(String headerCode) {
+//            this.headerCode = headerCode;
+//        }
+//
+//        public String getHeaderName() {
+//            return headerName;
+//        }
+//
+//        public void setHeaderName(String headerName) {
+//            this.headerName = headerName;
+//        }
+//
+//        private String headerName;
+//        private double ash;
+//        private double ca;
+//        private double carbohydrates;
+//        private double carotene;
+//        private double cholesterol;
+//        private String createDate;
+//        private long createTime;
+//        private int creatorId;
+//        private double cu;
+//        private String dishesCode;
+//        private int dishesLibId;
+//        private String dishesName;
+//
+//        public IngredientsBean getIngredients() {
+//            return ingredients;
+//        }
+//
+//        public void setIngredients(IngredientsBean ingredients) {
+//            this.ingredients = ingredients;
+//        }
+//
+//        private  IngredientsBean ingredients;
+//        private double energyKC;
+//        private double fat;
+//        private double fe;
+//        private double fiber;
+//        private String isCultureFit;
+//        private String isPropertyFit;
+//        private String isSpaceFit;
+//        private double k;
+//        private double mg;
+//        private double mn;
+//        private double na;
+//        private double nickAcid;
+//        private double p;
+//        private int priority;
+//        private double proWeight;
+//        private double protein;
+//        private String remark;
+//        private double riboflavin;
+//        private double se;
+//        private String sortCode;
+//        private String status;
+//        private double thiamine;
+//        private double va;
+//        private double vc;
+//        private double ve;
+//        private double yesuan;
+//        private double zn;
+//
+//        public String getAllergens() {
+//            return allergens;
+//        }
+//
+//        public void setAllergens(String allergens) {
+//            this.allergens = allergens;
+//        }
+//
+//        public double getAsh() {
+//            return ash;
+//        }
+//
+//        public void setAsh(double ash) {
+//            this.ash = ash;
+//        }
+//
+//        public double getCa() {
+//            return ca;
+//        }
+//
+//        public void setCa(double ca) {
+//            this.ca = ca;
+//        }
+//
+//        public double getCarbohydrates() {
+//            return carbohydrates;
+//        }
+//
+//        public void setCarbohydrates(double carbohydrates) {
+//            this.carbohydrates = carbohydrates;
+//        }
+//
+//        public double getCarotene() {
+//            return carotene;
+//        }
+//
+//        public void setCarotene(double carotene) {
+//            this.carotene = carotene;
+//        }
+//
+//        public double getCholesterol() {
+//            return cholesterol;
+//        }
+//
+//        public void setCholesterol(double cholesterol) {
+//            this.cholesterol = cholesterol;
+//        }
+//
+//        public String getCreateDate() {
+//            return createDate;
+//        }
+//
+//        public void setCreateDate(String createDate) {
+//            this.createDate = createDate;
+//        }
+//
+//        public long getCreateTime() {
+//            return createTime;
+//        }
+//
+//        public void setCreateTime(long createTime) {
+//            this.createTime = createTime;
+//        }
+//
+//        public int getCreatorId() {
+//            return creatorId;
+//        }
+//
+//        public void setCreatorId(int creatorId) {
+//            this.creatorId = creatorId;
+//        }
+//
+//        public double getCu() {
+//            return cu;
+//        }
+//
+//        public void setCu(double cu) {
+//            this.cu = cu;
+//        }
+//
+//        public String getDishesCode() {
+//            return dishesCode;
+//        }
+//
+//        public void setDishesCode(String dishesCode) {
+//            this.dishesCode = dishesCode;
+//        }
+//
+//        public int getDishesLibId() {
+//            return dishesLibId;
+//        }
+//
+//        public void setDishesLibId(int dishesLibId) {
+//            this.dishesLibId = dishesLibId;
+//        }
+//
+//        public String getDishesName() {
+//            return dishesName;
+//        }
+//
+//        public void setDishesName(String dishesName) {
+//            this.dishesName = dishesName;
+//        }
+//
+//        public double getEnergyKC() {
+//            return energyKC;
+//        }
+//
+//        public void setEnergyKC(double energyKC) {
+//            this.energyKC = energyKC;
+//        }
+//
+//        public double getFat() {
+//            return fat;
+//        }
+//
+//        public void setFat(double fat) {
+//            this.fat = fat;
+//        }
+//
+//        public double getFe() {
+//            return fe;
+//        }
+//
+//        public void setFe(double fe) {
+//            this.fe = fe;
+//        }
+//
+//        public double getFiber() {
+//            return fiber;
+//        }
+//
+//        public void setFiber(double fiber) {
+//            this.fiber = fiber;
+//        }
+//
+//        public String getIsCultureFit() {
+//            return isCultureFit;
+//        }
+//
+//        public void setIsCultureFit(String isCultureFit) {
+//            this.isCultureFit = isCultureFit;
+//        }
+//
+//        public String getIsPropertyFit() {
+//            return isPropertyFit;
+//        }
+//
+//        public void setIsPropertyFit(String isPropertyFit) {
+//            this.isPropertyFit = isPropertyFit;
+//        }
+//
+//        public String getIsSpaceFit() {
+//            return isSpaceFit;
+//        }
+//
+//        public void setIsSpaceFit(String isSpaceFit) {
+//            this.isSpaceFit = isSpaceFit;
+//        }
+//
+//        public double getK() {
+//            return k;
+//        }
+//
+//        public void setK(double k) {
+//            this.k = k;
+//        }
+//
+//        public double getMg() {
+//            return mg;
+//        }
+//
+//        public void setMg(double mg) {
+//            this.mg = mg;
+//        }
+//
+//        public double getMn() {
+//            return mn;
+//        }
+//
+//        public void setMn(double mn) {
+//            this.mn = mn;
+//        }
+//
+//        public double getNa() {
+//            return na;
+//        }
+//
+//        public void setNa(double na) {
+//            this.na = na;
+//        }
+//
+//        public double getNickAcid() {
+//            return nickAcid;
+//        }
+//
+//        public void setNickAcid(double nickAcid) {
+//            this.nickAcid = nickAcid;
+//        }
+//
+//        public double getP() {
+//            return p;
+//        }
+//
+//        public void setP(double p) {
+//            this.p = p;
+//        }
+//
+//        public int getPriority() {
+//            return priority;
+//        }
+//
+//        public void setPriority(int priority) {
+//            this.priority = priority;
+//        }
+//
+//        public double getProWeight() {
+//            return proWeight;
+//        }
+//
+//        public void setProWeight(double proWeight) {
+//            this.proWeight = proWeight;
+//        }
+//
+//        public double getProtein() {
+//            return protein;
+//        }
+//
+//        public void setProtein(double protein) {
+//            this.protein = protein;
+//        }
+//
+//        public String getRemark() {
+//            return remark;
+//        }
+//
+//        public void setRemark(String remark) {
+//            this.remark = remark;
+//        }
+//
+//        public double getRiboflavin() {
+//            return riboflavin;
+//        }
+//
+//        public void setRiboflavin(double riboflavin) {
+//            this.riboflavin = riboflavin;
+//        }
+//
+//        public double getSe() {
+//            return se;
+//        }
+//
+//        public void setSe(double se) {
+//            this.se = se;
+//        }
+//
+//        public String getSortCode() {
+//            return sortCode;
+//        }
+//
+//        public void setSortCode(String sortCode) {
+//            this.sortCode = sortCode;
+//        }
+//
+//        public String getStatus() {
+//            return status;
+//        }
+//
+//        public void setStatus(String status) {
+//            this.status = status;
+//        }
+//
+//        public double getThiamine() {
+//            return thiamine;
+//        }
+//
+//        public void setThiamine(double thiamine) {
+//            this.thiamine = thiamine;
+//        }
+//
+//        public double getVa() {
+//            return va;
+//        }
+//
+//        public void setVa(double va) {
+//            this.va = va;
+//        }
+//
+//        public double getVc() {
+//            return vc;
+//        }
+//
+//        public void setVc(double vc) {
+//            this.vc = vc;
+//        }
+//
+//        public double getVe() {
+//            return ve;
+//        }
+//
+//        public void setVe(double ve) {
+//            this.ve = ve;
+//        }
+//
+//        public double getYesuan() {
+//            return yesuan;
+//        }
+//
+//        public void setYesuan(double yesuan) {
+//            this.yesuan = yesuan;
+//        }
+//
+//        public double getZn() {
+//            return zn;
+//        }
+//
+//        public void setZn(double zn) {
+//            this.zn = zn;
+//        }
+//        public static  class IngredientsBean{
+////            "foodName":"",
+////                    "netWeight":0,
+//            private String  foodName;
+//
+//            public String getNetWeight() {
+//                return netWeight;
+//            }
+//
+//            public void setNetWeight(String netWeight) {
+//                this.netWeight = netWeight;
+//            }
+//
+//            public String getFoodName() {
+//                return foodName;
+//            }
+//
+//            public void setFoodName(String foodName) {
+//                this.foodName = foodName;
+//            }
+//
+//            private String  netWeight;
+//        }
+//    }
 }

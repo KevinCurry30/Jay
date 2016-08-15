@@ -113,6 +113,7 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
     private boolean isFromHome;//
     private String homeDate;
     int cycles;//生理期
+    private boolean isFromMy;
 
     @Override
     public void setTitle() {
@@ -141,6 +142,8 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
     protected void initViewAndData() {
         ButterKnife.bind(this);
         isFromHome = getIntent().getBooleanExtra("isFromHome", false);
+        //是否来自用户中心
+        isFromMy = getIntent().getBooleanExtra("isFromMy", false);
         homeDate = getIntent().getStringExtra("currentDate");
         templateDateList = (ArrayList<String>) getIntent().getSerializableExtra("dateList");
         setViews();
@@ -148,6 +151,13 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
     }
 
     private void setViews() {
+        if (isFromMy) {
+            nextStep.setText("确定");
+            say_latter.setVisibility(View.GONE);
+        } else {
+            nextStep.setText("下一步");
+            say_latter.setVisibility(View.VISIBLE);
+        }
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
         if (isFromHome) {
@@ -206,24 +216,36 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
                 enterPrevMonth(gvFlag);
                 break;
             case R.id.nextstep:
-                //如果是第一次录入用户信息，需要跳转到慢性病activity 按钮文字展示“下一步” 否则按钮文字展示确定
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-d");
                 mIntent = new Intent();
+                if(selectDate.size()==0){
+                    ToastUtil.showLong(this,"请选择正确的生理周期");
+                    return;
+                }
                 try {
                     if (formatter.parse(selectDate.get(0)).compareTo(formatter.parse(selectDate.get(1))) > 0) {
                         String temp = selectDate.get(0);
                         selectDate.set(0, selectDate.get(1).substring(5));
                         selectDate.set(1, temp.substring(5));
+                    }else{
+                        selectDate.set(0, selectDate.get(0).substring(5));
+                        selectDate.set(1, selectDate.get(1).substring(5));
                     }
                     mIntent.putExtra("cycle", selectDate);
-                    UserInfoBean.getInstance().setPeriodStartTime(selectDate.get(0));
-                    UserInfoBean.getInstance().setPeriodEndTime(selectDate.get(1));
-                    UserInfoBean.getInstance().setPeriodNum(cycle_num + "");
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                setResult(10, mIntent);
-                this.finish();
+                //如果是第一次录入用户信息，需要跳转reportOtheractivity 按钮文字展示“下一步” 否则按钮文字展示确定
+                if (!isFromMy) {
+                    startActivity(new Intent(this, ReportOther.class));
+                    UserInfoBean.getInstance().setPeriodStartTime(selectDate.get(0));
+                    UserInfoBean.getInstance().setPeriodEndTime(selectDate.get(1));
+                    UserInfoBean.getInstance().setPeriodNum(cycle_num + "");
+                    finish();
+                } else {
+                    setResult(10, mIntent);
+                    this.finish();
+                }
                 break;
             case R.id.add:
                 cycles = Integer.parseInt(cycle_num.getText().toString().trim()) + 1;

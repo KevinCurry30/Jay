@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by hjf on 2016/7/28.
  */
-public class HomeStoreSupplyList extends CommonBean{
+public class HomeStoreSupplyList extends CommonBean {
 
     private JsonBean json;
     /**
@@ -113,6 +113,37 @@ public class HomeStoreSupplyList extends CommonBean{
                 private String dishesName;
                 private String dishesUrl;
 
+                public String getWeight() {
+                    return weight;
+                }
+
+                public void setWeight(String weight) {
+                    this.weight = weight;
+                }
+
+                private String weight;
+
+
+                public boolean isShowWeight() {
+                    return ShowWeight;
+                }
+
+                public void setShowWeight(boolean showWeight) {
+                    this.ShowWeight = showWeight;
+                }
+
+                private boolean ShowWeight;//是否展示菜品重量
+
+                public String getMainFood() {
+                    return mainFood;
+                }
+
+                public void setMainFood(String mainFood) {
+                    this.mainFood = mainFood;
+                }
+
+                private String mainFood;//主要配料
+
                 public int getFoodNums() {
                     return foodNums;
                 }
@@ -142,6 +173,7 @@ public class HomeStoreSupplyList extends CommonBean{
                 }
 
                 private boolean isShow;//是否展示列表评价文字
+
                 public String getHeaderName() {
                     return headerName;
                 }
@@ -179,7 +211,7 @@ public class HomeStoreSupplyList extends CommonBean{
                  * yieldRate : 100
                  */
 
-                private IngredientsBean ingredients;
+                private IngredientsBean ingredients;//菜品的主料
                 private int num;
                 private int proWeight;
                 /**
@@ -200,7 +232,7 @@ public class HomeStoreSupplyList extends CommonBean{
                  * yieldRate : 70
                  */
 
-                private List<AccessoriesListBean> accessoriesList;//具体菜品的配料
+                private List<AccessoriesListBean> accessoriesList;//具体菜品的副料
 
                 public String getDishesCode() {
                     return dishesCode;
@@ -469,7 +501,6 @@ public class HomeStoreSupplyList extends CommonBean{
                     public void setFoodName(String foodName) {
                         this.foodName = foodName;
                     }
-
 
 
                     public int getPriority() {

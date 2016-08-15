@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.diligroup.R;
-import com.diligroup.UserSet.JiaoQinAdapter;
+import com.diligroup.UserSet.ListitemAdapter;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.bean.GetJiaoQinBean;
 import com.diligroup.bean.UserInfoBean;
@@ -42,33 +42,31 @@ public class ReportNoeat extends BaseActivity {
             switch (msg.what) {
                 case 1:
                     datalist = getJiaoQinBean.getList();
-                    JiaoQinAdapter adapter = new JiaoQinAdapter(ReportNoeat.this, datalist);
-                    lv_noeat.setAdapter(adapter);
+//                    JiaoQinAdapter adapter = new JiaoQinAdapter(ReportNoeat.this, datalist);
+                    ListitemAdapter listitemAdapter=new ListitemAdapter(ReportNoeat.this, datalist);
+                    lv_noeat.setAdapter(listitemAdapter);
                     addClicked();
                     break;
             }
         }
 
-        ;
+
     };
 
-    JiaoQinAdapter.MyViewHolder holder;
 
     public void addClicked() {
         lv_noeat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                holder = (JiaoQinAdapter.MyViewHolder) view.getTag();
-//                holder.cb.setEnabled(true);
-                holder.cb.toggle();// 点哪个  就改变哪个checkbox 状态
-                JiaoQinAdapter.getIsSelected().put(position, holder.cb.isChecked());
-                // 调整选定条目
+                ListitemAdapter.ViewHolder holder = (ListitemAdapter.ViewHolder) view.getTag();
+                holder.cb.setEnabled(true);
+//                holder.cb.toggle();// 点哪个  就改变哪个checkbox 状态
                 if (holder.cb.isChecked()) {
-//                    ToastUtil.showShort(ReportNoeat.this, "Checked" + holder.foodId);
+                    ToastUtil.showShort(ReportNoeat.this, "Checked" + holder.foodId);
                     noeat_list.add(holder.foodId);
                 } else {
-//                    ToastUtil.showShort(ReportNoeat.this, "UnChecked" + holder.foodId);
+                    ToastUtil.showShort(ReportNoeat.this, "UnChecked" + holder.foodId);
                     removeUnChecked(holder.foodId);
                 }
                 LogUtils.e("NoEatList=====" + noeat_list.toString());

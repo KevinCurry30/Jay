@@ -11,20 +11,43 @@
         />
     <include
         layout="@layout/title_info"/>
-    <DatePicker
-
-        android:background="@color/white"
+    <LinearLayout
         android:layout_marginTop="20dp"
-        android:id="@+id/data_select"
-        android:layoutMode="clipBounds"
-        android:calendarViewShown="false"
-        android:layout_gravity="center"
         android:layout_width="match_parent"
+        android:orientation="horizontal"
         android:layout_height="wrap_content">
-    </DatePicker>
+        <com.diligroup.view.WheelView
+
+            android:id="@+id/wv_height"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <com.diligroup.view.WheelView
+
+            android:id="@+id/wv_height2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <com.diligroup.view.WheelView
+
+            android:id="@+id/wv_height3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+    <!--<DatePicker-->
+        <!--android:background="@color/white"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:id="@+id/data_select"-->
+        <!--android:layoutMode="clipBounds"-->
+        <!--android:calendarViewShown="false"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+    <!--</DatePicker>-->
     <Button
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:text="确定"
         android:id="@+id/bt_getTime"
         android:textColor="@color/white"

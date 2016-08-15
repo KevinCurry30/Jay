@@ -6,6 +6,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -100,6 +101,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     int mealTypeCode;//餐别
     private int hour;
+    private LinearLayoutManager layoutManager_1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -117,9 +119,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     public void setViews() {
-        dividerItemDecoration = new DividerItemDecoration(
-                getActivity(), DividerItemDecoration.VERTICAL_LIST);
-        dividerItemDecoration.setWidth(CommonUtils.px2dip(getActivity(), 1));
         currentDay = DateUtils.getCurrentDate();
         homeToday.setText(currentDay);
         homeWeekday.setText("(今天 " + DateUtils.getWeekDay() + ")");
@@ -132,6 +131,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         } else {
             select_meal(2);
         }
+
+        CommonUtils.initRerecyelerView(getActivity(),home_left_listView);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        home_left_listView.setLayoutManager(layoutManager);
+        layoutManager_1 = new LinearLayoutManager(getActivity());
+        home_right_recycleView.setLayoutManager(layoutManager_1);
+
+        CommonUtils.initRerecyelerView(getActivity(),home_right_recycleView);
         initDate();
     }
 
@@ -140,7 +147,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         homeFlipper.setOnDisplayChagnedListener(new MyViewFilpper.OnDisplayChagnedListener() {
             @Override
             public void OnDisplayChildChanging(ViewFlipper view, int index) {
-//             LogUtils.i("viewFliper当前index=="+index);
                 switchDottor(index);
             }
         });
@@ -149,7 +155,26 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         homeThisServiceEvaluation.setOnClickListener(this);
         select_store.setOnClickListener(this);
         meal_choice.setOnClickListener(this);
-//        home_right_recycleView.
+        homeFlipper.setOnHoverListener(new View.OnHoverListener() {
+            @Override
+            public boolean onHover(View v, MotionEvent event) {
+                int what = event.getAction();
+                switch(what){
+                    case MotionEvent.ACTION_HOVER_ENTER:  //鼠标进入view
+                        homeFlipper.setAutoStart(false);
+                        System.out.println("bottom ACTION_HOVER_ENTER");
+                        break;
+                    case MotionEvent.ACTION_HOVER_MOVE:  //鼠标在view上
+                        System.out.println("bottom ACTION_HOVER_MOVE");
+                        break;
+                    case MotionEvent.ACTION_HOVER_EXIT:  //鼠标离开view
+                        homeFlipper.setAutoStart(true);
+                        System.out.println("bottom ACTION_HOVER_EXIT");
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -311,15 +336,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 }
                 if (adapter == null) {
                     adapter = new LeftAdapter(getActivity(), dishesTypeList,this);
+                    home_left_listView.setAdapter(adapter);
                 } else {
-                    adapter.notifyDataSetChanged();
+                    adapter.setDate(dishesTypeList);
                 }
-                home_left_listView.addItemDecoration(dividerItemDecoration);//垂直列表的分割线
-                home_left_listView.setHasFixedSize(true);//保持固定大小，提高性能
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                home_left_listView.setLayoutManager(layoutManager);
-                home_left_listView.setAdapter(adapter);
-
                 if (righAdapter == null) {
                     righAdapter = new HomeRighAdapter(getActivity(), dishesTypeList, new MyStickyHeadChangeListener() {
                         @Override
@@ -333,18 +353,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             }
                         }
                     });
+                    final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(righAdapter);
+                    home_right_recycleView.addItemDecoration(headersDecor);
+                    home_right_recycleView.setAdapter(righAdapter);
                 } else {
                     righAdapter.setDate(dishesTypeList);
                 }
-                home_right_recycleView.addItemDecoration(dividerItemDecoration);//垂直列表的分割线
-                home_right_recycleView.setHasFixedSize(true);//保持固定大小，提高性能
-
-                LinearLayoutManager layoutManager_1 = new LinearLayoutManager(getActivity());
-                home_right_recycleView.setLayoutManager(layoutManager_1);
-                home_right_recycleView.setAdapter(righAdapter);
-                // Add the sticky headers decoration
-                final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(righAdapter);
-                home_right_recycleView.addItemDecoration(headersDecor);
             }
         }
     }

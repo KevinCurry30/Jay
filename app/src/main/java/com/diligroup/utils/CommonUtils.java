@@ -3,6 +3,7 @@ package com.diligroup.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -11,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.diligroup.R;
+import com.diligroup.view.DividerItemDecoration;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.PropertyValuesHolder;
 
@@ -224,5 +226,12 @@ public class CommonUtils {
                 }
                 break;
         }
+    }
+    public static void initRerecyelerView(Context mContext,RecyclerView leftListView){
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
+                mContext, DividerItemDecoration.VERTICAL_LIST);
+        dividerItemDecoration.setWidth(CommonUtils.px2dip(mContext, 1));
+        leftListView.addItemDecoration(dividerItemDecoration);//垂直列表的分割线
+        leftListView.setHasFixedSize(true);//保持固定大小，提高性能
     }
 }

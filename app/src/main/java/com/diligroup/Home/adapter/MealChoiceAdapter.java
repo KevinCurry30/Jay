@@ -2,6 +2,7 @@ package com.diligroup.Home.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.diligroup.R;
 import com.diligroup.bean.MyItemClickListener;
+import com.diligroup.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +30,9 @@ public class MealChoiceAdapter extends RecyclerView.Adapter {
     private List<MealChoice> mList;
     MyItemClickListener listener;
 
-    public MealChoiceAdapter(Context mContext,MyItemClickListener listener) {
+    public MealChoiceAdapter(Context mContext, MyItemClickListener listener) {
         this.mContext = mContext;
-        this.listener=listener;
+        this.listener = listener;
         initDate();
     }
 
@@ -59,16 +61,66 @@ public class MealChoiceAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = View.inflate(mContext, R.layout.layout_pop_mealchoice_item, null);
-        RecyclerView.ViewHolder viewHolder = new MyViewHolder(view,listener);
+        RecyclerView.ViewHolder viewHolder = new MyViewHolder(view, listener);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         MyViewHolder myViewHolder = (MyViewHolder) holder;
         myViewHolder.popMealText.setText(mList.get(position).getIconName());
         myViewHolder.popMealIcon.setImageResource(mList.get(position).getIcon());
 
+
+        holder.itemView.setFocusable(true);
+        holder.itemView.setTag(position);
+        holder.itemView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int what = event.getAction();
+                int currentPosition = (int) holder.itemView.getTag();
+                switch(what){
+                    case MotionEvent.ACTION_DOWN:  //鼠标进入view
+                        for (int i = 0; i < mList.size(); i++) {
+                            if (i ==currentPosition) {
+                                mList.get(i).setSelected(true);
+                            } else {
+                                mList.get(i).setSelected(false);
+                            }
+                        }
+                        notifyDataSetChanged();
+                        LogUtils.i("bottom ACTION_down");
+                        break;
+                    case MotionEvent.ACTION_MOVE:  //鼠标在view上
+                        LogUtils.i("bottom ACTION_HOVER_MOVE");
+                        break;
+                    case MotionEvent.ACTION_UP:  //鼠标离开view
+                        if (listener != null)
+                            listener.onItemClick(v,position);
+                        LogUtils.i("bottom ACTION_up");
+                        break;
+                }
+                return true;
+            }
+        });
+        myViewHolder.itemView.setOnHoverListener(new View.OnHoverListener() {
+            @Override
+            public boolean onHover(View v, MotionEvent event) {
+                int what = event.getAction();
+                switch(what){
+                    case MotionEvent.ACTION_HOVER_ENTER:  //鼠标进入view
+                        System.out.println("bottom ACTION_HOVER_ENTER");
+                        break;
+                    case MotionEvent.ACTION_HOVER_MOVE:  //鼠标在view上
+                        System.out.println("bottom ACTION_HOVER_MOVE");
+                        break;
+                    case MotionEvent.ACTION_HOVER_EXIT:  //鼠标离开view
+                        System.out.println("bottom ACTION_HOVER_EXIT");
+                        break;
+                }
+                return false;
+            }
+        });
         if (mList.get(position).isSelected) {
             myViewHolder.pop_meal_root.setBackgroundColor(mContext.getResources().getColor(R.color.common_green));
             myViewHolder.popMealIcon.setImageResource(selectedIcon[position]);
@@ -101,17 +153,9 @@ public class MealChoiceAdapter extends RecyclerView.Adapter {
             pop_meal_root.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(listener!=null)
-                    listener.onItemClick(v, getPosition());
-                    for(int i=0;i<mList.size();i++){
-                        if(i==getPosition()){
-                            mList.get(i).setSelected(true);
-                        }else{
-                            mList.get(i).setSelected(false);
-                        }
+                    if (listener != null)
+                        listener.onItemClick(v, getPosition());
                     }
-                    notifyDataSetChanged();
-                }
             });
         }
     }

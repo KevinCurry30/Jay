@@ -9,6 +9,7 @@
     <include layout="@layout/title_info"/>
 <ListView
     android:background="@color/white"
+    android:choiceMode="multipleChoice"
     android:layout_weight="8"
     android:layout_marginTop="15dp"
     android:id="@+id/list_no_eat"

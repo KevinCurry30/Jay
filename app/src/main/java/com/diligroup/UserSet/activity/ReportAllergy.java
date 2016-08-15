@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.diligroup.Home.adapter.LeftAdapter;
 import com.diligroup.R;
 import com.diligroup.UserSet.AllergyAdapter;
-import com.diligroup.UserSet.JiaoQinAdapter;
 import com.diligroup.UserSet.SetItemSelector;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.bean.GetAllergyDetailBean;

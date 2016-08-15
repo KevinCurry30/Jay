@@ -38,12 +38,12 @@ import okhttp3.Response;
 public class RequestManager {
 
     private static RequestManager mInstance;
-    private static OkHttpClient okHttpClient;
+    private  OkHttpClient okHttpClient;
     private Gson mGson;
     private Handler mDelivery;
 
-    private static final String TAG = RequestManager.class.getSimpleName();
-    private static final String TYPE = "com.diligroup.net.RequestManager$TestCallback";
+    private  final String TAG = RequestManager.class.getSimpleName();
+    private  final String TYPE = "com.diligroup.net.RequestManager$TestCallback";
     private SharedPreferenceUtil sp;
 
     private RequestManager() {
@@ -99,17 +99,27 @@ public class RequestManager {
     /**
      * 同步的get请求
      *
-     * @param url
+     * @param
      * @return
      * @throws IOException
      */
-    public Response getSync(String url) throws IOException {
-        final Request request = new Request.Builder()
-                .url(url)
-                .build();
-        Call call = okHttpClient.newCall(request);
-        Response execute = call.execute();
-        return execute;
+//    public Response getSync(String url) throws IOException {
+//        final Request request = new Request.Builder()
+//                .url(url)
+//                .build();
+//        Call call = okHttpClient.newCall(request);
+//        Response execute = call.execute();
+//        return execute;
+//    }
+    public void getSync(Action action,Map<String ,String> params,ResultCallback callback) throws IOException {
+//        final Request request = new Request.Builder()
+//                .url(url)
+//                .build();
+//        Call call = okHttpClient.newCall(request);
+//        Response execute = call.execute();
+        Request request = buildGetParams(action.getValue(), params,false);
+        deliveryResult(action, callback, request);
+//        return execute;
     }
 
 
@@ -382,7 +392,7 @@ public class RequestManager {
             public void onResponse(Call call, Response response) {
                 boolean cache = getCacheTag(call);
                 try {
-                    final String string = response.body().string();
+                     String string = response.body().string();
                     boolean isSuccess = response.isSuccessful();
                     int code = response.code();
                     String message = response.message();
@@ -532,7 +542,7 @@ public class RequestManager {
         public abstract void onResponse(Request request, Action action, Object object);
     }
 
-    private static Type getType(Class<?> subclass){
+    private  Type getType(Class<?> subclass){
         Type[] interfaces = subclass.getGenericInterfaces();
         int len = interfaces.length;
 
@@ -551,7 +561,7 @@ public class RequestManager {
     /**
      * 取消所有网络请求
      */
-    public static void cancelAll(){
+    public  void cancelAll(){
         Dispatcher dispatcher = okHttpClient.dispatcher();
         dispatcher.cancelAll();
     }

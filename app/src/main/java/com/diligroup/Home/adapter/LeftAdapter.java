@@ -31,6 +31,10 @@ public class LeftAdapter extends RecyclerView.Adapter {
         this.listener=listener;
         initDate(mlist);
     }
+    public void setDate(List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> mlist){
+        this.mlist=mlist;
+        notifyDataSetChanged();
+    }
 
     private void initDate(List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> mlist) {
         if (mlist != null && mlist.size() > 0) {

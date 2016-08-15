@@ -137,6 +137,7 @@ public class HomeRighAdapter extends RecyclerView.Adapter implements StickyRecyc
                     break;
                 case R.id.home_right_view:
                     mIntent = new Intent(mContext, FoodDetailsActivity.class);
+                    mIntent.putExtra("foodCode",rightDishesList.get(position).getDishesCode());
                     mContext.startActivity(mIntent);
                     break;
             }

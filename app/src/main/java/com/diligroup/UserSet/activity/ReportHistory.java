@@ -5,7 +5,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.diligroup.R;
-import com.diligroup.UserSet.JiaoQinAdapter;
+import com.diligroup.UserSet.ListitemAdapter;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.bean.GetJiaoQinBean;
 import com.diligroup.bean.UserInfoBean;
@@ -29,8 +29,6 @@ public class ReportHistory extends BaseActivity {
     @Bind(R.id.lv_history)
     ListView lv_history;
     GetJiaoQinBean historyBean;
-    JiaoQinAdapter adapter;
-    JiaoQinAdapter.MyViewHolder  holder;
     private List<String> id_list;
     List<GetJiaoQinBean.ListBean> hisList;
 
@@ -78,10 +76,11 @@ public class ReportHistory extends BaseActivity {
         lv_history.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                holder= (JiaoQinAdapter.MyViewHolder) view.getTag();
-                holder.cb.toggle();
-                JiaoQinAdapter.getIsSelected().put(position, holder.cb.isChecked());
-                // 调整选定条目
+             ListitemAdapter.ViewHolder   holder= (ListitemAdapter.ViewHolder) view.getTag();
+                holder.cb.setEnabled(true);
+
+//                JiaoQinAdapter.getIsSelected().put(position, holder.cb.isChecked());
+//                // 调整选定条目
                 if (holder.cb.isChecked()){
 //                    ToastUtil.showShort(ReportHistory.this,"Checked"+holder.foodId);
                     id_list.add(holder.foodId);
@@ -112,7 +111,7 @@ public class ReportHistory extends BaseActivity {
             historyBean= (GetJiaoQinBean) object;
             id_list=new ArrayList<>();
             hisList = historyBean.getList();
-            adapter = new JiaoQinAdapter(this,hisList);
+            ListitemAdapter   adapter = new ListitemAdapter(this,hisList);
             lv_history.setAdapter(adapter);
         }
     }

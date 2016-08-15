@@ -43,7 +43,7 @@
         <TextView
             android:paddingLeft="20dp"
             android:layout_centerVertical="true"
-            android:textSize="12sp"
+            android:textSize="18sp"
             android:layout_toRightOf="@id/iv_user_icon"
             android:textColor="@color/black"
             android:text="我的资料"
@@ -79,7 +79,7 @@
         <TextView
             android:paddingLeft="20dp"
             android:layout_centerVertical="true"
-            android:textSize="12sp"
+            android:textSize="18sp"
             android:layout_toRightOf="@id/iv_set"
             android:textColor="@color/black"
             android:text="设置"
@@ -115,7 +115,7 @@
         <TextView
             android:paddingLeft="20dp"
             android:layout_centerVertical="true"
-            android:textSize="12sp"
+            android:textSize="18sp"
             android:layout_toRightOf="@id/iv_service"
             android:textColor="@color/black"
             android:text="服务中心"
@@ -140,7 +140,7 @@
         android:layout_marginLeft="10dp"
         android:padding="10dp"
         android:textColor="@color/black"
-        android:textSize="12sp"
+        android:textSize="15sp"
         android:text="请输入您的宝贵意见 :"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
