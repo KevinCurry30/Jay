@@ -56,6 +56,9 @@ public enum Action {
     GET_DIET_RECORD(Urls.BASE),
     /*自定义菜品搜索*/
     CUSTOMER_SEARCH(Urls.GET_COSTOMER_FOOD_LIST),
+    /*添加菜品完成接口*/
+    ADD_FOOD_COMPLETE(Urls.BASE),
+    /*门店供应搜索*/
     STORESUPPLY_SEARCH(Urls.GET_HOMELIST),
     CUSTOMER_FIND_BY_CATEGORYID(Urls.CUSTOMER_FINDBY_CATEGORYID),
     /**
@@ -119,6 +122,8 @@ public enum Action {
                 return FindFoodByCategory.class;
             case STORESUPPLY_SEARCH:
                 return StoreSupplySearchBean.class;
+            case ADD_FOOD_COMPLETE:
+                return CommonBean.class;
         }
         return null;
     }

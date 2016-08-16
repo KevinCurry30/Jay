@@ -54,11 +54,12 @@
             android:layout_marginBottom="10dp"
             android:id="@+id/bt_getcode"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:textSize="18sp"
+            android:layout_height="40dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="6dp"
             android:layout_weight="4"
-            android:background="@drawable/em_button_login_bg"
+            android:background="@drawable/bg_get_code"
             android:text="获取验证码"
             android:textColor="@color/white" />
     </LinearLayout>

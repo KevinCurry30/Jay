@@ -1,5 +1,7 @@
 package com.diligroup.UserSet.activity;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -36,13 +38,14 @@ public class ReportNoeat extends BaseActivity {
     StringBuilder builder;
     List<String> noeat_list;
     GetJiaoQinBean getJiaoQinBean;
+    Boolean isFrist;
+    Bundle bundle;
     private Handler mHandler = new Handler() {
 
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
                     datalist = getJiaoQinBean.getList();
-//                    JiaoQinAdapter adapter = new JiaoQinAdapter(ReportNoeat.this, datalist);
                     ListitemAdapter listitemAdapter=new ListitemAdapter(ReportNoeat.this, datalist);
                     lv_noeat.setAdapter(listitemAdapter);
                     addClicked();
@@ -63,10 +66,10 @@ public class ReportNoeat extends BaseActivity {
                 holder.cb.setEnabled(true);
 //                holder.cb.toggle();// 点哪个  就改变哪个checkbox 状态
                 if (holder.cb.isChecked()) {
-                    ToastUtil.showShort(ReportNoeat.this, "Checked" + holder.foodId);
+//                    ToastUtil.showShort(ReportNoeat.this, "Checked" + holder.foodId);
                     noeat_list.add(holder.foodId);
                 } else {
-                    ToastUtil.showShort(ReportNoeat.this, "UnChecked" + holder.foodId);
+//                    ToastUtil.showShort(ReportNoeat.this, "UnChecked" + holder.foodId);
                     removeUnChecked(holder.foodId);
                 }
                 LogUtils.e("NoEatList=====" + noeat_list.toString());
@@ -102,6 +105,10 @@ public class ReportNoeat extends BaseActivity {
     protected void initViewAndData() {
         isShowBack(true);
         Api.getNoEatFood(this);
+        Intent intent = getIntent();
+        bundle = intent.getExtras();
+        isFrist = bundle.getBoolean("isFrist");
+
         datalist = new ArrayList<>();
         noeat_list = new ArrayList<>();
 
@@ -109,14 +116,16 @@ public class ReportNoeat extends BaseActivity {
 
     @OnClick(R.id.bt_ok_noeat)
     public void reportNoeat() {
-        String s = noeat_list.toString().replaceAll(" ", "");
-        String s2 = s.substring(1, s.length() - 1);
-        if (!TextUtils.isEmpty(s2)) {
-//            ToastUtil.showShort(ReportNoeat.this, s2);
-            UserInfoBean.getInstance().setNoEatFood(s2);
-            readyGo(ReportAllergy.class);
+        if (isFrist){
+            String s = noeat_list.toString().replaceAll(" ", "");
+            String s2 = s.substring(1, s.length() - 1);
+            if (!TextUtils.isEmpty(s2)) {
+                UserInfoBean.getInstance().setNoEatFood(s2);
+                readyGo(ReportAllergy.class,bundle);
+            }
+        }else{
+            readyGo(UserInfoActivity.class);
         }
-
     }
 
     public void removeUnChecked(String foodId) {

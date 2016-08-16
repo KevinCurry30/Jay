@@ -1,6 +1,8 @@
 package com.diligroup.UserSet.activity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -70,6 +72,9 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
     List<GetFoodTypeBean> typeNameList;
      DividerItemDecoration dividerItemDecoration;
 
+
+    Boolean isFrist;
+    Bundle bundle;
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_report_allergy;
@@ -90,8 +95,13 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
      **/
     @OnClick(R.id.bt_commit_allergy)
     public void reportAllergy() {
-        UserInfoBean.getInstance().setAllergyFood("");
-        readyGo(ReportWhere.class);
+        if (isFrist){
+            UserInfoBean.getInstance().setAllergyFood("");
+            readyGo(ReportWhere.class,bundle);
+            return;
+        }
+        readyGo(UserInfoActivity.class);
+
     }
 
     @Override
@@ -104,6 +114,9 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
     protected void initViewAndData() {
         isShowBack(true);
 //        Api.getAllergyFood(this);
+        Intent intent = getIntent();
+        bundle = intent.getExtras();
+        isFrist = bundle.getBoolean("isFrist");
         dividerItemDecoration = new DividerItemDecoration(
                 this, DividerItemDecoration.VERTICAL_LIST);
 //        dividerItemDecoration.setWidth(CommonUtils.px2dip(this, 1));
@@ -184,7 +197,17 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
     public void onItemClick(View view, int position) {
         switch (position){
             case 0:
-                ToastUtil.showShort(ReportAllergy.this,"Clicked_1");
+                Api.getAllergyDetails("", this);
+                break;
+//                ToastUtil.showShort(ReportAllergy.this,"Clicked_1"); break;
+            case 1:
+//                ToastUtil.showShort(ReportAllergy.this,"Clicked_1"); break;
+            case 2:
+//                ToastUtil.showShort(ReportAllergy.this,"Clicked_1"); break;
+            case 3:
+//                ToastUtil.showShort(ReportAllergy.this,"Clicked_1"); break;
+            case 4:
+//                ToastUtil.showShort(ReportAllergy.this,"Clicked_1");
                 break;
         }
     }

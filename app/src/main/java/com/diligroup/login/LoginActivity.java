@@ -1,5 +1,6 @@
 package com.diligroup.login;
 
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -24,6 +25,7 @@ import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.SharedPreferenceUtil;
 import com.diligroup.utils.StringUtils;
 import com.diligroup.utils.ToastUtil;
+import com.diligroup.view.TogglePasswordVisibilityEditText;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -36,7 +38,7 @@ public class LoginActivity extends BaseActivity {
     @Bind(R.id.input_username)
     EditText phoneNumber;
     @Bind(R.id.input_password)
-    EditText et_password;
+    TogglePasswordVisibilityEditText  et_password;
     @Bind(R.id.login_progress)
     ProgressBar loginProgress;
 //    @Bind(R.id.bt_regist)
@@ -98,24 +100,27 @@ public class LoginActivity extends BaseActivity {
           phoneNum = phoneNumber.getText().toString();
          passdWord = et_password.getText().toString();
         if (!TextUtils.isEmpty(phoneNum) ) {
+            tv_number.setVisibility(View.INVISIBLE);
             if (StringUtils.isMobileNumber(phoneNum)){
+                tv_number.setVisibility(View.INVISIBLE);
                 if (!TextUtils.isEmpty(passdWord)) {
+                    tv_psd.setVisibility(View.INVISIBLE);
                     Api.login(phoneNum, DigestUtils.stringMD5(passdWord), this);
                     LogUtils.e(DigestUtils.stringMD5(passdWord));
                 } else {
                     tv_psd.setVisibility(View.VISIBLE);
-                    tv_psd.setText("密码不能为空");
+                    tv_psd.setText("密码不能为空!");
 //                    ToastUtil.showShort(this, "密码不能为空");
                 }
             }else{
                 tv_number.setVisibility(View.VISIBLE);
-                tv_number.setText("手机号码格式不正确");
+                tv_number.setText("手机号码格式不正确!");
 //                ToastUtil.showShort(this, "手机号码格式不正确");
             }
 
         } else {
             tv_number.setVisibility(View.VISIBLE);
-            tv_number.setText("请输入手机号码");
+            tv_number.setText("请输入手机号码!");
 //            ToastUtil.showShort(this, "请输入手机号码");
         }
 
@@ -134,7 +139,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void onError(Request request, Action action, Exception e) {
             if (action== Action.LOGIN){
-                ToastUtil.showShort(LoginActivity.this,"登录失败，服务器出问题了");
+                ToastUtil.showShort(LoginActivity.this,"登录失败，服务器出问题了!");
                 LogUtils.e(e.getMessage());
             }
     }
@@ -145,6 +150,7 @@ public class LoginActivity extends BaseActivity {
         if (object != null&& action== Action.LOGIN) {
              userInfo= (UserBeanFromService) object;
             if (userInfo.getCode().equals("000000")) {
+                tv_psd.setVisibility(View.INVISIBLE);
                 spUtils.putString("phoneNum",phoneNum);
                 spUtils.putString("passWord",passdWord);
                 Constant.userNumber=userInfo.getUser().getMobileNum();
@@ -153,7 +159,9 @@ public class LoginActivity extends BaseActivity {
 //                UserInfoBean.getInstance().setBirthday(userInfo.getUser().getBirthday());
  //             如果是第一次登陆用户信息为kong则填写用户信息 否则进入首页面
                 if (TextUtils.isEmpty(userInfo.getUser().getBirthday())){
-                    readyGo(ReportSex.class);
+                    Bundle bundle =new Bundle();
+                    bundle.putBoolean("isFrist",true);
+                    readyGo(ReportSex.class,bundle);
                     AppManager.getAppManager().finishActivity(this);
                 }else{
                     UserInfoBean.getInstance().setBirthday(userInfo.getUser().getBirthday());
@@ -167,13 +175,13 @@ public class LoginActivity extends BaseActivity {
             }
             if (userInfo.getCode().equals("APP_C010005")){
                 tv_psd.setVisibility(View.VISIBLE);
-                tv_psd.setText("密码不正确");
+                tv_psd.setText("密码不正确!");
 //                ToastUtil.showShort(this, "密码不正确");
                 return;
             }
             if (userInfo.getCode().equals("APP_C010001")){
                 tv_psd.setVisibility(View.VISIBLE);
-                tv_psd.setText("密码不正确");
+                tv_psd.setText("密码不正确!");
 //                ToastUtil.showShort(this, "密码不正确");
 
             }

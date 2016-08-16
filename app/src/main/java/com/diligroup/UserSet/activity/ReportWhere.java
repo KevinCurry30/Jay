@@ -1,5 +1,8 @@
 package com.diligroup.UserSet.activity;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import com.diligroup.R;
@@ -21,7 +24,10 @@ public class ReportWhere extends BaseActivity {
     @Bind(R.id.select_where)
     CityPicker cityPicker;
     String select_city;
-
+    Boolean isFrist;
+    Bundle bundle;
+    @Bind(R.id.bt_later_where)
+    Button bt_later_report;
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_select_where;
@@ -48,6 +54,13 @@ public class ReportWhere extends BaseActivity {
     @Override
     protected void initViewAndData() {
         isShowBack(true);
+
+        Intent intent = getIntent();
+        bundle = intent.getExtras();
+        isFrist = bundle.getBoolean("isFrist");
+        if (isFrist) {
+            bt_later_report.setVisibility(View.GONE);
+        }
 //        cityPicker.set
         select_city= cityPicker.getCity_string();
         cityPicker.setOnSelectingListener(new CityPicker.OnSelectingListener() {
@@ -63,13 +76,18 @@ public class ReportWhere extends BaseActivity {
     @OnClick(R.id.bt_ok_where)
     public void reportWhere(){
 //        ToastUtil.showShort(this,select_city);
-        UserInfoBean.getInstance().setHomeAddress(select_city);
-        readyGo(ReportAddress.class);
+        if (isFrist){
+            UserInfoBean.getInstance().setHomeAddress(select_city);
+            readyGo(ReportAddress.class,bundle);
+            return;
+        }
+        readyGo(UserInfoActivity.class);
+
     }
     @OnClick(R.id.bt_later_where)
     public void reportLater(){
         UserInfoBean.getInstance().setHomeAddress("");
-        readyGo(ReportAddress.class);
+        readyGo(UserInfoActivity.class);
     }
 
     @Override

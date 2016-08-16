@@ -61,7 +61,9 @@ public class ModifyPSDActivity extends BaseActivity {
         phoneNumber = et_phone.getText().toString();
 
         if (!TextUtils.isEmpty(phoneNumber)) {
+            tv_notice_phone.setVisibility(View.INVISIBLE);
             if (StringUtils.isMobileNumber(phoneNumber)) {
+                tv_notice_phone.setVisibility(View.INVISIBLE);
                 Api.getCode(phoneNumber, "2", this);
                 time.start();// 开始计时
             } else {
@@ -98,42 +100,50 @@ public class ModifyPSDActivity extends BaseActivity {
         codeNumber = et_code.getText().toString();
         password = et_psd.getText().toString();
         if (!TextUtils.isEmpty(phoneNumber)) {
+            tv_notice_phone.setVisibility(View.INVISIBLE);
             if (StringUtils.isMobileNumber(phoneNumber)) {
+                tv_notice_phone.setVisibility(View.INVISIBLE);
                 if (!TextUtils.isEmpty(codeNumber)) {
+                    tv_notice_code.setVisibility(View.INVISIBLE);
+
                     if (!TextUtils.isEmpty(server_code)&&server_code.equals(codeNumber)) {
+                        tv_notice_code.setVisibility(View.INVISIBLE);
                         if (!password.isEmpty()) {
+                            tv_notice_psd.setVisibility(View.INVISIBLE);
+
                             if (password.matches("(?=.*[0-9])(?=.*[a-z]).{6,16}")){
+                                tv_notice_psd.setVisibility(View.INVISIBLE);
                                 Api.modifyPsd(phoneNumber, DigestUtils.stringMD5(password), this);
                             }else{
                                 tv_notice_psd.setVisibility(View.VISIBLE);
-                                tv_notice_psd.setText("请输入6~16数字和字母的组合");
+                                tv_notice_psd.setText("请输入6~16位数字和字母的组合!");
 //                                ToastUtil.showShort(this, "请输入6~16数字和字母的组合");
                             }
                         } else {
                             tv_notice_psd.setVisibility(View.VISIBLE);
-                            tv_notice_psd.setText("请输入密码");
+                            tv_notice_psd.setText("请输入密码!");
 //                            ToastUtil.showShort(this, "请输入密码");
                         }
                     } else {
                         tv_notice_code.setVisibility(View.VISIBLE);
-                        tv_notice_code.setText("验证码不正确");
+                        tv_notice_code.setText("验证码不正确!");
 //                        ToastUtil.showShort(this, "验证码不正确");
                     }
 
                 } else {
                     tv_notice_code.setVisibility(View.VISIBLE);
-                    tv_notice_code.setText("请输入验证码");
+                    tv_notice_code.setText("请输入验证码!");
 //                    ToastUtil.showShort(this, "请输入验证码");
                 }
             } else {
                 tv_notice_phone.setVisibility(View.VISIBLE);
-                tv_notice_phone.setText("手机号码格式不正确");
+                tv_notice_phone.setText("手机号码格式不正确!");
 //                ToastUtil.showShort(this, "手机号码格式不正确");
             }
 
         } else {
             tv_notice_phone.setVisibility(View.VISIBLE);
-            tv_notice_phone.setText("请输入手机号码");
+            tv_notice_phone.setText("请输入手机号码!");
 //            ToastUtil.showShort(this, "请输入手机号码");
         }
     }
@@ -157,10 +167,15 @@ public class ModifyPSDActivity extends BaseActivity {
                 case MODIFY:
                     CommonBean commonBean = (CommonBean) object;
                     if (commonBean.getCode().equals("000000")) {
-                        ToastUtil.showShort(ModifyPSDActivity.this, "修改密码成功");
+                        ToastUtil.showShort(ModifyPSDActivity.this, "修改密码成功!");
                         readyGo(LoginActivity.class);
-                    } else {
-                        ToastUtil.showShort(ModifyPSDActivity.this, "修改密码失败");
+                    }
+                    if (commonBean.getCode().equals("APP_C010004")){
+                        ToastUtil.showShort(ModifyPSDActivity.this, "手机号未注册!");
+                    }
+
+                    else {
+                        ToastUtil.showShort(ModifyPSDActivity.this, "修改密码失败!");
                     }
                     break;
                 case SMSCODE:
@@ -168,12 +183,12 @@ public class ModifyPSDActivity extends BaseActivity {
                     if (codeBean.getCode().equals("000000"))
                         server_code = codeBean.sendResponse.getSmsCode();
                     if (!TextUtils.isEmpty(codeBean.sendResponse.getErrCode())) {
-                        ToastUtil.showShort(ModifyPSDActivity.this, "获取验证码失败");
+                        ToastUtil.showShort(ModifyPSDActivity.this, "获取验证码失败!");
                     }
                     break;
             }
         } else {
-            ToastUtil.showShort(ModifyPSDActivity.this, "服务器出问题了");
+            ToastUtil.showShort(ModifyPSDActivity.this, "服务器出问题了!");
         }
 
     }

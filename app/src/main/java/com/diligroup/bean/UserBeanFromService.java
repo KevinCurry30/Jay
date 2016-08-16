@@ -6,41 +6,44 @@ import java.io.Serializable;
  * Created by Administrator on 2016/7/25.
  */
 public class UserBeanFromService extends CommonBean implements Serializable{
-//public static UserBeanFromService  singleton;
-//    public static UserBeanFromService  getInstance(){
-//        if (singleton==null){
-//            singleton=new UserBeanFromService();
-//        }
-//        return singleton;
-//    }
+
     /**
-     * birthday : 2006-71-1
+     * alipay :
+     * birthday : 1995-6-16
      * email :
-     * height : 70
+     * height : 46 Kg
      * homeAdd :
-     * homeDistrictId : 0
-     * lastLoginTime : 1470299226177
+     * homeCityCode :
+     * homeDistrictId :
+     * homeProvinceCode :
+     * lastLoginTime : 1471329001779
+     * microblog :
      * mobileNum : 18600089822
      * nationCode :
      * password :
-     * registerTime : 1470021982033
+     * qq :
+     * registerTime : 1470903888445
      * resouce : 1
      * sex : 0
      * status : 1
      * userCode :
      * userId : 11
      * userName :
+     * weChat :
      */
 
     private UserBean user;
     /**
+     * allergyName :
      * carbohydrates : 0
      * chronicDiseaseCode : 240003
      * currentAdd :
+     * currentCityCode :
      * currentDistrictId : 0
-     * energyKJ : 0
+     * currentProvinceCode :
+     * energyKC : 0
      * fat : 0
-     * headPhotoAdd :
+     * headPhotoAdd : http://192.168.100.67/images.ypp2015.com/ypp/upload/img/IMG_20160807_104838.jpg
      * id : 2
      * job :
      * jobType :
@@ -78,15 +81,20 @@ public class UserBeanFromService extends CommonBean implements Serializable{
     }
 
     public static class UserBean {
+        private String alipay;
         private String birthday;
         private String email;
         private String height;
         private String homeAdd;
-        private int homeDistrictId;
+        private String homeCityCode;
+        private String homeDistrictId;
+        private String homeProvinceCode;
         private long lastLoginTime;
+        private String microblog;
         private String mobileNum;
         private String nationCode;
         private String password;
+        private String qq;
         private long registerTime;
         private String resouce;
         private int sex;
@@ -94,6 +102,15 @@ public class UserBeanFromService extends CommonBean implements Serializable{
         private String userCode;
         private int userId;
         private String userName;
+        private String weChat;
+
+        public String getAlipay() {
+            return alipay;
+        }
+
+        public void setAlipay(String alipay) {
+            this.alipay = alipay;
+        }
 
         public String getBirthday() {
             return birthday;
@@ -127,12 +144,28 @@ public class UserBeanFromService extends CommonBean implements Serializable{
             this.homeAdd = homeAdd;
         }
 
-        public int getHomeDistrictId() {
+        public String getHomeCityCode() {
+            return homeCityCode;
+        }
+
+        public void setHomeCityCode(String homeCityCode) {
+            this.homeCityCode = homeCityCode;
+        }
+
+        public String getHomeDistrictId() {
             return homeDistrictId;
         }
 
-        public void setHomeDistrictId(int homeDistrictId) {
+        public void setHomeDistrictId(String homeDistrictId) {
             this.homeDistrictId = homeDistrictId;
+        }
+
+        public String getHomeProvinceCode() {
+            return homeProvinceCode;
+        }
+
+        public void setHomeProvinceCode(String homeProvinceCode) {
+            this.homeProvinceCode = homeProvinceCode;
         }
 
         public long getLastLoginTime() {
@@ -141,6 +174,14 @@ public class UserBeanFromService extends CommonBean implements Serializable{
 
         public void setLastLoginTime(long lastLoginTime) {
             this.lastLoginTime = lastLoginTime;
+        }
+
+        public String getMicroblog() {
+            return microblog;
+        }
+
+        public void setMicroblog(String microblog) {
+            this.microblog = microblog;
         }
 
         public String getMobileNum() {
@@ -165,6 +206,14 @@ public class UserBeanFromService extends CommonBean implements Serializable{
 
         public void setPassword(String password) {
             this.password = password;
+        }
+
+        public String getQq() {
+            return qq;
+        }
+
+        public void setQq(String qq) {
+            this.qq = qq;
         }
 
         public long getRegisterTime() {
@@ -222,14 +271,25 @@ public class UserBeanFromService extends CommonBean implements Serializable{
         public void setUserName(String userName) {
             this.userName = userName;
         }
+
+        public String getWeChat() {
+            return weChat;
+        }
+
+        public void setWeChat(String weChat) {
+            this.weChat = weChat;
+        }
     }
 
     public static class UserDetailBean {
+        private String allergyName;
         private int carbohydrates;
         private String chronicDiseaseCode;
         private String currentAdd;
-        private int currentDistrictId;
-        private int energyKJ;
+        private String currentCityCode;
+        private String currentDistrictId;
+        private String currentProvinceCode;
+        private int energyKC;
         private int fat;
         private String headPhotoAdd;
         private int id;
@@ -248,6 +308,14 @@ public class UserBeanFromService extends CommonBean implements Serializable{
         private String tasteCode;
         private int userId;
         private String weight;
+
+        public String getAllergyName() {
+            return allergyName;
+        }
+
+        public void setAllergyName(String allergyName) {
+            this.allergyName = allergyName;
+        }
 
         public int getCarbohydrates() {
             return carbohydrates;
@@ -273,20 +341,36 @@ public class UserBeanFromService extends CommonBean implements Serializable{
             this.currentAdd = currentAdd;
         }
 
-        public int getCurrentDistrictId() {
+        public String getCurrentCityCode() {
+            return currentCityCode;
+        }
+
+        public void setCurrentCityCode(String currentCityCode) {
+            this.currentCityCode = currentCityCode;
+        }
+
+        public String getCurrentDistrictId() {
             return currentDistrictId;
         }
 
-        public void setCurrentDistrictId(int currentDistrictId) {
+        public void setCurrentDistrictId(String currentDistrictId) {
             this.currentDistrictId = currentDistrictId;
         }
 
-        public int getEnergyKJ() {
-            return energyKJ;
+        public String getCurrentProvinceCode() {
+            return currentProvinceCode;
         }
 
-        public void setEnergyKJ(int energyKJ) {
-            this.energyKJ = energyKJ;
+        public void setCurrentProvinceCode(String currentProvinceCode) {
+            this.currentProvinceCode = currentProvinceCode;
+        }
+
+        public int getEnergyKC() {
+            return energyKC;
+        }
+
+        public void setEnergyKC(int energyKC) {
+            this.energyKC = energyKC;
         }
 
         public int getFat() {

@@ -30,4 +30,5 @@ public class TransCode {
     public static String GET_DIET_RECORD="C0116";
     public static String CUSTOMER_SEARCH="M0021";
     public static String CUSTOMER_FINDBY_CATEGORY="M0068";
+    public static String ADD_FOOD_COMPLETE="C0116";//添加菜品完成
 }

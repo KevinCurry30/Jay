@@ -3,6 +3,7 @@ package com.diligroup.After;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -141,13 +142,19 @@ public class AddLunchActivity extends BaseActivity implements RadioGroup.OnCheck
 
     /**
      * 添加菜品
-     *wayType“:菜品来源（1自定义，2来自门店）
+     * wayType“:菜品来源（1自定义，2来自门店）
+     *
      * @param bean
      */
     public void addFood(AddFoodCompleteBean bean) {
-        for (int i = 0; i < addMealList.size(); i++) {
-            if (addMealList.get(i).getDishesCode().equals(bean.getDishesCode()) && addMealList.get(i).getWayType().equals(bean.getWayType())) {
-                addMealList.get(i).setWeight(Float.parseFloat(addMealList.get(i).getWeight())+Float.parseFloat(bean.getWeight())+"");
+        if (addMealList.size() == 0) {
+            addMealList.add(bean);
+        } else {
+            for (int i = 0; i < addMealList.size(); i++) {
+                if (addMealList.get(i).getDishesCode().equals(bean.getDishesCode()) && addMealList.get(i).getWayType().equals(bean.getWayType())) {
+                    addMealList.get(i).setWeight(Float.parseFloat(TextUtils.isEmpty(addMealList.get(i).getWeight())?"0.0f":addMealList.get(i).getWeight()) + Float.parseFloat(TextUtils.isEmpty(bean.getWeight())?"0.0f":bean.getWeight()) + "");
+                    return;
+                }
             }
             addMealList.add(bean);
         }
@@ -162,9 +169,9 @@ public class AddLunchActivity extends BaseActivity implements RadioGroup.OnCheck
         if (addMealList.contains(bean)) {
             for (int i = 0; i < addMealList.size(); i++) {
                 if (addMealList.get(i).getDishesCode().equals(bean.getDishesCode()) && addMealList.get(i).getWayType().equals(bean.getWayType())) {
-                    addMealList.get(i).setWeight(Float.parseFloat(addMealList.get(i).getWeight())-Float.parseFloat(bean.getWeight())+"");
+                    addMealList.get(i).setWeight(Float.parseFloat(TextUtils.isEmpty(addMealList.get(i).getWeight())?"0.0f":addMealList.get(i).getWeight()) - Float.parseFloat(TextUtils.isEmpty(bean.getWeight())?"0.0f":bean.getWeight()) + "");
                 }
-                if (Integer.parseInt(addMealList.get(i).getWeight())== 0) {
+                if (TextUtils.isEmpty(addMealList.get(i).getWeight())) {
                     addMealList.remove(addMealList.get(i));
                 }
             }

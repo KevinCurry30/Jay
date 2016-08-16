@@ -1,103 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
-
+    android:visibility="gone"
+    android:orientation="vertical"
+    android:background="#F0F0F0">
+<TextView
+    android:layout_marginTop="10dp"
+    android:layout_gravity="center_horizontal"
+    android:layout_width="wrap_content"
+    android:text="目标体重"
+    android:textSize="16sp"
+    android:layout_height="wrap_content"/>
     <TextView
-        android:id="@+id/tv_weight"
+        android:id="@+id/weight_target"
+        android:textColor="@color/title_color"
+        android:layout_marginTop="08dp"
+        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="当前体重" />
+        android:text="47.3Kg"
+        android:textSize="14sp"
+        android:layout_height="wrap_content"/>
+    <HorizontalScrollView
+        android:focusable="true"
+        android:id="@+id/weightRuler"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/birthday_ruler"
+        android:scrollbars="none" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_margin="8dp"
-        android:text="目标体重" />
-
-    <SeekBar
-        android:id="@+id/sb_weight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_weight"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="3dp" />
-
-    <TextView
-        android:id="@+id/tv_weight_now"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/sb_weight"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="4dp"
-        android:text="88Kg" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/sb_weight"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="4dp"
-        android:text="44Kg" />
-
-    <View
-        android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_below="@id/tv_weight_now"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="5dp"
-        android:background="#D7D7D7" />
+        <LinearLayout
+            android:background="@color/title_color"
+            android:id="@+id/ll_ruler"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <LinearLayout
-        android:id="@+id/ll_modify"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_below="@id/line"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="4dp"
-                android:text="需减总热量"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_kcal_zrl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:text="2222Kcal"
-                android:textColor="@color/title_color"
-                android:textSize="15sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="2dp"
-            android:layout_height="wrap_content"
-            android:background="#D7D7D7" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -105,58 +56,91 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="4dp"
-                android:text="建议用时"
-                android:textSize="12sp" />
+                android:paddingTop="10dp"
+                android:text="当前体重" />
 
             <TextView
-                android:id="@+id/tv_need_time"
+                android:id="@+id/tv_weight_now"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="5dp"
-                android:text="十天"
+                android:paddingTop="10dp"
+                android:text=""
+                android:textColor="@color/title_color"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#d7d7d7" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:text="建议用时" />
+
+            <TextView
+                android:id="@+id/tv_time_need"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:text=""
                 android:textColor="@color/title_color"
                 android:textSize="15sp" />
         </LinearLayout>
 
         <View
-            android:layout_width="2dp"
-            android:layout_height="wrap_content"
-            android:background="#D7D7D7" />
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#d7d7d7" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="每天消耗热量"
-                android:textSize="12sp" />
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:text="需减总热量" />
+
+            <TextView
+                android:id="@+id/tv_cost_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:text=""
+                android:textColor="@color/title_color"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#d7d7d7" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:text="每天需消耗热量" />
 
             <TextView
                 android:id="@+id/tv_day_cost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:text="3232kcal"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:text=""
                 android:textColor="@color/title_color"
                 android:textSize="15sp" />
         </LinearLayout>
-
     </LinearLayout>
-
-    <View
-        android:id="@+id/line_btm"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_below="@+id/ll_modify"
-        android:background="#D7D7D7" />
-</RelativeLayout>
+</LinearLayout>

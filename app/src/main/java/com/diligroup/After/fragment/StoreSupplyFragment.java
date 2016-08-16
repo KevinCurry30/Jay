@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.diligroup.After.AddLunchActivity;
 import com.diligroup.After.adapter.RighSearchAdapter;
 import com.diligroup.After.adapter.StoreSupplyRighAdapter;
 import com.diligroup.After.adapter.StoreSuppyLeftAdapter;
@@ -24,7 +25,9 @@ import com.diligroup.Home.adapter.LeftAdapter;
 import com.diligroup.R;
 import com.diligroup.base.BaseFragment;
 import com.diligroup.base.Constant;
+import com.diligroup.bean.AddFoodCompleteBean;
 import com.diligroup.bean.ButtonClickListener;
+import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.HomeStoreSupplyList;
 import com.diligroup.bean.MyItemClickListener;
 import com.diligroup.bean.StoreSupplySearchBean;
@@ -35,7 +38,9 @@ import com.diligroup.utils.CommonUtils;
 import com.diligroup.utils.DateUtils;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.RecordSQLiteOpenHelper;
+import com.diligroup.utils.ToastUtil;
 import com.diligroup.view.stickyListView.StickyListHeadersListView;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.List;
@@ -64,10 +69,10 @@ public class StoreSupplyFragment extends BaseFragment implements View.OnClickLis
     LinearLayout store_supply_normallayout;//默认列表布局
     @Bind(R.id.store_supply_searchlayout)
     LinearLayout store_supply_searchlayout;//搜索布局
-//    @Bind(R.id.near_search)
-//    TextView near_searchnear_search;//搜索文字布局
-//    @Bind(R.id.store_edit_parent)
-    LinearLayout store_edit_parent;//编辑框父布局
+    @Bind(R.id.near_search)
+    TextView near_searchnear_search;//搜索文字布局
+    //    @Bind(R.id.store_edit_parent)
+//    LinearLayout store_edit_parent;//编辑框父布局
     @Bind(R.id.storesupply_search_list)
     RecyclerView storesupply_search_list;//门店供应搜索列表
     private int currentClickItem;
@@ -150,9 +155,9 @@ public class StoreSupplyFragment extends BaseFragment implements View.OnClickLis
                 } else {
                     nearSearchList = openHelper.getALllFoods(RecordSQLiteOpenHelper.STORESUPPLY_TABLE_NAME);
                     fillSearchDate(nearSearchList);
-//                    near_searchnear_search.setVisibility(View.VISIBLE);
-                    if(nearSearchList.size()>0){
-                    searchLayyoutManager.getChildAt(nearSearchList.size()-1).setVisibility(View.VISIBLE);
+                    near_searchnear_search.setVisibility(View.VISIBLE);
+                    if (nearSearchList.size() > 0) {
+                        searchLayyoutManager.getChildAt(nearSearchList.size() - 1).setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -205,6 +210,9 @@ public class StoreSupplyFragment extends BaseFragment implements View.OnClickLis
                 input_search_dishes.setFocusable(true);
                 break;
             case R.id.complete_add:
+                List<AddFoodCompleteBean> addMealList= ((AddLunchActivity)getActivity()).getAddMealList();
+                String json= new Gson().toJson(addMealList);
+                Api.addFoodComplete(Constant.userId+"",mealType,json,this);
                 break;
             case R.id.store_supply_delete:
                 input_search_dishes.setText("");
@@ -263,7 +271,7 @@ public class StoreSupplyFragment extends BaseFragment implements View.OnClickLis
 
                 fillSearchDate(listBean.getJson().getDishesSupplyDtlList());
                 //隐藏最近搜索和清空文字
-//                near_searchnear_search.setVisibility(View.GONE);
+                near_searchnear_search.setVisibility(View.GONE);
                 if (searchLayyoutManager.getChildAt(nearSearchList.size()) != null) {
                     searchLayyoutManager.getChildAt(nearSearchList.size()).setVisibility(View.GONE);
                 }
@@ -280,33 +288,43 @@ public class StoreSupplyFragment extends BaseFragment implements View.OnClickLis
             } else {
                 LogUtils.i("请求失败");
             }
+        }else if(object!=null && action==Action.ADD_FOOD_COMPLETE){
+            CommonBean commonBean= (CommonBean) object;
+            if(commonBean.getCode().equals(Constant.RESULT_SUCESS)){
+                //添加菜品成功，回传页面
+                getActivity().setResult(10);
+                getActivity().finish();
+            }else{
+                ToastUtil.showLong(getActivity(),"添加菜品失败");
+            }
         }
     }
 
     @Override
     public void onItemClick(View view, int position) {
-            int count = 0;
+        int count = 0;
 //        rightRecyclerView.setSelection(0);
-            for (int i = 0; i < dishesTypeList.size(); i++) {
-                if (position == 0) {
-                    rightRecyclerView.setSelection(0);
-                    return;
-                } else if (i < position && dishesTypeList.get(i).getDishesSupplyDtlList() == null) {
-                    continue;
-                } else if (i < position && dishesTypeList.get(i).getDishesSupplyDtlList() != null) {
-                    count += dishesTypeList.get(i).getDishesSupplyDtlList().size();
-                } else {
-                    break;
-                }
+        for (int i = 0; i < dishesTypeList.size(); i++) {
+            if (position == 0) {
+                rightRecyclerView.setSelection(0);
+                return;
+            } else if (i < position && dishesTypeList.get(i).getDishesSupplyDtlList() == null) {
+                continue;
+            } else if (i < position && dishesTypeList.get(i).getDishesSupplyDtlList() != null) {
+                count += dishesTypeList.get(i).getDishesSupplyDtlList().size();
+            } else {
+                break;
             }
-            rightRecyclerView.setSelection(count);
         }
+        rightRecyclerView.setSelection(count);
+    }
+
     private void fillSearchDate(List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> mList) {
         CommonUtils.initRerecyelerView(getActivity(), storesupply_search_list);
 
         storesupply_search_list.setLayoutManager(searchLayyoutManager);
         if (searchAdapter == null) {
-            searchAdapter = new RighSearchAdapter(getActivity(), mList, this);
+            searchAdapter = new RighSearchAdapter(getActivity(), mList, this,true);
             storesupply_search_list.setAdapter(searchAdapter);
         } else {
             searchAdapter.setDate(mList);

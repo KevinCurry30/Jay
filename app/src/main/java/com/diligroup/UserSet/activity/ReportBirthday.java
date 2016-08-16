@@ -1,5 +1,7 @@
 package com.diligroup.UserSet.activity;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -27,7 +29,7 @@ import okhttp3.Request;
  */
 public class ReportBirthday extends BaseActivity {
 
-//    @Bind(R.id.data_select)
+    //    @Bind(R.id.data_select)
 //    DatePicker data_select;
     @Bind(R.id.wv_height)
     WheelView wheelView;
@@ -35,6 +37,8 @@ public class ReportBirthday extends BaseActivity {
     WheelView wheelView2;
     @Bind(R.id.wv_height3)
     WheelView wheelView3;
+    Boolean isFrist;
+    Bundle bundle;
 //    int currentYear;
 
     @Override
@@ -54,23 +58,27 @@ public class ReportBirthday extends BaseActivity {
     }
 
     @Override
-    protected void onNetworkDisConnected() {}
+    protected void onNetworkDisConnected() {
+    }
 
     String year;
     String month;
     String day;
+
     @Override
     protected void initViewAndData() {
-      WindowManager  wm = this.getWindowManager();
-
+        WindowManager wm = this.getWindowManager();
+        Intent intent = getIntent();
+        bundle = intent.getExtras();
+        isFrist = bundle.getBoolean("isFrist");
 //        Calendar calendar = Calendar.getInstance();
 //        int year = calendar.get(Calendar.YEAR);
 //        final int month = calendar.get(Calendar.MONTH);
 //        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        ViewGroup.LayoutParams  params =wheelView.getLayoutParams();
-        params.height=wheelView.getHeight();
-        params.width=wm.getDefaultDisplay().getWidth()/3;
+        ViewGroup.LayoutParams params = wheelView.getLayoutParams();
+        params.height = wheelView.getHeight();
+        params.width = wm.getDefaultDisplay().getWidth() / 3;
         wheelView.setLayoutParams(params);
         wheelView2.setLayoutParams(params);
         wheelView3.setLayoutParams(params);
@@ -82,14 +90,13 @@ public class ReportBirthday extends BaseActivity {
 
         wheelView2.setItems(BirthdayUtils.getMonth());
         wheelView3.setItems(BirthdayUtils.get31Day());
-//        wheelView3.setItems(BirthdayUtils.get31Day());
 //        currentYear = year;
 //        data_select.updateDate(year, month, day);
 
         wheelView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
-                year=item;
+                year = item;
                 Log.d("====================", "selectedIndex: " + selectedIndex + ", item: " + item);
             }
         });
@@ -97,30 +104,26 @@ public class ReportBirthday extends BaseActivity {
         wheelView2.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
-
-                if (item.equals("1月")||item.equals("3月")||item.equals("5月")||item.equals("7月")||item.equals("8月")||item.equals("10月")||item.equals("12月")){
+month=item;
+                if (item.equals("1月") || item.equals("3月") || item.equals("5月") || item.equals("7月") || item.equals("8月") || item.equals("10月") || item.equals("12月")) {
 //                    wheelView3.setItems(BirthdayUtils.get31Day());
 //                    wheelView3.notify();
                 }
-                if (item.equals("4月")||item.equals("6月")||item.equals("9月")||item.equals("11月")){
+                if (item.equals("4月") || item.equals("6月") || item.equals("9月") || item.equals("11月")) {
 //                    wheelView3.setItems(BirthdayUtils.get30Day());
 //                    wheelView3.notify();
-
                 }
-                if (item.equals("2月")){
+                if (item.equals("2月")) {
 //                    wheelView3.setItems(BirthdayUtils.get29Day());
 //                    wheelView3.notify();
-
                 }
-                month=item;
-//                wheelView3.notifyAll();
                 Log.d("====================", "selectedIndex: " + selectedIndex + ", item: " + item);
             }
         });
         wheelView3.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
-                day=item;
+                day = item;
                 Log.d("====================", "selectedIndex: " + selectedIndex + ", item: " + item);
             }
         });
@@ -128,13 +131,19 @@ public class ReportBirthday extends BaseActivity {
 
     @OnClick(R.id.bt_getTime)
     public void getBirthday() {
+        String brithday = year + "-" + month + "-" + day;
 
+        if (isFrist) {
+            UserInfoBean.getInstance().setBirthday(brithday);
+            readyGo(ReportWork.class,bundle);
+        }else{
+            UserInfoBean.getInstance().setBirthday(brithday);
+            readyGo(UserInfoActivity.class);
+        }
 //        ToastUtil.showShort(ReportBirthday.this, "您选择的日期是：" + data_select.getYear() + "年" + (data_select.getMonth() + 1) + "月" + data_select.getDayOfMonth() + "日。");
 //        int old = currentYear - data_select.getYear();
-//        String brithday = data_select.getYear() + "-" + (data_select.getMonth() + 1) + "-" + data_select.getDayOfMonth();
 //        ToastUtil.showShort(ReportBirthday.this,"你当前"+old+"岁");
-//        UserInfoBean.getInstance().setBirthday(brithday);
-        readyGo(ReportWork.class);
+
     }
 
     @Override

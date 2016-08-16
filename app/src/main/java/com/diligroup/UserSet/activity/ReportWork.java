@@ -1,6 +1,8 @@
 package com.diligroup.UserSet.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +67,8 @@ public class ReportWork extends BaseActivity {
     private String userSelect;
     private  String jobCode;
     private  WorkAdapter  adapter;
+    Boolean isFrist;
+    Bundle bundle;
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_select_work;
@@ -84,6 +88,10 @@ public class ReportWork extends BaseActivity {
     protected void initViewAndData() {
         isShowBack(true);
         Api.getWorkType(this);
+        Intent intent = getIntent();
+        bundle = intent.getExtras();
+        isFrist = bundle.getBoolean("isFrist");
+
         light_job_name=new ArrayList<>();
         middle_job_name=new ArrayList<>();
         heavy_job_name=new ArrayList<>();
@@ -132,9 +140,12 @@ public class ReportWork extends BaseActivity {
 //            ToastUtil.showLong(this, "You  work ====" + userSelect);
 //            ToastUtil.showLong(this, "You  jobCode ====" + jobCode);
 //            UserInfoBean.getInstance().setJob("");
-            UserInfoBean.getInstance().setJob(userSelect);
-            UserInfoBean.getInstance().setJobType(jobCode);
-            readyGo(ReportHeight.class);
+            if (isFrist){
+                UserInfoBean.getInstance().setJob(userSelect);
+                UserInfoBean.getInstance().setJobType(jobCode);
+                readyGo(ReportHeight.class,bundle);
+                return;
+            } readyGo(UserInfoActivity.class);
 
         }else{
             ToastUtil.showShort(ReportWork.this,"请选择职业");

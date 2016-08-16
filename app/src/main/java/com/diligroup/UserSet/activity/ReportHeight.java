@@ -1,5 +1,7 @@
 package com.diligroup.UserSet.activity;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.diligroup.R;
@@ -23,6 +25,9 @@ public class ReportHeight extends BaseActivity {
     @Bind(R.id.wv_height)
     WheelView wheelView;
     String selectHeight;
+    Boolean isFrist;
+    Bundle bundle;
+
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_select_height;
@@ -41,6 +46,9 @@ public class ReportHeight extends BaseActivity {
     @Override
     protected void initViewAndData() {
         isShowBack(true);
+        Intent intent = getIntent();
+        bundle = intent.getExtras();
+        isFrist = bundle.getBoolean("isFrist");
         wheelView.setOffset(3);
 
         wheelView.setItems(Arrays.asList(getResources().getStringArray(R.array.height)));
@@ -64,8 +72,12 @@ public class ReportHeight extends BaseActivity {
 
     @OnClick(R.id.bt_ok_height)
     public void reprotHeight(){
-        UserInfoBean.getInstance().setHeight(selectHeight);
-        readyGo(ReportWeight.class);
+        if (isFrist){
+            UserInfoBean.getInstance().setHeight(selectHeight);
+            readyGo(ReportWeight.class,bundle);
+            return;
+        }
+        readyGo(UserInfoActivity.class);
 //        ToastUtil.showShort(this,selectHeight);
     }
 

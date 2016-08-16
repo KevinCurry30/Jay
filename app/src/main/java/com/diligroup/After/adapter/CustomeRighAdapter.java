@@ -1,6 +1,7 @@
 package com.diligroup.After.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,16 +14,19 @@ import com.diligroup.R;
 import com.diligroup.bean.AddFoodCompleteBean;
 import com.diligroup.bean.HomeStoreSupplyList;
 import com.diligroup.utils.CommonUtils;
+import com.diligroup.utils.LogUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 /**
  * Created by hjf on 2016/7/14.
+ * 自定义菜品适配器
  */
 public class CustomeRighAdapter extends BaseAdapter {
     Context mContext;
     List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> mList;
+    AddFoodCompleteBean bean = new AddFoodCompleteBean();
 
     //    private List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> rightDishesList=new ArrayList<>();//所有右侧成品分类列表
     public CustomeRighAdapter(Context mContext, List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> mList) {
@@ -98,21 +102,35 @@ public class CustomeRighAdapter extends BaseAdapter {
 
         myViewHoder.addlunchGramsNum.setText("123kg");
         myViewHoder.addlunchAdddish.setOnClickListener(new MyOnClickListener(position, myViewHoder.addlunchDishesNum));
-        myViewHoder.addlunchReducedish.setOnClickListener(new MyOnClickListener(position, null));
+        myViewHoder.addlunchReducedish.setOnClickListener(new MyOnClickListener(position, myViewHoder.addlunchReducedish));
         myViewHoder.root_view.setOnClickListener(new MyOnClickListener(position, myViewHoder.root_view));
-
+        myViewHoder.input_weight.setText(mList.get(position).getWeight());
+        myViewHoder.input_weight.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                LogUtils.i("输入的内容是==" + myViewHoder.input_weight.getText().toString());
+                if (!hasFocus && !TextUtils.isEmpty(myViewHoder.input_weight.getText().toString())) {
+                    bean.setWeight(myViewHoder.input_weight.getText().toString());
+                    bean.setDishesCode(mList.get(position).getDishesCode());
+                    bean.setDishesName(mList.get(position).getDishesName());
+                    bean.setImageUrl(mList.get(position).getImagesURL());
+                    bean.setWayType("1");
+                    if (!TextUtils.isEmpty(myViewHoder.addlunchDishesNum.getText().toString())) {
+                        ((AddLunchActivity) mContext).addFood(bean);
+                    }
+                }
+                if (!TextUtils.isEmpty(myViewHoder.input_weight.getText().toString())) {
+                    myViewHoder.input_weight.setText(myViewHoder.input_weight.getText().toString());
+                    mList.get(position).setWeight(myViewHoder.input_weight.getText().toString());
+                }
+            }
+        });
         if (mList.get(position).isShowWeight()) {
             myViewHoder.weightlayout.setVisibility(View.VISIBLE);
             myViewHoder.input_weight.setFocusable(true);
             myViewHoder.input_weight.requestFocus();
-            myViewHoder.input_weight.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if(!hasFocus){
-                        mList.get(position).setWeight(myViewHoder.input_weight.getText().toString());
-                    }
-                }
-            });
+            mList.get(position).setWeight(myViewHoder.input_weight.getText().toString());
+
         } else {
             myViewHoder.weightlayout.setVisibility(View.GONE);
         }
@@ -150,36 +168,33 @@ public class CustomeRighAdapter extends BaseAdapter {
 
         @Override
         public void onClick(View v) {
-            AddFoodCompleteBean bean=new AddFoodCompleteBean();
             switch (v.getId()) {
                 case R.id.addlunch_adddish:
                     if (view != null)
                         CommonUtils.propertyValuesHolder(view);
-                    bean.setWeight(mList.get(position).getWeight());
-                    bean.setDishesCode(mList.get(position).getDishesCode());
-                    bean.setDishesName(mList.get(position).getDishesName());
-                    bean.setImageUrl(mList.get(position).getImagesURL());
-                    bean.setWayType("1");
-                    ((AddLunchActivity) mContext).addFood(bean);
+                    if (!TextUtils.isEmpty(bean.getWeight())) {
+                        ((AddLunchActivity) mContext).addFood(setBean(bean));
+                    }
                     mList.get(position).setFoodNums(mList.get(position).getFoodNums() + 1);
+//                    if (!TextUtils.isEmpty(conntent)) {
+//                        mList.get(position).setWeight(conntent);
+//                    }
                     notifyDataSetChanged();
                     break;
                 case R.id.addlunch_reducedish:
                     mList.get(position).setFoodNums(mList.get(position).getFoodNums() - 1);
-                    bean.setWeight(mList.get(position).getWeight());
-                    bean.setDishesCode(mList.get(position).getDishesCode());
-                    bean.setDishesName(mList.get(position).getDishesName());
-                    bean.setImageUrl(mList.get(position).getImagesURL());
-                    bean.setWayType("1");
-                    ((AddLunchActivity) mContext).deleteFood(bean);
+                    mList.get(position).setWeight(mList.get(position).getWeight());
+//                    setBean(bean);
+                    ((AddLunchActivity) mContext).deleteFood(setBean(bean));
                     notifyDataSetChanged();
                     break;
                 case R.id.root_view://右侧item的点击事件，展示编辑框
                     for (int i = 0; i < mList.size(); i++) {
                         if (i == position) {
                             mList.get(i).setShowWeight(true);
-                        }else{
+                        } else {
                             mList.get(i).setShowWeight(false);
+
                         }
                     }
                     setDate(mList);
@@ -188,6 +203,15 @@ public class CustomeRighAdapter extends BaseAdapter {
                 default:
                     break;
             }
+        }
+
+        private AddFoodCompleteBean setBean(AddFoodCompleteBean bean) {
+            bean.setWeight(mList.get(position).getWeight());
+            bean.setDishesCode(mList.get(position).getDishesCode());
+            bean.setDishesName(mList.get(position).getDishesName());
+            bean.setImageUrl(mList.get(position).getImagesURL());
+            bean.setWayType("1");
+            return bean;
         }
     }
 }

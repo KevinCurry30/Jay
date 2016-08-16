@@ -356,6 +356,13 @@ public class Api {
         RequestManager.getInstance().getAsync(Action.GET_DIET_RECORD,map,callback);
     }
 
+    /**
+     * 自定义搜索
+     * @param cityCode
+     * @param dishName
+     * @param callback
+     * @throws IOException
+     */
     public static void customer_search(String cityCode, String dishName, RequestManager.ResultCallback  callback) throws IOException {
         Map<String, String> map = new HashMap<>();
         map.put("type","findAll");
@@ -364,6 +371,21 @@ public class Api {
         map.put("status","1");
         map.put("dishesName",dishName);
         RequestManager.getInstance().getAsync(Action.CUSTOMER_SEARCH,map,callback);
+    }
+    /**
+     * 添加菜品完成接口
+     * @param callback
+     * @throws IOException
+     */
+    public static void addFoodComplete(String userId, String mealType,String list, RequestManager.ResultCallback  callback){
+        Map<String, String> map = new HashMap<>();
+        map.put("type","add");
+        map.put("transCode",TransCode.ADD_FOOD_COMPLETE);
+        map.put("userId",userId);
+        map.put("mealType",mealType.substring(mealType.length()-1));
+        map.put("mealType",mealType);
+        map.put("list",list);
+        RequestManager.getInstance().getAsync(Action.ADD_FOOD_COMPLETE,map,callback);
     }
     /**
      * 获取自定义菜品根据成品分类id查询接口

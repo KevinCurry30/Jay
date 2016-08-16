@@ -1,9 +1,13 @@
 package com.diligroup.UserSet.activity;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
+import com.diligroup.Home.HomeActivity;
 import com.diligroup.R;
 import com.diligroup.UserSet.ListitemAdapter;
 import com.diligroup.base.BaseActivity;
@@ -31,20 +35,28 @@ public class ReportHistory extends BaseActivity {
     GetJiaoQinBean historyBean;
     private List<String> id_list;
     List<GetJiaoQinBean.ListBean> hisList;
-
+    @Bind(R.id.bt_jump_history)
+    Button bt_later_report;
+    Boolean isFrist;
+    Bundle bundle;
     @OnClick(R.id.bt_report_history)
     public void ReportHisty(){
-
-    String s=id_list.toString().replaceAll(" ","");
-    String s2= s.substring(1,s.length()-1);
+        if (isFrist){
+            String s=id_list.toString().replaceAll(" ","");
+            String s2= s.substring(1,s.length()-1);
 //    ToastUtil.showShort(ReportHistory.this,s2);
-    UserInfoBean.getInstance().setChronicDiseaseCode(s2);
-    readyGo(ReportSpecial.class);
+            UserInfoBean.getInstance().setChronicDiseaseCode(s2);
+            readyGo(ReportSpecial.class,bundle);
+        }else{
+            readyGo(UserInfoActivity.class);
+        }
+
+
     }
     @OnClick(R.id.bt_jump_history)
     public void jumpHistory(){
         UserInfoBean.getInstance().setChronicDiseaseCode("");
-        readyGo(ReportSpecial.class);
+        readyGo(HomeActivity.class);
     }
 
     @Override
@@ -72,6 +84,13 @@ public class ReportHistory extends BaseActivity {
     protected void initViewAndData() {
         isShowBack(true);
         Api.getHistory(this);
+
+        Intent intent = getIntent();
+        bundle = intent.getExtras();
+        isFrist = bundle.getBoolean("isFrist");
+        if (isFrist){
+            bt_later_report.setVisibility(View.GONE);
+        }
         hisList = new ArrayList<>();
         lv_history.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

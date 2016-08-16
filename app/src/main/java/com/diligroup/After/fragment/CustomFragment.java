@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.diligroup.After.AddLunchActivity;
@@ -24,7 +25,9 @@ import com.diligroup.After.adapter.StoreSuppyLeftAdapter;
 import com.diligroup.R;
 import com.diligroup.base.BaseFragment;
 import com.diligroup.base.Constant;
+import com.diligroup.bean.AddFoodCompleteBean;
 import com.diligroup.bean.ButtonClickListener;
+import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.CostomerCategory;
 import com.diligroup.bean.CustomerSearchResultBean;
 import com.diligroup.bean.FindFoodByCategory;
@@ -38,6 +41,7 @@ import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.RecordSQLiteOpenHelper;
 import com.diligroup.utils.ToastUtil;
 import com.diligroup.view.DividerItemDecoration;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -69,6 +73,9 @@ public class CustomFragment extends BaseFragment implements View.OnClickListener
     TextView cus_nearsearch;
     @Bind(R.id.customer_margin)
     View custoer_margin;//自定义切换布局时候间隔
+    @Bind(R.id.customer_complete_add)
+    RelativeLayout customer_complete_add;//添加完成按钮
+
 
     List<String> mList = new ArrayList<String>();
     List<CostomerCategory.ListBean> leftList = new ArrayList<CostomerCategory.ListBean>();
@@ -106,7 +113,7 @@ public class CustomFragment extends BaseFragment implements View.OnClickListener
     public void setListeners() {
         addluncheCustomeDelete.setOnClickListener(this);
         customeInputSearchDishes.setOnClickListener(this);
-//        clear_hository_search.setOnClickListener(this);
+        customer_complete_add.setOnClickListener(this);
         customer_left_listView.setOnItemClickListener(this);
 
         customeInputSearchDishes.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -198,8 +205,9 @@ public class CustomFragment extends BaseFragment implements View.OnClickListener
                 customeInputSearchDishes.setFocusable(true);
                 break;
             case R.id.customer_complete_add:
-                ((AddLunchActivity)getActivity()).getAddMealList();
-//                String json= new Gson().toJson();
+                List<AddFoodCompleteBean> addMealList= ((AddLunchActivity)getActivity()).getAddMealList();
+                String json= new Gson().toJson(addMealList);
+                Api.addFoodComplete(Constant.userId+"",mealType,json,this);
                 break;
             default:
                 break;
@@ -252,7 +260,6 @@ public class CustomFragment extends BaseFragment implements View.OnClickListener
             if (bean.getCode().equals(Constant.RESULT_SUCESS)) {
                 leftList = bean.getList();
                 Api.findFoodByCategoryId(mealType, leftList.get(0).getCode(), this);
-//                Api.findFoodByCategoryId("20001", "10001", this);
                 leftAdapter = new StoreSuppyLeftAdapter(getActivity(), leftList, this);
                 customer_left_listView.setAdapter(leftAdapter);
             }
@@ -261,7 +268,7 @@ public class CustomFragment extends BaseFragment implements View.OnClickListener
             if (resultBean.getCode().equals(Constant.RESULT_SUCESS)) {
                 List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> resultList = resultBean.getDishesLibList();
                 if (resultList.size() > 0 && searchAdapter == null) {
-                    searchAdapter = new RighSearchAdapter(getActivity(), resultList, this);
+                    searchAdapter = new RighSearchAdapter(getActivity(), resultList, this,false);
                     costom_search_list.setAdapter(searchAdapter);
                 } else if (resultList.size() > 0 && searchAdapter != null) {
                     searchAdapter.setDate(resultList);
@@ -272,13 +279,13 @@ public class CustomFragment extends BaseFragment implements View.OnClickListener
                     searchLayyoutManager.getChildAt(nearSearchList.size()).setVisibility(View.GONE);
                 }
                 if (resultList.size() == 1) {
-                    HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean foodBean = cusopenHelper.selectFood(resultList.get(0).getDishesName(), RecordSQLiteOpenHelper.STORESUPPLY_TABLE_NAME);
+                    HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean foodBean = cusopenHelper.selectFood(resultList.get(0).getDishesName(), RecordSQLiteOpenHelper.CUSTOMER_TABLE_NAME);
                     if (foodBean != null) {
 //                        cusopenHelper.deleteItem(foodBean, resultList.get(0).getDishesName(), RecordSQLiteOpenHelper.STORESUPPLY_TABLE_NAME);
 //                        cusopenHelper.addFood(resultList.get(0), RecordSQLiteOpenHelper.STORESUPPLY_TABLE_NAME);
                         cusopenHelper.updateFood(foodBean, RecordSQLiteOpenHelper.TIME);
                     } else {
-                        cusopenHelper.addFood(resultList.get(0), RecordSQLiteOpenHelper.STORESUPPLY_TABLE_NAME);
+                        cusopenHelper.addFood(resultList.get(0), RecordSQLiteOpenHelper.CUSTOMER_TABLE_NAME);
                     }
                 }
             } else {
@@ -294,6 +301,16 @@ public class CustomFragment extends BaseFragment implements View.OnClickListener
                     rightAdapter.setDate(rightFoodBean.getDishesLibList());
                 }
             }
+        }else if(object!=null && action==Action.ADD_FOOD_COMPLETE){
+            CommonBean commonBean= (CommonBean) object;
+            if(commonBean.getCode().equals(Constant.RESULT_SUCESS)){
+                //添加菜品成功，回传页面
+                getActivity().setResult(10);
+                getActivity().finish();
+            }else{
+                ToastUtil.showLong(getActivity(),"添加菜品失败");
+            }
+
         }
     }
 
@@ -308,7 +325,7 @@ public class CustomFragment extends BaseFragment implements View.OnClickListener
 
         costom_search_list.setLayoutManager(searchLayyoutManager);
         if (searchAdapter == null) {
-            searchAdapter = new RighSearchAdapter(getActivity(), mList, this);
+            searchAdapter = new RighSearchAdapter(getActivity(), mList, this,false);
             costom_search_list.setAdapter(searchAdapter);
         } else {
             searchAdapter.setDate(mList);

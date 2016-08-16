@@ -1,5 +1,8 @@
 package com.diligroup.UserSet.activity;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.bean.UserInfoBean;
@@ -21,6 +24,8 @@ public class ReportWeight extends BaseActivity {
     @Bind(R.id.wheel_weight)
     WheelView wheelView;
     String select_weight;
+    Boolean isFrist;
+    Bundle bundle;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -42,6 +47,10 @@ public class ReportWeight extends BaseActivity {
     @Override
     protected void initViewAndData() {
         isShowBack(true);
+        Intent intent = getIntent();
+        bundle = intent.getExtras();
+        isFrist = bundle.getBoolean("isFrist");
+
         wheelView.setOffset(3);
         if (UserInfoBean.getInstance().getSex()!=null&&UserInfoBean.getInstance().getSex()==0){
             wheelView.setSeletion(5);
@@ -64,8 +73,13 @@ public class ReportWeight extends BaseActivity {
     @OnClick(R.id.bt_ok_weight)
     public void reportWeight() {
 //        ToastUtil.showShort(this, select_weight);
-        UserInfoBean.getInstance().setHeight(select_weight);
-        readyGo(ReportNoeat.class);
+        if (isFrist){
+            UserInfoBean.getInstance().setHeight(select_weight);
+            readyGo(ReportNoeat.class,bundle);
+        }else{
+            readyGo(UserInfoActivity.class);
+        }
+
 
     }
 

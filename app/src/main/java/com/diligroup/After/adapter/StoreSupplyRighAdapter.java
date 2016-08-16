@@ -10,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.diligroup.After.AddLunchActivity;
 import com.diligroup.Home.FoodDetailsActivity;
 import com.diligroup.R;
+import com.diligroup.bean.AddFoodCompleteBean;
 import com.diligroup.bean.HomeStoreSupplyList;
 import com.diligroup.utils.CommonUtils;
 import com.diligroup.view.stickyListView.StickyListHeadersAdapter;
@@ -23,10 +25,12 @@ import java.util.List;
 /**
  * Created by hjf on 2016/7/14.
  */
-public class StoreSupplyRighAdapter extends BaseAdapter implements StickyListHeadersAdapter{
+public class StoreSupplyRighAdapter extends BaseAdapter implements StickyListHeadersAdapter {
     Context mContext;
     List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> mList;
-    private List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> rightDishesList=new ArrayList<>();//所有右侧成品分类列表
+    private List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> rightDishesList = new ArrayList<>();//所有右侧成品分类列表
+
+    AddFoodCompleteBean bean = new AddFoodCompleteBean();
     public StoreSupplyRighAdapter(Context mContext, List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> mList) {
         super();
         this.mContext = mContext;
@@ -36,11 +40,11 @@ public class StoreSupplyRighAdapter extends BaseAdapter implements StickyListHea
 
     private void initListDate() {
         rightDishesList.clear();
-        if (mList!=null && mList.size() > 0) {
+        if (mList != null && mList.size() > 0) {
             for (int i = 0; i < mList.size(); i++) {
-                if(mList.get(i).getDishesSupplyDtlList()!=null){
-                    for(int j=0;j<mList.get(i).getDishesSupplyDtlList().size();j++){
-                    mList.get(i).getDishesSupplyDtlList().get(j).setHeaderCode(mList.get(i).getDishesTypeCode());
+                if (mList.get(i).getDishesSupplyDtlList() != null) {
+                    for (int j = 0; j < mList.get(i).getDishesSupplyDtlList().size(); j++) {
+                        mList.get(i).getDishesSupplyDtlList().get(j).setHeaderCode(mList.get(i).getDishesTypeCode());
                         mList.get(i).getDishesSupplyDtlList().get(j).setHeaderName(mList.get(i).getDishesTypeName());
                     }
                     rightDishesList.addAll(mList.get(i).getDishesSupplyDtlList());
@@ -66,16 +70,15 @@ public class StoreSupplyRighAdapter extends BaseAdapter implements StickyListHea
 
     @Override
     public long getHeaderId(int position) {
-        if(position!=rightDishesList.size()){
+        if (position != rightDishesList.size()) {
             return Long.parseLong(rightDishesList.get(position).getHeaderCode());
         }
-        return Long.parseLong(rightDishesList.get(position-1).getHeaderCode());
+        return Long.parseLong(rightDishesList.get(position - 1).getHeaderCode());
     }
 
     @Override
-    public int getCount()
-    {
-        return rightDishesList==null ? 0:rightDishesList.size();
+    public int getCount() {
+        return rightDishesList == null ? 0 : rightDishesList.size();
     }
 
     @Override
@@ -108,30 +111,31 @@ public class StoreSupplyRighAdapter extends BaseAdapter implements StickyListHea
             myViewHoder = (MyViewHoder) convertView.getTag();
         }
         Picasso.with(mContext).load(R.mipmap.banner_3).into(myViewHoder.addlunchRightIcon);
-        StringBuilder tempStr=new StringBuilder();
-        for(int i=0;i<rightDishesList.get(position).getAccessoriesList().size();i++){
-            if(TextUtils.isEmpty(tempStr.toString())){
+        StringBuilder tempStr = new StringBuilder();
+        for (int i = 0; i < rightDishesList.get(position).getAccessoriesList().size(); i++) {
+            if (TextUtils.isEmpty(tempStr.toString())) {
                 tempStr.append(rightDishesList.get(position).getAccessoriesList().get(i).getFoodName());
-            }else{
-                tempStr.append("+"+rightDishesList.get(position).getAccessoriesList().get(i).getFoodName());
+            } else {
+                tempStr.append("+" + rightDishesList.get(position).getAccessoriesList().get(i).getFoodName());
             }
         }
-        myViewHoder.addlunchDishesIngredients.setText("配料："+tempStr.toString());
+        myViewHoder.addlunchDishesIngredients.setText("配料：" + tempStr.toString());
         myViewHoder.addlunchDishesName.setText(rightDishesList.get(position).getDishesName());
-        myViewHoder.addlunchGramsNum.setText("123kg");
+//        myViewHoder.addlunchGramsNum.setText("123kg");
+        myViewHoder.addlunchAdddish.setImageResource(rightDishesList.get(position).getFoodNums() > 0 ? R.mipmap.add_dish_pressed : R.mipmap.add_dishes_normal);
 
-        if(rightDishesList.get(position).getFoodNums()>0){
+        if (rightDishesList.get(position).getFoodNums() > 0) {
             myViewHoder.addlunchDishesNum.setVisibility(View.VISIBLE);
             myViewHoder.addlunchReducedish.setVisibility(View.VISIBLE);
-            myViewHoder.addlunchDishesNum.setText(rightDishesList.get(position).getFoodNums()+"");
-        }else{
+            myViewHoder.addlunchDishesNum.setText(rightDishesList.get(position).getFoodNums() + "");
+        } else {
             myViewHoder.addlunchDishesNum.setVisibility(View.INVISIBLE);
             myViewHoder.addlunchReducedish.setVisibility(View.INVISIBLE);
         }
 
-        myViewHoder.addlunchAdddish.setOnClickListener(new MyOnClickListener(position,myViewHoder.addlunchDishesNum));
-        myViewHoder.addlunchReducedish.setOnClickListener(new MyOnClickListener(position,null));
-        myViewHoder.root_view.setOnClickListener(new MyOnClickListener(position,null));
+        myViewHoder.addlunchAdddish.setOnClickListener(new MyOnClickListener(position, myViewHoder.addlunchDishesNum));
+        myViewHoder.addlunchReducedish.setOnClickListener(new MyOnClickListener(position, null));
+        myViewHoder.root_view.setOnClickListener(new MyOnClickListener(position, null));
         return convertView;
     }
 
@@ -154,25 +158,31 @@ public class StoreSupplyRighAdapter extends BaseAdapter implements StickyListHea
     class HeadViewHolder {
         TextView sticklist_headtext;
     }
+
     class MyOnClickListener implements View.OnClickListener {
         int position;
         View view;
-        public MyOnClickListener(int position,View view) {
+
+        public MyOnClickListener(int position, View view) {
             this.position = position;
-            this.view=view;
+            this.view = view;
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.addlunch_adddish:
-                    if(view!=null)
-                    CommonUtils.propertyValuesHolder(view);
-                   rightDishesList.get(position).setFoodNums(rightDishesList.get(position).getFoodNums()+1);
+                    if (view != null)
+                        CommonUtils.propertyValuesHolder(view);
+                    rightDishesList.get(position).setFoodNums(rightDishesList.get(position).getFoodNums() + 1);
+                    if(!TextUtils.isEmpty(rightDishesList.get(position).getWeight())){
+                        ((AddLunchActivity) mContext).addFood(setBean(bean));
+                    }
                     notifyDataSetChanged();
                     break;
                 case R.id.addlunch_reducedish:
-                    rightDishesList.get(position).setFoodNums(rightDishesList.get(position).getFoodNums()-1);
+                    rightDishesList.get(position).setFoodNums(rightDishesList.get(position).getFoodNums() - 1);
+                    ((AddLunchActivity) mContext).deleteFood(setBean(bean));
                     notifyDataSetChanged();
                     break;
                 case R.id.root_view:
@@ -184,6 +194,14 @@ public class StoreSupplyRighAdapter extends BaseAdapter implements StickyListHea
                     break;
             }
         }
-    }
 
+        private AddFoodCompleteBean setBean(AddFoodCompleteBean bean) {
+            bean.setWeight(rightDishesList.get(position).getWeight());
+            bean.setDishesCode(rightDishesList.get(position).getDishesCode());
+            bean.setDishesName(rightDishesList.get(position).getDishesName());
+            bean.setImageUrl(rightDishesList.get(position).getImagesURL());
+            bean.setWayType("1");
+            return bean;
+        }
+    }
 }

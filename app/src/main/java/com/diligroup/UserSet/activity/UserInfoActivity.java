@@ -70,6 +70,9 @@ public class UserInfoActivity extends BaseActivity {
     TextView tv_address;
     @Bind(R.id.tv_special)
     TextView tv_special;
+
+    Boolean isFrist;
+    Bundle bundle;
     @Override
     protected void onStart() {
         super.onStart();
@@ -102,82 +105,85 @@ public class UserInfoActivity extends BaseActivity {
 
     @Override
     protected void initViewAndData() {
-        tv_birthday.setText(UserInfoBean.getInstance().getBirthday());
-        rl_time_of_month.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                readyGoForResult(PhysiologicalPeriodActivity.class, 10);
-                Intent mIntent =new Intent(UserInfoActivity.this,PhysiologicalPeriodActivity.class);
-                mIntent.putExtra("isFromMy",true);
-                startActivityForResult(mIntent,10);
-            }
-        });
-    }
 
+        bundle=new Bundle();
+        bundle.putBoolean("isFrist",false);
+        tv_birthday.setText(UserInfoBean.getInstance().getBirthday());
+
+    }
+@OnClick(R.id.rl_time_of_month)
+public void ClickPhysiolog(){
+    Intent mIntent =new Intent(UserInfoActivity.this,PhysiologicalPeriodActivity.class);
+    mIntent.putExtra("isFromMy",true);
+    startActivityForResult(mIntent,10);
+}
     @OnClick(R.id.rl_sex)
     public void ClickSex() {
-        readyGo(ReportSex.class);
+        readyGo(ReportSex.class,bundle);
     }
 
     @OnClick(R.id.rl_birthday)
     public void ClickBirthday() {
-        readyGo(ReportBirthday.class);
+        readyGo(ReportBirthday.class,bundle);
     }
 
     @OnClick(R.id.rl_height)
     public void ClickHeight() {
-        readyGo(ReportHeight.class);
+        readyGo(ReportHeight.class,bundle);
     }
 
     @OnClick(R.id.rl_other)
     public void ClickOther() {
-        readyGo(ReportOther.class);
+        readyGo(ReportOther.class,bundle);
     }
 
     @OnClick(R.id.rl_special)
     public void ClickTsrq() {
-        readyGo(ReportSpecial.class);
+        readyGo(ReportSpecial.class,bundle);
     }
 
     @OnClick(R.id.rl_taste)
     public void ClickTaste() {
-        readyGo(ReportTaste.class);
+        readyGo(ReportTaste.class,bundle);
     }
 
     @OnClick(R.id.rl_where)
     public void ClickWhere() {
-        readyGo(ReportWhere.class);
+        readyGo(ReportWhere.class,bundle);
     }
 
     @OnClick(R.id.rl_weight)
     public void ClickWeight() {
-        readyGo(ReportWeight.class);
+        readyGo(ReportWeight.class,bundle);
     }
 
     @OnClick(R.id.rl_noeat)
     public void ClickYsjj() {
-        readyGo(ReportNoeat.class);
+        readyGo(ReportNoeat.class,bundle);
     }
 
     @OnClick(R.id.rl_work)
     public void ClickWork() {
-        readyGo(ReportWork.class);
+        readyGo(ReportWork.class,bundle);
     }
 
     @OnClick(R.id.rl_history)
     public void ClickHistory() {
-        readyGo(ReportHistory.class);
+        readyGo(ReportHistory.class,bundle);
     }
 
     @OnClick(R.id.rl_allergy)
     public void ClickAllergy() {
-        readyGo(ReportAllergy.class);
+        readyGo(ReportAllergy.class,bundle);
     }
     @OnClick(R.id.change_headicon)
     public void ChangeHeadPhoto() {
         new UpLoadPhotoUtils(this).pickImage();
     }
-
+@OnClick(R.id.rl_now)
+public void ClickAddress(){
+    readyGo(ReportAddress.class,bundle);
+}
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);

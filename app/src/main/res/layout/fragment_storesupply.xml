@@ -93,20 +93,21 @@
             <TextView android:layout_width="match_parent"
                 android:layout_height="23.3dp"
                 android:text="最近搜索"
+                android:id="@+id/near_search"
                 android:gravity="center_vertical"
                 android:textColor="@color/black1"
                 android:textSize="11sp"
                 android:paddingLeft="@dimen/common_marginleft"
                 android:background="@color/common_backgroud"/>
             <include layout="@layout/line_view"/>
-            <ListView
+            <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/storesupply_search_list"
                 android:listSelector="#00000000"
                 android:cacheColorHint="@null">
 
-            </ListView>
+            </android.support.v7.widget.RecyclerView>
         </LinearLayout>
     </FrameLayout>
     <RelativeLayout

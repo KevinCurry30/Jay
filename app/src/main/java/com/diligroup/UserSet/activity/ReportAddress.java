@@ -1,7 +1,10 @@
 package com.diligroup.UserSet.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
@@ -22,6 +25,11 @@ public class ReportAddress extends BaseActivity {
     @Bind(R.id.select_address)
     CityPicker select_address;
     String now_address;
+    Boolean isFrist;
+    Bundle bundle;
+    @Bind(R.id.bt_later_address)
+    Button bt_later_report;
+
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_report_address;
@@ -43,27 +51,39 @@ public class ReportAddress extends BaseActivity {
     protected void onNetworkDisConnected() {
 
     }
+
     @OnClick(R.id.bt_ok_address)
-    public void reprotAddress(){
+    public void reprotAddress() {
 //        ToastUtil.showShort(this,now_address);
-        UserInfoBean.getInstance().setHomeAddress(now_address);
-        readyGo(ReportTaste.class);
+        if (isFrist) {
+            UserInfoBean.getInstance().setHomeAddress(now_address);
+            readyGo(ReportTaste.class,bundle);
+        } else {
+            readyGo(UserInfoActivity.class);
+
+        }
+
     }
 
     @OnClick(R.id.bt_later_address)
-    public void jumpAddress(){
-
-        UserInfoBean.getInstance().setHomeAddress("");
-        readyGo(ReportTaste.class);
+    public void jumpAddress() {
+        readyGo(UserInfoActivity.class);
     }
+
     @Override
     protected void initViewAndData() {
         isShowBack(true);
+        Intent intent = getIntent();
+        bundle = intent.getExtras();
+        isFrist = bundle.getBoolean("isFrist");
+        if (isFrist) {
+            bt_later_report.setVisibility(View.GONE);
+        }
         select_address.setOnSelectingListener(new CityPicker.OnSelectingListener() {
             @Override
             public void selected(boolean selected) {
-                if (selected){
-                    now_address= select_address.getCity_string();
+                if (selected) {
+                    now_address = select_address.getCity_string();
                 }
             }
         });
