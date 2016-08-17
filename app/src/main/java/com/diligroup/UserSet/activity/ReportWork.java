@@ -3,6 +3,7 @@ package com.diligroup.UserSet.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +13,19 @@ import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.baidu.platform.comapi.map.E;
-import com.diligroup.R;
-import com.diligroup.base.BaseActivity;
+import com.diligroup.R;import com.diligroup.base.BaseActivity;
 import com.diligroup.bean.GetJobBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
 import com.diligroup.net.Api;
+import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -35,9 +37,6 @@ import okhttp3.Request;
  */
 public class ReportWork extends BaseActivity {
 
-    //    private String[] lightWork;
-//    private String[] middleWork;
-//    private String[] heavyWork;
 
     @Bind(R.id.gv_light)
     GridView gv_light;
@@ -60,15 +59,21 @@ public class ReportWork extends BaseActivity {
     List<GetJobBean.QlistBean> light_list;
     List<GetJobBean.ZlistBean> middle_list;
     List<GetJobBean.WlistBean> heavy_list;
-//    List<String> jobName;
+    //    List<String> jobName;
     List<String> light_job_name;
     List<String> middle_job_name;
     List<String> heavy_job_name;
     private String userSelect;
-    private  String jobCode;
-    private  WorkAdapter  adapter;
+    private String jobCode;
+    public WorkAdapter adapter1;
+    public WorkAdapter adapter2;
+
+    public WorkAdapter adapter3;
+    String jobType;
     Boolean isFrist;
     Bundle bundle;
+    ViewHolder holder;
+
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_select_work;
@@ -92,34 +97,79 @@ public class ReportWork extends BaseActivity {
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
 
-        light_job_name=new ArrayList<>();
-        middle_job_name=new ArrayList<>();
-        heavy_job_name=new ArrayList<>();
+        light_job_name = new ArrayList<>();
+        middle_job_name = new ArrayList<>();
+        heavy_job_name = new ArrayList<>();
 
         gv_light.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                adapter.setSeclection(position);
-                userSelect=light_list.get(position).getProfName();
-                jobCode=light_list.get(position).getCode();
+                adapter2.setSeclection(-1);
+                adapter2.notifyDataSetChanged();
+                adapter3.setSeclection(-1);
+                adapter3.notifyDataSetChanged();
+                adapter1.setSeclection(position);
+//                holder = (ViewHolder) view.getTa  g();
+//                holder.tv_work.setTextColor(getResources().getColor(R.color.title_color));
+
+//                ／／这句是通知adapter改变选中的position
+//                adapter.clearSelection(position);
+//                ／／关键是这一句，激情了，它可以让listview改动过的数据重新加载一遍，以达到你想要的效果
+                adapter1.notifyDataSetChanged();
+                if (position<light_list.size()){
+                    userSelect = light_list.get(position).getProfName();
+                    jobType= light_list.get(position).getLaborCode();
+                    jobCode = light_list.get(position).getCode();
+                }
+
+
 
             }
         });
         gv_middle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                adapter.setSeclection(position);
-                 userSelect=middle_list.get(position).getProfName();
-                jobCode=middle_list.get(position).getCode();
+                holder.tv_work.setTextColor(getResources().getColor(R.color.black));
+                adapter1.setSeclection(-1);
+                adapter1.notifyDataSetChanged();
+                adapter3.setSeclection(-1);
+                adapter3.notifyDataSetChanged();
+
+
+                adapter2.setSeclection(position);
+                adapter2.notifyDataSetChanged();
+//                holder = (ViewHolder) view.getTag();
+//                holder.tv_work.setTextColor(getResources().getColor(R.color.title_color));
+                if (position<middle_list.size()){
+                    userSelect = middle_list.get(position).getProfName();
+                    jobType= middle_list.get(position).getLaborCode();
+
+                    jobCode = middle_list.get(position).getCode();
+                }
+
 
             }
         });
         gv_heavy.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                adapter.setSeclection(position);
-                userSelect=heavy_list.get(position).getProfName();
-                jobCode=heavy_list.get(position).getCode();
+                holder.tv_work.setTextColor(getResources().getColor(R.color.black));
+                adapter1.setSeclection(-1);
+                adapter1.notifyDataSetChanged();
+                adapter2.setSeclection(-1);
+                adapter2.notifyDataSetChanged();
+                adapter3.setSeclection(position);
+                adapter3.notifyDataSetChanged();
+
+//                holder = (ViewHolder) view.getTag();
+//                holder.tv_work.setTextColor(getResources().getColor(R.color.title_color));
+                if (position<heavy_list.size()){
+                    userSelect = heavy_list.get(position).getProfName();
+                    jobType= heavy_list.get(position).getLaborCode();
+
+                    jobCode = heavy_list.get(position).getCode();
+                }
+
 
             }
         });
@@ -136,19 +186,27 @@ public class ReportWork extends BaseActivity {
     @OnClick(R.id.bt_commit_work)
     public void reportWorkData() {
 
-        if (userSelect!=null){
+        if (userSelect != null) {
 //            ToastUtil.showLong(this, "You  work ====" + userSelect);
 //            ToastUtil.showLong(this, "You  jobCode ====" + jobCode);
 //            UserInfoBean.getInstance().setJob("");
-            if (isFrist){
+            LogUtils.e("职业======"+userSelect);
+            LogUtils.e("职业Code======"+jobCode);
+            LogUtils.e("职业Type======"+jobType);
+            if (isFrist) {
                 UserInfoBean.getInstance().setJob(userSelect);
                 UserInfoBean.getInstance().setJobType(jobCode);
-                readyGo(ReportHeight.class,bundle);
+                readyGo(ReportHeight.class, bundle);
                 return;
-            } readyGo(UserInfoActivity.class);
+            }
+            Map map =new HashMap();
+            map.put("jobType","jobType");
+            map.put("job",userSelect);
+            Api.updataUserInfo(map,this);
+            readyGo(UserInfoActivity.class);
 
-        }else{
-            ToastUtil.showShort(ReportWork.this,"请选择职业");
+        } else {
+            ToastUtil.showShort(ReportWork.this, "请选择职业");
         }
 
 
@@ -170,8 +228,8 @@ public class ReportWork extends BaseActivity {
                     gv_light.setVisibility(View.VISIBLE);
                     tv_light.setText("轻体力");
                     getLightJob(light_list);
-                    adapter=new WorkAdapter(light_job_name);
-                    gv_light.setAdapter(adapter);
+                    adapter1 = new WorkAdapter(light_job_name);
+                    gv_light.setAdapter(adapter1);
                 }
                 if (jobdata.getZlist() != null && jobdata.getZlist().size() > 0) {
                     middle_list = jobdata.getZlist();
@@ -179,8 +237,8 @@ public class ReportWork extends BaseActivity {
                     gv_middle.setVisibility(View.VISIBLE);
                     tv_middle.setText("中等体力");
                     getMiddleJob(middle_list);
-                    adapter=new WorkAdapter(middle_job_name);
-                    gv_middle.setAdapter(adapter);
+                      adapter2 = new WorkAdapter(middle_job_name);
+                    gv_middle.setAdapter(adapter2);
                 }
                 if (jobdata.getWlist() != null && jobdata.getWlist().size() > 0) {
                     heavy_list = jobdata.getWlist();
@@ -188,8 +246,8 @@ public class ReportWork extends BaseActivity {
                     gv_heavy.setVisibility(View.VISIBLE);
                     tv_heavy.setText("重体力");
                     getHeavyJob(heavy_list);
-                    adapter=new WorkAdapter(heavy_job_name);
-                    gv_heavy.setAdapter(adapter);
+                    adapter3 = new WorkAdapter(heavy_job_name);
+                    gv_heavy.setAdapter(adapter3);
                 }
             }
 
@@ -220,35 +278,38 @@ public class ReportWork extends BaseActivity {
 
     }
 
-    private class WorkAdapter extends BaseAdapter {
+    public class WorkAdapter extends BaseAdapter {
         LayoutInflater mInflater;
         List<String> listJob;
-
+        private int selectedPosition=0;
+//        ／／这句是把listview的点击position,传递过来
+        public void clearSelection(int position) {
+            selectedPosition = position;
+        }
         @Override
         public int getCount() {
-
-
-            if (listJob.size()%4==1){
-                return listJob.size()+3;
+            if (listJob.size() % 4 == 1) {
+                return listJob.size() + 3;
             }
-            if (listJob.size()%4==2){
-                return listJob.size()+2;
+            if (listJob.size() % 4 == 2) {
+                return listJob.size() + 2;
             }
-            if (listJob.size()%4==3){
-                return listJob.size()+1;
+            if (listJob.size() % 4 == 3) {
+                return listJob.size() + 1;
             }
             return listJob.size();
         }
+
         private int clickTemp = -1;
+
         //标识选择的Item
         public void setSeclection(int position) {
             clickTemp = position;
         }
-        WorkAdapter(List<String> jobList) {
 
+        public WorkAdapter(List<String> jobList) {
             this.listJob = jobList;
             mInflater = LayoutInflater.from(ReportWork.this);
-
         }
 
 
@@ -264,7 +325,6 @@ public class ReportWork extends BaseActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = mInflater.inflate(R.layout.grid_item, null);
@@ -274,21 +334,23 @@ public class ReportWork extends BaseActivity {
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            if (position<listJob.size()){
+//            if (position==clickTemp){
+//                holder.tv_work.setTextColor(getResources().getColor(R.color.title_color));
+//            }
+            if (position < listJob.size()) {
                 holder.tv_work.setText(listJob.get(position));
             }
-
-//            if (clickTemp == position) {
-//                holder.rl_gv.setBackgroundColor(Color.parseColor("#DDDDDD"));
-//            } else {
-//                holder.rl_gv.setBackgroundColor(Color.TRANSPARENT);
-//            }
+//            ／／判断点击了哪个item,然后判断，让他的textview变色
+            if(clickTemp==position){
+                holder.tv_work.setTextColor(getResources().getColor(R.color.title_color));
+            }else{
+                holder.tv_work.setTextColor(getResources().getColor(R.color.black));
+            }
             return convertView;
         }
     }
 
-    class ViewHolder {
-        TextView tv_work;
-        RelativeLayout  rl_gv;
+    public class ViewHolder {
+        public TextView tv_work;
     }
 }

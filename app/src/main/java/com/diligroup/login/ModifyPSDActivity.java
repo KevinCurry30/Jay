@@ -17,6 +17,7 @@ import com.diligroup.utils.DigestUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.StringUtils;
 import com.diligroup.utils.ToastUtil;
+import com.diligroup.view.TogglePasswordVisibilityEditText;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -35,7 +36,7 @@ public class ModifyPSDActivity extends BaseActivity {
     @Bind(R.id.input_phone2)
     EditText et_phone;
     @Bind(R.id.et_newpsd2)
-    EditText et_psd;
+    TogglePasswordVisibilityEditText et_psd;
     @Bind(R.id.bt_getcode2)
     Button bt_getCode;
     String phoneNumber;
@@ -68,13 +69,13 @@ public class ModifyPSDActivity extends BaseActivity {
                 time.start();// 开始计时
             } else {
                 tv_notice_phone.setVisibility(View.VISIBLE);
-                tv_notice_phone.setText("手机号码格式不正确");
+                tv_notice_phone.setText("手机号码格式不正确!");
 
 //                ToastUtil.showShort(this, "手机号码格式不正确");
             }
         } else {
             tv_notice_phone.setVisibility(View.VISIBLE);
-            tv_notice_phone.setText("请输入手机号码");
+            tv_notice_phone.setText("请输入手机号码!");
 //            ToastUtil.showShort(this, "请输入手机号码");
         }
     }

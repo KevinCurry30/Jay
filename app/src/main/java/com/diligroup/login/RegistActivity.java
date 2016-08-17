@@ -177,7 +177,9 @@ public class RegistActivity extends BaseActivity {
                         return;
                     }
                     if (registBean.getCode().equals("APP_C010002")) {
-                        ToastUtil.showShort(this, "此号码已经注册请直接登录");
+                        tv_notice_psd.setVisibility(View.VISIBLE);
+                        tv_notice_psd.setText("此号码已经注册请直接登录");
+//                        ToastUtil.showShort(this, "此号码已经注册请直接登录");
                         return;
                     }
                     break;

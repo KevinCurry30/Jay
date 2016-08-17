@@ -58,8 +58,6 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
     @Override
     public void onStart() {
         super.onStart();
-//        Api.getDietRecord("1470758400000",this);
-        Api.getDietRecord("",this);
     }
 
     //餐别：早餐20001，午餐20002，晚餐20003，夜宵20004，加餐	20005
@@ -74,6 +72,8 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
 
         homeToday.setText(currentDay);
         homeWeekday.setText("(今天 " + DateUtils.getWeekDay() + ")");
+        Api.getDietRecord(currentDay,this);
+
     }
 
     @Override

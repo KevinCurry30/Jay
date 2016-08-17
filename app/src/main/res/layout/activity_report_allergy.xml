@@ -16,7 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        zhy:max_select="10" />
+        zhy:max_select="10"
+
+        />
 
     <View
         android:layout_width="match_parent"
@@ -42,6 +44,8 @@
             android:scrollbars="none"/>
 
         <ListView
+            android:background="@color/white"
+            android:choiceMode="multipleChoice"
             android:id="@+id/list_foods_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

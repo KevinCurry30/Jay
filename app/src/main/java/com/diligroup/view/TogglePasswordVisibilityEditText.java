@@ -41,7 +41,7 @@ public class TogglePasswordVisibilityEditText extends EditText {
         Drawable[] compoundDrawables = getCompoundDrawables();
         visibilityDrawable = compoundDrawables[2];
         if (visibilityDrawable == null) {
-            visibilityDrawable = getResources().getDrawable(R.drawable.iv_show_psd);
+            visibilityDrawable = getResources().getDrawable(R.drawable.eye_normal);
         }
     }
 
@@ -66,13 +66,13 @@ public class TogglePasswordVisibilityEditText extends EditText {
                 if (xFlag) {
                     visibililty = !visibililty;
                     if (visibililty) {
-                        visibilityDrawable = getResources().getDrawable(R.drawable.iv_show_psd);
+                        visibilityDrawable = getResources().getDrawable(R.drawable.eye_pressed);
                     /*this.setInputType(EditorInfo.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);*/
 
                         this.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     } else {
                         //隐藏密码
-                        visibilityDrawable = getResources().getDrawable(R.drawable.iv_show_psd);
+                        visibilityDrawable = getResources().getDrawable(R.drawable.eye_normal);
                         //this.setInputType(EditorInfo.TYPE_TEXT_VARIATION_PASSWORD);
                         this.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     }

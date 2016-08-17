@@ -157,7 +157,7 @@ public class Api {
         map.put("type","update");
         map.put("userId ",userId );
         map.put("headPhotoAdd", headPhotoAdd);
-        RequestManager.getInstance().postAsync(Action.UPDATA_USER_INFOS,map,callback);
+        RequestManager.getInstance().postAsync(Action.SET_INFOS,map,callback);
     }
     /**
      * 获取职业信息分类
@@ -274,9 +274,9 @@ public class Api {
         RequestManager.getInstance().getSync(Action.STORESUPPLY_SEARCH,map,callback);
     }
     /**
-     * 修改用户信息
+     * 设置用户信息
      */
-    public  static  void updataUserInfo(RequestManager.ResultCallback callback){
+    public  static  void setUserInfo(RequestManager.ResultCallback callback){
         Map<String, String> map = new HashMap<>();
         map.put("userId",String.valueOf(Constant.userId));
         map.put("transCode", TransCode.updataUserInfos);
@@ -298,18 +298,18 @@ public class Api {
         map.put("otherReq", UserInfoBean.getInstance().getOtherReq());
         map.put("periodStartTime",UserInfoBean.getInstance().getPeriodStartTime());
         map.put("periodEndTime", UserInfoBean.getInstance().getPeriodEndTime());
-        RequestManager.getInstance().getAsync(Action.UPDATA_USER_INFOS,map,callback);
+        RequestManager.getInstance().getAsync(Action.SET_INFOS,map,callback);
 
     }
 
     /**
      * 根据大分类 获取 过敏食材小分类
      */
-    public static void getAllergyDetails(String  allergyTypeId ,RequestManager.ResultCallback callback){
+    public static void getAllergyDetails(String  foodName ,RequestManager.ResultCallback callback){
         Map<String, String> map = new HashMap<>();
         map.put("type","findAll");
         map.put("status","1");
-//        map.put("allergyType1",allergyTypeId);
+        map.put("allergyType1",foodName);
         map.put("transCode", TransCode.GET_ALLERGY_DETAILS);
         RequestManager.getInstance().getAsync(Action.GET_ALLERGY_DETAILS,map,callback);
     }
@@ -352,7 +352,7 @@ public class Api {
         map.put("type","findAll");
         map.put("transCode",TransCode.GET_DIET_RECORD );
         map.put("time",time);
-        map.put("userId","1");
+        map.put("userId",String.valueOf(Constant.userId));
         RequestManager.getInstance().getAsync(Action.GET_DIET_RECORD,map,callback);
     }
 
@@ -405,5 +405,19 @@ public class Api {
         map.put("mealType",mealType);
         map.put("typeCode",typeCode);
         RequestManager.getInstance().getAsync(Action.CUSTOMER_FIND_BY_CATEGORYID,map,callback);
+    }
+    /**
+     * 更新用户 个人信息  单条
+     */
+    public static void updataUserInfo(Map map,RequestManager.ResultCallback  callback){
+        if (map!=null){
+            map.put("transCode",TransCode.updataUserInfos);
+            map.put("type","update");
+            map.put("mobileNum",Constant.userNumber);
+            map.put("userId",String.valueOf(Constant.userId));
+            RequestManager.getInstance().getAsync(Action.UPDATA_USERINFO,map,callback);
+
+        }
+
     }
 }

@@ -14,11 +14,14 @@ import com.diligroup.bean.GetJiaoQinBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
 import com.diligroup.net.Api;
+import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -57,13 +60,17 @@ public class ReportSpecial extends BaseActivity {
 
     @OnClick(R.id.bt_report_special)
     public void ReprotSpecial() {
+
+        String s = id_list.toString().replaceAll(" ", "");
+        String s2 = s.substring(1, s.length() - 1);
+        LogUtils.e("特殊人群======" + s2);
         if (isFrist) {
-            String s = id_list.toString().replaceAll(" ", "");
-            String s2 = s.substring(1, s.length() - 1);
-//        ToastUtil.showShort(ReportSpecial.this,s2);
             UserInfoBean.getInstance().setSpecialCrowdCode(s2);
             readyGo(ReportOther.class, bundle);
         } else {
+            Map map = new HashMap();
+            map.put("specialCrowdCode", s2);
+            Api.updataUserInfo(map, this);
             readyGo(UserInfoActivity.class);
         }
 
@@ -101,22 +108,20 @@ public class ReportSpecial extends BaseActivity {
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
         if (isFrist) {
-            bt_later_report.setVisibility(View.GONE);
+            bt_later_report.setVisibility(View.INVISIBLE);
         }
+        bt_later_report.setVisibility(View.GONE);
         id_list = new ArrayList<>();
         hisList = new ArrayList<>();
         lv_special.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ListitemAdapter.ViewHolder holder = (ListitemAdapter.ViewHolder) view.getTag();
+//                holder.cb.toggle();
                 holder.cb.setEnabled(true);
-//                JiaoQinAdapter.getIsSelected().put(position, holder.cb.isChecked());
-//                // 调整选定条目
-                if (holder.cb.isChecked()) {
-//                    ToastUtil.showShort(ReportSpecial.this,"Checked"+holder.foodId);
+                if (holder.cb.isChecked()){
                     id_list.add(holder.foodId);
-                } else {
-//                    ToastUtil.showShort(ReportSpecial.this,"UnChecked"+holder.foodId);
+                }else {
                     removeUnChecked(holder.foodId);
                 }
             }

@@ -11,7 +11,9 @@ import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
+import com.diligroup.net.Api;
 import com.diligroup.utils.BirthdayUtils;
+import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
 import com.diligroup.view.WheelView;
@@ -19,6 +21,8 @@ import com.diligroup.view.WheelView;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -132,12 +136,14 @@ month=item;
     @OnClick(R.id.bt_getTime)
     public void getBirthday() {
         String brithday = year + "-" + month + "-" + day;
-
+        LogUtils.e("生日======"+brithday);
         if (isFrist) {
             UserInfoBean.getInstance().setBirthday(brithday);
             readyGo(ReportWork.class,bundle);
         }else{
-            UserInfoBean.getInstance().setBirthday(brithday);
+            Map map =new HashMap();
+            map.put("birthday",brithday);
+            Api.updataUserInfo(map,this);
             readyGo(UserInfoActivity.class);
         }
 //        ToastUtil.showShort(ReportBirthday.this, "您选择的日期是：" + data_select.getYear() + "年" + (data_select.getMonth() + 1) + "月" + data_select.getDayOfMonth() + "日。");

@@ -7,22 +7,23 @@ import java.io.Serializable;
  */
 public class UserBeanFromService extends CommonBean implements Serializable{
 
+
     /**
      * alipay :
-     * birthday : 1995-6-16
+     * birthday : 1971年-12月-12日
      * email :
-     * height : 46 Kg
+     * height : 159 CM
      * homeAdd :
      * homeCityCode :
      * homeDistrictId :
      * homeProvinceCode :
-     * lastLoginTime : 1471329001779
+     * lastLoginTime : 1471426143989
      * microblog :
      * mobileNum : 18600089822
      * nationCode :
      * password :
      * qq :
-     * registerTime : 1470903888445
+     * registerTime : 1471425346152
      * resouce : 1
      * sex : 0
      * status : 1
@@ -34,32 +35,40 @@ public class UserBeanFromService extends CommonBean implements Serializable{
 
     private UserBean user;
     /**
-     * allergyName :
-     * carbohydrates : 0
+     * allergyName : 香菜
+     * carbohydrates : 258.75
      * chronicDiseaseCode : 240003
-     * currentAdd :
-     * currentCityCode :
-     * currentDistrictId : 0
-     * currentProvinceCode :
-     * energyKC : 0
-     * fat : 0
+     * chronicDiseaseNames : 糖尿病
+     * currentAdd : 大望路1
+     * currentCityCode : 430000
+     * currentDistrictId : 430281
+     * currentProvinceCode : 430000
+     * energyKC : 1800.0
+     * fat : 50.0
      * headPhotoAdd : http://192.168.100.67/images.ypp2015.com/ypp/upload/img/IMG_20160807_104838.jpg
      * id : 2
      * job :
-     * jobType :
-     * otherReq :
-     * periodEndTime :
-     * periodNum :
-     * periodStartTime :
-     * protein : 0
+     * jobName :
+     * jobType : 15001
+     * jobTypeName :
+     * otherReq : 250002
+     * otherReqName : 增肌
+     * periodEndTime : 2016-08-15
+     * periodNum : 28
+     * periodStartTime : 2016-08-10
+     * protein : 55.0
      * reqType : 0
-     * specialCrowdCode :
-     * storeId : 0
-     * tabooCode :
-     * targetWeight :
+     * specialCrowdCode : 200002
+     * specialCrowdName : 孕中期
+     * storeId : 8
+     * storeName : 测试08
+     * tabooCode : 40005
+     * tabooNames :
+     * targetWeight : 60
      * tasteCode :
+     * tasteNames :
      * userId : 11
-     * weight :
+     * weight : 52 Kg
      */
 
     private UserDetailBean userDetail;
@@ -283,29 +292,37 @@ public class UserBeanFromService extends CommonBean implements Serializable{
 
     public static class UserDetailBean {
         private String allergyName;
-        private int carbohydrates;
+        private double carbohydrates;
         private String chronicDiseaseCode;
+        private String chronicDiseaseNames;
         private String currentAdd;
         private String currentCityCode;
         private String currentDistrictId;
         private String currentProvinceCode;
-        private int energyKC;
-        private int fat;
+        private double energyKC;
+        private double fat;
         private String headPhotoAdd;
         private int id;
         private String job;
+        private String jobName;
         private String jobType;
+        private String jobTypeName;
         private String otherReq;
+        private String otherReqName;
         private String periodEndTime;
         private String periodNum;
         private String periodStartTime;
-        private int protein;
+        private double protein;
         private String reqType;
         private String specialCrowdCode;
+        private String specialCrowdName;
         private int storeId;
+        private String storeName;
         private String tabooCode;
+        private String tabooNames;
         private String targetWeight;
         private String tasteCode;
+        private String tasteNames;
         private int userId;
         private String weight;
 
@@ -317,11 +334,11 @@ public class UserBeanFromService extends CommonBean implements Serializable{
             this.allergyName = allergyName;
         }
 
-        public int getCarbohydrates() {
+        public double getCarbohydrates() {
             return carbohydrates;
         }
 
-        public void setCarbohydrates(int carbohydrates) {
+        public void setCarbohydrates(double carbohydrates) {
             this.carbohydrates = carbohydrates;
         }
 
@@ -331,6 +348,14 @@ public class UserBeanFromService extends CommonBean implements Serializable{
 
         public void setChronicDiseaseCode(String chronicDiseaseCode) {
             this.chronicDiseaseCode = chronicDiseaseCode;
+        }
+
+        public String getChronicDiseaseNames() {
+            return chronicDiseaseNames;
+        }
+
+        public void setChronicDiseaseNames(String chronicDiseaseNames) {
+            this.chronicDiseaseNames = chronicDiseaseNames;
         }
 
         public String getCurrentAdd() {
@@ -365,19 +390,19 @@ public class UserBeanFromService extends CommonBean implements Serializable{
             this.currentProvinceCode = currentProvinceCode;
         }
 
-        public int getEnergyKC() {
+        public double getEnergyKC() {
             return energyKC;
         }
 
-        public void setEnergyKC(int energyKC) {
+        public void setEnergyKC(double energyKC) {
             this.energyKC = energyKC;
         }
 
-        public int getFat() {
+        public double getFat() {
             return fat;
         }
 
-        public void setFat(int fat) {
+        public void setFat(double fat) {
             this.fat = fat;
         }
 
@@ -405,6 +430,14 @@ public class UserBeanFromService extends CommonBean implements Serializable{
             this.job = job;
         }
 
+        public String getJobName() {
+            return jobName;
+        }
+
+        public void setJobName(String jobName) {
+            this.jobName = jobName;
+        }
+
         public String getJobType() {
             return jobType;
         }
@@ -413,12 +446,28 @@ public class UserBeanFromService extends CommonBean implements Serializable{
             this.jobType = jobType;
         }
 
+        public String getJobTypeName() {
+            return jobTypeName;
+        }
+
+        public void setJobTypeName(String jobTypeName) {
+            this.jobTypeName = jobTypeName;
+        }
+
         public String getOtherReq() {
             return otherReq;
         }
 
         public void setOtherReq(String otherReq) {
             this.otherReq = otherReq;
+        }
+
+        public String getOtherReqName() {
+            return otherReqName;
+        }
+
+        public void setOtherReqName(String otherReqName) {
+            this.otherReqName = otherReqName;
         }
 
         public String getPeriodEndTime() {
@@ -445,11 +494,11 @@ public class UserBeanFromService extends CommonBean implements Serializable{
             this.periodStartTime = periodStartTime;
         }
 
-        public int getProtein() {
+        public double getProtein() {
             return protein;
         }
 
-        public void setProtein(int protein) {
+        public void setProtein(double protein) {
             this.protein = protein;
         }
 
@@ -469,6 +518,14 @@ public class UserBeanFromService extends CommonBean implements Serializable{
             this.specialCrowdCode = specialCrowdCode;
         }
 
+        public String getSpecialCrowdName() {
+            return specialCrowdName;
+        }
+
+        public void setSpecialCrowdName(String specialCrowdName) {
+            this.specialCrowdName = specialCrowdName;
+        }
+
         public int getStoreId() {
             return storeId;
         }
@@ -477,12 +534,28 @@ public class UserBeanFromService extends CommonBean implements Serializable{
             this.storeId = storeId;
         }
 
+        public String getStoreName() {
+            return storeName;
+        }
+
+        public void setStoreName(String storeName) {
+            this.storeName = storeName;
+        }
+
         public String getTabooCode() {
             return tabooCode;
         }
 
         public void setTabooCode(String tabooCode) {
             this.tabooCode = tabooCode;
+        }
+
+        public String getTabooNames() {
+            return tabooNames;
+        }
+
+        public void setTabooNames(String tabooNames) {
+            this.tabooNames = tabooNames;
         }
 
         public String getTargetWeight() {
@@ -499,6 +572,14 @@ public class UserBeanFromService extends CommonBean implements Serializable{
 
         public void setTasteCode(String tasteCode) {
             this.tasteCode = tasteCode;
+        }
+
+        public String getTasteNames() {
+            return tasteNames;
+        }
+
+        public void setTasteNames(String tasteNames) {
+            this.tasteNames = tasteNames;
         }
 
         public int getUserId() {

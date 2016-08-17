@@ -9,8 +9,13 @@ import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
+import com.diligroup.net.Api;
+import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -85,15 +90,23 @@ public class ReportSex extends BaseActivity {
 
     @OnClick(R.id.bt_ok_sex)
     public void reportSex() {
-        if (isFrist) {
-            if (sexMark == 1 || sexMark == 0) {
+        if (sexMark == 1 || sexMark == 0) {
+            if (isFrist) {
                 UserInfoBean.getInstance().setSex(sexMark);
                 readyGo(ReportBirthday.class, bundle);
-                return;
+            } else{
+                Map<String,String>  map =new HashMap();
+                map.put("sex",String.valueOf(sexMark));
+                Api.updataUserInfo(map,this);
+                readyGo(UserInfoActivity.class);
             }
+            LogUtils.e("性别====="+String.valueOf(sexMark));
+        } else{
             ToastUtil.showShort(ReportSex.this, "请选择性别");
         }
-        readyGo(UserInfoActivity.class);
+
+
+
 
     }
 

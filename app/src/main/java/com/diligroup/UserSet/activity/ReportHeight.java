@@ -8,11 +8,15 @@ import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
+import com.diligroup.net.Api;
+import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
 import com.diligroup.view.WheelView;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -72,13 +76,16 @@ public class ReportHeight extends BaseActivity {
 
     @OnClick(R.id.bt_ok_height)
     public void reprotHeight(){
+        LogUtils.e("身高======"+selectHeight);
         if (isFrist){
             UserInfoBean.getInstance().setHeight(selectHeight);
             readyGo(ReportWeight.class,bundle);
             return;
         }
+        Map map =new HashMap();
+        map.put("height",selectHeight);
+        Api.updataUserInfo(map,this);
         readyGo(UserInfoActivity.class);
-//        ToastUtil.showShort(this,selectHeight);
     }
 
     @Override

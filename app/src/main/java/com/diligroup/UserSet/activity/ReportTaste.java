@@ -19,7 +19,9 @@ import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -68,24 +70,20 @@ public class ReportTaste extends BaseActivity {
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
         if (isFrist){
-            bt_later_report.setVisibility(View.GONE);
+            bt_later_report.setVisibility(View.INVISIBLE);
         }
+        bt_later_report.setVisibility(View.GONE);
         lv_taste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ListitemAdapter.ViewHolder holder= (ListitemAdapter.ViewHolder) view.getTag();
-                holder.cb.toggle();
-//                lv_taste.setItemChecked(position,true);
-//                JiaoQinAdapter.getIsSelected().put(position, holder.cb.isChecked());
-//                // 调整选定条目
+                holder.cb.setEnabled(true);
+
                 if (holder.cb.isChecked()){
-//                    ToastUtil.showShort(ReportTaste.this,"Checked"+holder.foodId);
                     id_list.add(holder.foodId);
                 }else {
-//                    ToastUtil.showShort(ReportTaste.this,"UnChecked"+holder.foodId);
                     removeUnChecked(holder.foodId);
                 }
-                LogUtils.e("taste====="+id_list.toString());
             }
         });
     }
@@ -100,13 +98,19 @@ public class ReportTaste extends BaseActivity {
     }
     @OnClick(R.id.bt_report_taste)
     public void ReporTaste() {
+        String s=id_list.toString().replaceAll(" ","");
+        String s2= s.substring(1,s.length()-1);
+        LogUtils.e("口味======"+s2);
+
         if (isFrist){
-            String s=id_list.toString().replaceAll(" ","");
-            String s2= s.substring(1,s.length()-1);
-//        ToastUtil.showShort(ReportTaste.this,s2);
+
             UserInfoBean.getInstance().setTaste(s2);
             readyGo(ReportHistory.class,bundle);
+            return;
         }
+        Map map =new HashMap();
+        map.put("tasteCode ",s2);
+        Api.updataUserInfo(map,this);
        readyGo(UserInfoActivity.class);
 
     }

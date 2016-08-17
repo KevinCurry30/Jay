@@ -8,106 +8,113 @@
 
 
     <EditText
-        android:background="@drawable/edit_text_selector"
-        android:maxLength="11"
         android:id="@+id/input_phone2"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:paddingLeft="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="35dp"
+        android:background="@drawable/edit_text_selector"
         android:hint="请输入手机号"
         android:imeActionId="@+id/login"
         android:imeOptions="actionUnspecified"
         android:inputType="number"
+        android:maxLength="11"
         android:maxLines="1"
+        android:paddingLeft="10dp"
         android:singleLine="true" />
+
     <TextView
         android:id="@+id/tv_notice_a"
-        android:visibility="invisible"
-
-        android:textColor="#FE0000"
-        android:layout_marginTop="5dp"
-        android:textSize="16sp"
-        android:layout_marginLeft="23dp"
-        android:text="手机号码不正确"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:layout_marginTop="5dp"
+        android:text="手机号码不正确"
+        android:textColor="#FE0000"
+        android:textSize="16sp"
+        android:visibility="invisible" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <EditText
-            android:background="@drawable/edit_text_selector"
             android:id="@+id/et_code2"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:paddingLeft="10dp"
-            android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="6dp"
             android:layout_weight="6"
-            android:hint="请输入验证码" />
+            android:background="@drawable/edit_text_selector"
+            android:hint="请输入验证码"
+            android:paddingLeft="10dp" />
 
         <Button
-            android:layout_marginBottom="10dp"
             android:id="@+id/bt_getcode2"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:textSize="18sp"
+            android:layout_marginBottom="10dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="6dp"
             android:layout_weight="4"
             android:background="@drawable/bg_get_code"
             android:text="获取验证码"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="18sp" />
     </LinearLayout>
-    <TextView
-        android:visibility="invisible"
 
+    <TextView
         android:id="@+id/tv_notice_b"
-        android:textColor="#FE0000"
-        android:layout_marginTop="2dp"
-        android:textSize="16sp"
-        android:layout_marginLeft="23dp"
-        android:text="手机号码不正确"
+
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <EditText
-        android:background="@drawable/edit_text_selector"
-        android:maxLength="16"
-        android:layout_height="40dp"
-        android:paddingLeft="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:layout_marginTop="2dp"
+        android:text="手机号码不正确"
+        android:textColor="#FE0000"
+        android:textSize="16sp"
+        android:visibility="invisible" />
+
+    <com.diligroup.view.TogglePasswordVisibilityEditText
+        android:drawableEnd="@drawable/eye_normal"
         android:id="@+id/et_newpsd2"
         android:layout_width="match_parent"
-
+        android:paddingEnd="15dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="20dp"
-        android:inputType="textPassword"
         android:layout_marginRight="20dp"
         android:layout_marginTop="6dp"
-        android:hint="请输入您的新密码" />
-    <TextView
-        android:visibility="invisible"
+        android:background="@drawable/edit_text_selector"
+        android:hint="请输入您的新密码"
+        android:inputType="textPassword"
+        android:maxLength="16"
+        android:paddingLeft="10dp" />
 
+    <TextView
         android:id="@+id/tv_notice_c"
-        android:textColor="#FE0000"
-        android:layout_marginTop="5dp"
-        android:textSize="16sp"
-        android:layout_marginLeft="23dp"
-        android:text="手机号码不正确"
+
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:layout_marginTop="5dp"
+        android:text="手机号码不正确"
+        android:textColor="#FE0000"
+        android:textSize="16sp"
+        android:visibility="invisible" />
+
     <Button
         android:id="@+id/bt_ok2"
         style="?android:textAppearanceSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="36dp"
         android:layout_margin="40dp"
+        android:layout_marginTop="36dp"
         android:background="@drawable/em_button_login_bg"
         android:gravity="center"
         android:text="确定"

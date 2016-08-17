@@ -41,7 +41,7 @@
         android:layout_height="40dp"
         android:paddingStart="10dp"
         android:paddingEnd="15dp"
-        android:drawableEnd="@drawable/iv_show_psd"
+        android:drawableEnd="@drawable/eye_normal"
         android:id="@+id/input_password"
         android:layout_width="match_parent"
         android:layout_marginLeft="20dp"

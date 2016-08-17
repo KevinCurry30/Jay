@@ -110,7 +110,7 @@
         jar="D:\NewApp\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         revision="23.0.1"
-        sha1="230b69ba6a7848b452b5f81ef64b88bd421cd1f2">
+        sha1="f6ad8574d1c5cb12034cd6d7a120fc88ba53d84c">
         <dex dex="D:\NewApp\app\build\intermediates\pre-dexed\debug\instant-run-bootstrap_f707334db413b2b39a16dc3b526e4df24a05d2ce.jar" />
     </item>
     <item
@@ -180,7 +180,7 @@
         jar="D:\NewApp\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         revision="23.0.1"
-        sha1="9c63a8ce3082d566872fe3265caf9edf0d4eb5ea">
+        sha1="b0092ddc3a12a4fc8abcacc33fb2ad943b017784">
         <dex dex="D:\NewApp\app\build\intermediates\pre-dexed\debug\instant-run_26ed14f71062bbca0b7e4ae9bffc28b54f1b6ebe.jar" />
     </item>
     <item

@@ -11,6 +11,8 @@
 
 
     <ListView
+        android:choiceMode="multipleChoice"
+
         android:layout_marginTop="15dp"
         android:background="@color/white"
         android:id="@+id/lv_special"

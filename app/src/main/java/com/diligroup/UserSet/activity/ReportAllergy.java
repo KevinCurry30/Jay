@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import butterknife.Bind;
@@ -60,21 +61,20 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
     TagFlowLayout taglayout;
     List<String> foodIdList;
     TagAdapter tagAdapter;
-    LayoutInflater mInflater;
     List<GetAllergyDetailBean.ListBean> allergyList;
     List<String> foodNameList;
     ViewHolder foodHolder;
     @Bind(R.id.typwleft_listView)
-    RecyclerView  rv_left;
-    //    @Bind(R.id.ll_guleis)
-     AllergyAdapter allergyAdapter;
-    //    LinearLayout ll_gulei;
+    RecyclerView rv_left;
+    AllergyAdapter allergyAdapter;
     List<GetFoodTypeBean> typeNameList;
-     DividerItemDecoration dividerItemDecoration;
+    DividerItemDecoration dividerItemDecoration;
 
+    LayoutInflater mInflater;
 
     Boolean isFrist;
     Bundle bundle;
+
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_report_allergy;
@@ -95,11 +95,15 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
      **/
     @OnClick(R.id.bt_commit_allergy)
     public void reportAllergy() {
-        if (isFrist){
+        if (isFrist) {
             UserInfoBean.getInstance().setAllergyFood("");
-            readyGo(ReportWhere.class,bundle);
+            readyGo(ReportWhere.class, bundle);
             return;
         }
+
+//        Map map =new HashMap();
+//        map.put("sex",sexMark);
+//        Api.updataUserInfo(map,this);
         readyGo(UserInfoActivity.class);
 
     }
@@ -117,34 +121,29 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
         Intent intent = getIntent();
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
+        mInflater = LayoutInflater.from(ReportAllergy.this);
+
         dividerItemDecoration = new DividerItemDecoration(
                 this, DividerItemDecoration.VERTICAL_LIST);
-//        dividerItemDecoration.setWidth(CommonUtils.px2dip(this, 1));
         typeNameList = FoodTypeUtils.GetFoodTypeList();
-        allergyAdapter = new AllergyAdapter(this, typeNameList,this);
+        allergyAdapter = new AllergyAdapter(this, typeNameList, this);
         rv_left.addItemDecoration(dividerItemDecoration);//垂直列表的分割线
         rv_left.setHasFixedSize(true);//保持固定大小，提高性能
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rv_left.setLayoutManager(layoutManager);
         rv_left.setAdapter(allergyAdapter);
-
-        mInflater = LayoutInflater.from(ReportAllergy.this);
         foodIdList = new ArrayList<>();
         foodNameList = new ArrayList<>();
-//        ll_gulei.setPressed(true);
-        Api.getAllergyDetails("", this);
+
         lv_foodDetail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 foodHolder = (ViewHolder) view.getTag();
-                foodHolder.food_Check.toggle();
-                adapter.getIsSelected().put(position, foodHolder.food_Check.isChecked());
-                // 调整选定条目
+                foodHolder.food_Check.setEnabled(true);
+//                foodHolder.food_Check.toggle();
                 if (foodHolder.food_Check.isChecked()) {
-//                    ToastUtil.showShort(ReportAllergy.this,"Checked==="+foodHolder.id);
                     foodNameList.add(foodHolder.title.getText().toString());
                 } else {
-//                    ToastUtil.showShort(ReportAllergy.this,"UnChecked==="+foodHolder.id);
                     removeUnChecked(foodHolder.title.getText().toString());
                 }
                 tagAdapter = new TagAdapter(foodNameList) {
@@ -187,7 +186,7 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
         if (object != null && action == Action.GET_ALLERGY_DETAILS) {
             GetAllergyDetailBean allergyDetailBean = (GetAllergyDetailBean) object;
             allergyList = allergyDetailBean.getList();
-            adapter = new FoodAdapter(this, allergyList);
+            adapter = new FoodAdapter(allergyList);
             lv_foodDetail.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
@@ -195,53 +194,44 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
 
     @Override
     public void onItemClick(View view, int position) {
-        switch (position){
+        switch (position) {
             case 0:
-                Api.getAllergyDetails("", this);
+                Api.getAllergyDetails("谷类", this);
                 break;
 //                ToastUtil.showShort(ReportAllergy.this,"Clicked_1"); break;
             case 1:
+                Api.getAllergyDetails("豆类", this);
+                break;
+
 //                ToastUtil.showShort(ReportAllergy.this,"Clicked_1"); break;
             case 2:
+                Api.getAllergyDetails("蔬菜类", this);
+                break;
+
 //                ToastUtil.showShort(ReportAllergy.this,"Clicked_1"); break;
             case 3:
+                Api.getAllergyDetails("水果类", this);
+                break;
+
 //                ToastUtil.showShort(ReportAllergy.this,"Clicked_1"); break;
             case 4:
-//                ToastUtil.showShort(ReportAllergy.this,"Clicked_1");
+                Api.getAllergyDetails("坚果类", this);
                 break;
+
+//                ToastUtil.showShort(ReportAllergy.this,"Clicked_1");
+
         }
     }
 
     //  小分类  adapter
     private class FoodAdapter extends BaseAdapter {
         List<GetAllergyDetailBean.ListBean> foodList;
-//        private LayoutInflater mInflater;
-        //Iterator iterator;
-        // 用来控制CheckBox的选中状况
-        private HashMap<Integer, Boolean> isSelected;
 
-        public FoodAdapter(Context context, List<GetAllergyDetailBean.ListBean> foodList) {
+
+        public FoodAdapter(List<GetAllergyDetailBean.ListBean> foodList) {
             this.foodList = foodList;
-            isSelected = new HashMap<>();
-//            this.mInflater = LayoutInflater.from(context);
-//            iterator = foodIdList.iterator();
-            initDate();
         }
 
-        // 初始化isSelected的数据
-        private void initDate() {
-            for (int i = 0; i < allergyList.size(); i++) {
-                getIsSelected().put(i, false);
-            }
-        }
-
-        public HashMap<Integer, Boolean> getIsSelected() {
-            return isSelected;
-        }
-
-        public void setIsSelected(HashMap<Integer, Boolean> isSelected) {
-            this.isSelected = isSelected;
-        }
 
         @Override
         public int getCount() {
@@ -271,20 +261,7 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
             holder = (ViewHolder) convertView.getTag();
             holder.title.setText(foodList.get(position).getAllergyName());
             holder.id = String.valueOf(foodList.get(position).getId());
-            holder.food_Check.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (isSelected.get(position)) {
-                        isSelected.put(position, false);
-                        setIsSelected(isSelected);
-                        LogUtils.e("unChecked");
-                    } else {
-                        isSelected.put(position, true);
-                        setIsSelected(isSelected);
-                        LogUtils.e("Checked");
-                    }
-                }
-            });
+
             return convertView;
         }
     }
@@ -295,37 +272,4 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
         public CheckBox food_Check;
         public String id;
     }
-
-
-//    @OnClick(R.id.ll_guleis)
-//    public void clickGulei() {
-//        Api.getAllergyDetails("", this);
-//    }
-//
-//    @OnClick(R.id.ll_shucai)
-//    public void clickShuCai() {
-//        Api.getAllergyDetails("", this);
-//    }
-//
-//    @OnClick(R.id.ll_doulei)
-//    public void clickDoulei() {
-//        Api.getAllergyDetails("", this);
-//    }
-//
-//    @OnClick(R.id.ll_fruit)
-//    public void clickFruit() {
-//        Api.getAllergyDetails("", this);
-//    }
-//
-//    @OnClick(R.id.ll_milk)
-//    public void clickMilk() {
-//        Api.getAllergyDetails("", this);
-//    }
-//
-//    @OnClick(R.id.ll_jianguo)
-//    public void clickJianGuo() {
-//        Api.getAllergyDetails("", this);
-//    }
-
-
 }

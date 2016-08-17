@@ -45,11 +45,9 @@ public class ListitemAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		ViewHolder holder = null;  
-        if (convertView == null) {  
-              
-            holder=new ViewHolder();    
-              
+		ViewHolder holder ;
+        if (convertView == null) {
+            holder=new ViewHolder();
             convertView = mInflater.inflate(R.layout.jiaoqing_item, null);
             holder.tvName = (TextView)convertView.findViewById(R.id.tv_noeat_item);
 			holder.cb= (CheckBox) convertView.findViewById(R.id.cb_noeat_item);
@@ -62,7 +60,6 @@ public class ListitemAdapter extends BaseAdapter {
         }  
            
         holder.tvName.setText((String)mList.get(position).getDictName());
-//        holder.mSubTitile.setText((String)mList.get(position).subTitleStr);
 		holder.foodId=mList.get(position).getCode();
         return convertView;  
 	}

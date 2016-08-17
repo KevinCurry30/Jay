@@ -157,7 +157,7 @@ public class HomeActivity extends BaseActivity implements RequestManager.ResultC
                 UserInfoBean.getInstance().setHeadPhotoAdd(bean.getFilePath());
                 Api.perfectInfoAfterUpLoad(Constant.userId+"",bean.getFilePath(),this);
             }
-        }else if(action==Action.UPDATA_USER_INFOS && object!=null){
+        }else if(action==Action.SET_INFOS && object!=null){
             CommonBean bean1=(CommonBean)object;
             if(bean1.getCode().equals(Constant.RESULT_SUCESS)){
                 LogUtils.i("完善信息成功==");

@@ -11,6 +11,8 @@
     <include layout="@layout/title_info"/>
 
     <ListView
+        android:choiceMode="multipleChoice"
+
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:id="@+id/lv_taste"

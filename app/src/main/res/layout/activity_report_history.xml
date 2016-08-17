@@ -8,6 +8,8 @@
     <include layout="@layout/comm_title" />
     <include layout="@layout/title_info"/>
     <ListView
+        android:choiceMode="multipleChoice"
+        android:focusable="true"
         android:background="@color/white"
         android:layout_weight="8"
         android:layout_marginTop="15dp"

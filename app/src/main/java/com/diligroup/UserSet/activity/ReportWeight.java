@@ -7,11 +7,15 @@ import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
+import com.diligroup.net.Api;
+import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
 import com.diligroup.view.WheelView;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -73,10 +77,14 @@ public class ReportWeight extends BaseActivity {
     @OnClick(R.id.bt_ok_weight)
     public void reportWeight() {
 //        ToastUtil.showShort(this, select_weight);
+        LogUtils.e("体重======"+select_weight);
         if (isFrist){
             UserInfoBean.getInstance().setHeight(select_weight);
             readyGo(ReportNoeat.class,bundle);
         }else{
+            Map map =new HashMap();
+            map.put("weight",select_weight);
+            Api.updataUserInfo(map,this);
             readyGo(UserInfoActivity.class);
         }
 

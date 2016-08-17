@@ -21,7 +21,9 @@ import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -35,7 +37,7 @@ public class ReportNoeat extends BaseActivity {
     @Bind(R.id.list_no_eat)
     ListView lv_noeat;
     List<GetJiaoQinBean.ListBean> datalist;
-    StringBuilder builder;
+//    StringBuilder builder;
     List<String> noeat_list;
     GetJiaoQinBean getJiaoQinBean;
     Boolean isFrist;
@@ -72,7 +74,6 @@ public class ReportNoeat extends BaseActivity {
 //                    ToastUtil.showShort(ReportNoeat.this, "UnChecked" + holder.foodId);
                     removeUnChecked(holder.foodId);
                 }
-                LogUtils.e("NoEatList=====" + noeat_list.toString());
             }
         });
     }
@@ -116,14 +117,20 @@ public class ReportNoeat extends BaseActivity {
 
     @OnClick(R.id.bt_ok_noeat)
     public void reportNoeat() {
+
+        String s = noeat_list.toString().replaceAll(" ", "");
+        String s2 = s.substring(1, s.length() - 1);
+        LogUtils.e("饮食禁忌======" + s2);
         if (isFrist){
-            String s = noeat_list.toString().replaceAll(" ", "");
-            String s2 = s.substring(1, s.length() - 1);
+
             if (!TextUtils.isEmpty(s2)) {
                 UserInfoBean.getInstance().setNoEatFood(s2);
                 readyGo(ReportAllergy.class,bundle);
             }
         }else{
+            Map map =new HashMap();
+            map.put("tabooCode ",s2);
+            Api.updataUserInfo(map,this);
             readyGo(UserInfoActivity.class);
         }
     }

@@ -41,20 +41,23 @@ public class ReportOther extends BaseActivity {
     CheckBox cb_butie;
     @Bind(R.id.cb_huyan)
     CheckBox cb_huyan;
+
     String otherTarget = "";
     @Bind(R.id.pop_jianfei)
     LinearLayout linear_jianzhi;
-@Bind(R.id.tv_zengji)
+
+    @Bind(R.id.tv_zengji)
     TextView tv_zengji;
     //目标体重
     @Bind(R.id.weight_target)
-    TextView tv_weight;
+    TextView target_weight;
+
     @Bind(R.id.weightRuler)
     HorizontalScrollView  weightRuler;
     @Bind(R.id.ll_ruler)
     LinearLayout  ll_ruler;
     int beginWeight;
-
+    private int screenWidth;
 
     Boolean isFrist;
     Bundle bundle;
@@ -83,7 +86,7 @@ public class ReportOther extends BaseActivity {
     @Override
     protected void initViewAndData() {
         isShowBack(true);
-        tv_weight.setText("50");
+        target_weight.setText("50");
         Intent intent = getIntent();
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
@@ -149,7 +152,7 @@ public class ReportOther extends BaseActivity {
                 int action = event.getAction();
                 double scrollx=weightRuler.getScrollX()/20;
                 double value=scrollx/10;
-                tv_weight.setText(String.valueOf(beginWeight
+                target_weight.setText(String.valueOf(beginWeight
                         + value));
                 switch (action) {
                     case MotionEvent.ACTION_UP:
@@ -161,7 +164,7 @@ public class ReportOther extends BaseActivity {
                                 double value=scrollx/10;
                                 Log.e("Value=========", String.valueOf(scrollx));
                                 Log.e("Double==Value=========", String.valueOf(value));
-                                tv_weight.setText(String.valueOf(beginWeight
+                                target_weight.setText(String.valueOf(beginWeight
                                         + value));
                             }
                         }, 1000);
@@ -177,16 +180,15 @@ public class ReportOther extends BaseActivity {
     private void hidePop() {
         linear_jianzhi.setVisibility(View.GONE);
     }
-    private boolean isFirst = true;
-    private int screenWidth;
+    private boolean is_first = true;
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (isFirst) {
+        if (is_first) {
             screenWidth = weightRuler.getWidth();
             constructRuler();
-            isFirst = false;
+            is_first = false;
         }
     }
 
@@ -194,7 +196,7 @@ public class ReportOther extends BaseActivity {
         beginWeight = 40;
         View leftview = LayoutInflater.from(this).inflate(
                 R.layout.blankhrulerunit, null);
-        leftview.setLayoutParams(new ViewGroup.LayoutParams(screenWidth / 2,
+        leftview.setLayoutParams(new LayoutParams(screenWidth / 2,
                 LayoutParams.MATCH_PARENT));
         ll_ruler.addView(leftview);
         for (int i = 0; i < 20; i++) {
@@ -218,7 +220,7 @@ public class ReportOther extends BaseActivity {
 
         UserInfoBean.getInstance().setOtherReq(otherTarget);
         LogUtils.e("otherTarget==========" + otherTarget);
-        Api.updataUserInfo(this);
+        Api.setUserInfo(this);
         readyGo(HomeActivity.class);
         this.finish();
     }

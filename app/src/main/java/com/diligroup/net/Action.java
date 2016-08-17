@@ -39,7 +39,7 @@ public enum Action {
     /*获取首页门店供应列表*/
     GET_HOME_LIST(Urls.GET_HOMELIST),
     /*上报更新用户信息*/
-    UPDATA_USER_INFOS(Urls.UPDATA_USERINFOS),
+    SET_INFOS(Urls.UPDATA_USERINFOS),
     GET_WORK_TYPE(Urls.GET_WORK_TYPE),
     GET_NO_EAT(Urls.GET_NO_EAT),
     GET_ALLERGY(Urls.GET_ALLERGY),
@@ -64,8 +64,8 @@ public enum Action {
     /**
      * 获取菜品详情
      */
-    GET_DETAILS(Urls.BASE);
-
+    GET_DETAILS(Urls.BASE),
+    UPDATA_USERINFO(Urls.BASE);
     /**
      * 根据Action获取解析类
      *
@@ -88,7 +88,7 @@ public enum Action {
                 return CommonBean.class;
             case DISEVALUATE:
                 return CommonBean.class;
-            case UPDATA_USER_INFOS:
+            case SET_INFOS:
                 return CommonBean.class;
             case UPLOAD_PHOTO:
                 return UploadInfo.class;
@@ -124,6 +124,8 @@ public enum Action {
                 return StoreSupplySearchBean.class;
             case ADD_FOOD_COMPLETE:
                 return CommonBean.class;
+            case UPDATA_USERINFO:
+                return  CommonBean.class;
         }
         return null;
     }
