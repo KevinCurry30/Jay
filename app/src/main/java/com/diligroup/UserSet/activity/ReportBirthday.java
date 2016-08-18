@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.DatePicker;
 
 import com.diligroup.R;
@@ -75,6 +76,9 @@ public class ReportBirthday extends BaseActivity {
         Intent intent = getIntent();
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
+        if (isFrist){
+            bt_birthday.setText("下一步");
+        }
 //        Calendar calendar = Calendar.getInstance();
 //        int year = calendar.get(Calendar.YEAR);
 //        final int month = calendar.get(Calendar.MONTH);
@@ -100,7 +104,7 @@ public class ReportBirthday extends BaseActivity {
         wheelView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
-                year = item;
+                year = item.replace("年","");
                 Log.d("====================", "selectedIndex: " + selectedIndex + ", item: " + item);
             }
         });
@@ -108,7 +112,7 @@ public class ReportBirthday extends BaseActivity {
         wheelView2.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
-month=item;
+month=item.replace("月","");
                 if (item.equals("1月") || item.equals("3月") || item.equals("5月") || item.equals("7月") || item.equals("8月") || item.equals("10月") || item.equals("12月")) {
 //                    wheelView3.setItems(BirthdayUtils.get31Day());
 //                    wheelView3.notify();
@@ -127,24 +131,28 @@ month=item;
         wheelView3.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
-                day = item;
+                day = item.replace("日","");
                 Log.d("====================", "selectedIndex: " + selectedIndex + ", item: " + item);
             }
         });
     }
-
+    @Bind(R.id.bt_getTime)
+    Button bt_birthday;
     @OnClick(R.id.bt_getTime)
     public void getBirthday() {
         String brithday = year + "-" + month + "-" + day;
         LogUtils.e("生日======"+brithday);
         if (isFrist) {
-            UserInfoBean.getInstance().setBirthday(brithday);
+
+            UserInfoBean.getInstance().setBirthday(brithday.trim());
             readyGo(ReportWork.class,bundle);
         }else{
             Map map =new HashMap();
             map.put("birthday",brithday);
             Api.updataUserInfo(map,this);
             readyGo(UserInfoActivity.class);
+            this.finish();
+
         }
 //        ToastUtil.showShort(ReportBirthday.this, "您选择的日期是：" + data_select.getYear() + "年" + (data_select.getMonth() + 1) + "月" + data_select.getDayOfMonth() + "日。");
 //        int old = currentYear - data_select.getYear();

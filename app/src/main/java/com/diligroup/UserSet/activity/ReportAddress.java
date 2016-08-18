@@ -29,7 +29,8 @@ public class ReportAddress extends BaseActivity {
     Bundle bundle;
     @Bind(R.id.bt_later_address)
     Button bt_later_report;
-
+@Bind(R.id.bt_ok_address)
+Button bt_address;
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_report_address;
@@ -56,10 +57,11 @@ public class ReportAddress extends BaseActivity {
     public void reprotAddress() {
 //        ToastUtil.showShort(this,now_address);
         if (isFrist) {
-            UserInfoBean.getInstance().setHomeAddress(now_address);
+//            UserInfoBean.getInstance().setHomeAddress(now_address);
             readyGo(ReportTaste.class,bundle);
         } else {
             readyGo(UserInfoActivity.class);
+            this.finish();
 
         }
 
@@ -77,6 +79,7 @@ public class ReportAddress extends BaseActivity {
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
         if (isFrist) {
+            bt_address.setText("下一步");
             bt_later_report.setVisibility(View.GONE);
         }
         select_address.setOnSelectingListener(new CityPicker.OnSelectingListener() {

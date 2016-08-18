@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -74,6 +75,8 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
 
     Boolean isFrist;
     Bundle bundle;
+    @Bind(R.id.bt_commit_allergy)
+    Button bt_allergy;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -96,7 +99,7 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
     @OnClick(R.id.bt_commit_allergy)
     public void reportAllergy() {
         if (isFrist) {
-            UserInfoBean.getInstance().setAllergyFood("");
+//            UserInfoBean.getInstance().setAllergyFood("");
             readyGo(ReportWhere.class, bundle);
             return;
         }
@@ -105,6 +108,7 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
 //        map.put("sex",sexMark);
 //        Api.updataUserInfo(map,this);
         readyGo(UserInfoActivity.class);
+        this.finish();
 
     }
 
@@ -121,6 +125,9 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
         Intent intent = getIntent();
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
+        if (isFrist) {
+            bt_allergy.setText("下一步");
+        }
         mInflater = LayoutInflater.from(ReportAllergy.this);
 
         dividerItemDecoration = new DividerItemDecoration(
@@ -132,6 +139,7 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rv_left.setLayoutManager(layoutManager);
         rv_left.setAdapter(allergyAdapter);
+        allergyAdapter.selectPosion(0);
         foodIdList = new ArrayList<>();
         foodNameList = new ArrayList<>();
 
@@ -140,31 +148,50 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 foodHolder = (ViewHolder) view.getTag();
                 foodHolder.food_Check.setEnabled(true);
+                String food = foodHolder.title.getText().toString();
+
 //                foodHolder.food_Check.toggle();
                 if (foodHolder.food_Check.isChecked()) {
-                    foodNameList.add(foodHolder.title.getText().toString());
+                    foodNameList.add(food);
+//                    addTag(food);
+//                    for (int i=0;i<foodNameList.size();i++){
+//                        if (foodNameList.get(i).equals(food)){
+//                            ToastUtil.showShort(ReportAllergy.this,"您已经添加过了");
+//                        }else{
+//                            foodNameList.add(food);
+//                            setTagLayout();
+//                            continue;
+//                        }
+//                        tagAdapter.notifyDataChanged();
+//                    }
+//                    if (foodNameList.get())
+//                    foodNameList.add(foodHolder.title.getText().toString());
                 } else {
-                    removeUnChecked(foodHolder.title.getText().toString());
+                    removeUnChecked(food);
+//                    tagAdapter.notifyDataChanged();
                 }
-                tagAdapter = new TagAdapter(foodNameList) {
-                    @Override
-                    public View getView(FlowLayout parent, int position, Object o) {
-                        TextView tv = (TextView) mInflater.inflate(R.layout.tv,
-                                taglayout, false);
-                        tv.setText(o.toString());
-                        return tv;
-                    }
 
-                    @Override
-                    public void setSelectedList(Set set) {
-                        super.setSelectedList(set);
-                    }
-                };
-                taglayout.setAdapter(tagAdapter);
+                setTagLayout();
             }
+
+
         });
 
     }
+
+    public void addTag(String name) {
+        if (foodNameList != null) {
+            for (int i = 0; i < foodNameList.size(); i++) {
+
+                if (!foodNameList.get(i).equals(name)) {
+                    foodNameList.add(name);
+                }
+            }
+            setTagLayout();
+            tagAdapter.notifyDataChanged();
+        }
+    }
+
 
     public void removeUnChecked(String foodName) {
         if (foodNameList.size() > 0) {
@@ -174,6 +201,24 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
                 }
             }
         }
+    }
+
+    private void setTagLayout() {
+        tagAdapter = new TagAdapter(foodNameList) {
+            @Override
+            public View getView(FlowLayout parent, int position, Object o) {
+                TextView tv = (TextView) mInflater.inflate(R.layout.tv,
+                        taglayout, false);
+                tv.setText(o.toString());
+                return tv;
+            }
+
+            @Override
+            public void setSelectedList(Set set) {
+                super.setSelectedList(set);
+            }
+        };
+        taglayout.setAdapter(tagAdapter);
     }
 
     @Override
@@ -227,11 +272,9 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
     private class FoodAdapter extends BaseAdapter {
         List<GetAllergyDetailBean.ListBean> foodList;
 
-
         public FoodAdapter(List<GetAllergyDetailBean.ListBean> foodList) {
             this.foodList = foodList;
         }
-
 
         @Override
         public int getCount() {
@@ -261,7 +304,9 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
             holder = (ViewHolder) convertView.getTag();
             holder.title.setText(foodList.get(position).getAllergyName());
             holder.id = String.valueOf(foodList.get(position).getId());
-
+//            if (foodList.get(position).getAllergyName().equals(foodNameList.get(position))){
+//                holder.food_Check.setChecked(true);
+//            }
             return convertView;
         }
     }

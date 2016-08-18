@@ -16,6 +16,7 @@ import com.diligroup.utils.CommonUtils;
 import java.util.List;
 
 /**
+ *大分类 adapter
  * Created by Administrator on 2016/8/12.
  */
 public class AllergyAdapter extends RecyclerView.Adapter {

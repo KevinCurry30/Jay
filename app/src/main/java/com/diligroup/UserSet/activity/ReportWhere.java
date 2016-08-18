@@ -9,9 +9,13 @@ import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
+import com.diligroup.net.Api;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
 import com.diligroup.view.CityPicker;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -26,6 +30,8 @@ public class ReportWhere extends BaseActivity {
     String select_city;
     Boolean isFrist;
     Bundle bundle;
+    @Bind(R.id.bt_ok_where)
+    Button bt_where;
     @Bind(R.id.bt_later_where)
     Button bt_later_report;
     @Override
@@ -58,7 +64,9 @@ public class ReportWhere extends BaseActivity {
         Intent intent = getIntent();
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
+
         if (isFrist) {
+            bt_where.setText("下一步");
             bt_later_report.setVisibility(View.GONE);
         }
 //        cityPicker.set
@@ -77,11 +85,16 @@ public class ReportWhere extends BaseActivity {
     public void reportWhere(){
 //        ToastUtil.showShort(this,select_city);
         if (isFrist){
-            UserInfoBean.getInstance().setHomeAddress(select_city);
+//            UserInfoBean.getInstance().setHomeAddress(select_city);
             readyGo(ReportAddress.class,bundle);
             return;
         }
+        Map map =new HashMap();
+        map.put("homeAdd",select_city);
+        Api.updataUserInfo(map,this);
         readyGo(UserInfoActivity.class);
+        this.finish();
+
 
     }
     @OnClick(R.id.bt_later_where)

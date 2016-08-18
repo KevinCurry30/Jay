@@ -29,6 +29,8 @@ public abstract class BaseActivity extends AppCompatActivity implements RequestM
     Context mContext = null;
     @Bind(R.id.iv_back)
     public ImageView iv_back;
+    @Bind(R.id.iv_share)
+    protected ImageView ivShare;
 
     public TextView title_infos;
     protected abstract int getContentViewLayoutID();
@@ -113,6 +115,7 @@ public abstract class BaseActivity extends AppCompatActivity implements RequestM
         tv_title = ButterKnife.findById(this, R.id.comm_title);
         title_infos= ButterKnife.findById(this, R.id.tv_title_info);
         iv_back  = ButterKnife.findById(this,R.id.iv_back);
+        ivShare  = ButterKnife.findById(this,R.id.iv_share);
         if (tv_title!=null){
             setTitle();
         }

@@ -2,6 +2,7 @@ package com.diligroup.UserSet.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
@@ -33,7 +34,8 @@ public class ReportSex extends BaseActivity {
     CheckBox cb_girl;
     Boolean isFrist;
     Bundle bundle;
-
+    @Bind(R.id.bt_ok_sex)
+    Button bt_sex;
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_select_sex;
@@ -62,7 +64,9 @@ public class ReportSex extends BaseActivity {
         Intent intent = getIntent();
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
-
+        if (isFrist){
+            bt_sex.setText("下一步");
+        }
         sexMark = 3;
         cb_boy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -92,6 +96,7 @@ public class ReportSex extends BaseActivity {
     public void reportSex() {
         if (sexMark == 1 || sexMark == 0) {
             if (isFrist) {
+
                 UserInfoBean.getInstance().setSex(sexMark);
                 readyGo(ReportBirthday.class, bundle);
             } else{
@@ -99,6 +104,9 @@ public class ReportSex extends BaseActivity {
                 map.put("sex",String.valueOf(sexMark));
                 Api.updataUserInfo(map,this);
                 readyGo(UserInfoActivity.class);
+                this.finish();
+
+
             }
             LogUtils.e("性别====="+String.valueOf(sexMark));
         } else{

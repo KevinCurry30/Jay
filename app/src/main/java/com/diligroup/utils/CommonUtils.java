@@ -9,6 +9,11 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.RotateAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 
 import com.diligroup.R;
@@ -114,6 +119,10 @@ public class CommonUtils {
         context.startActivity(intent);
     }
 
+    /**
+     * 点击加号放大动画
+     * @param view
+     */
     public static void propertyValuesHolder(View view) {
         PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat("alpha", 1f,
                 2f, 1f);
@@ -123,7 +132,38 @@ public class CommonUtils {
                 2f, 1f);
         ObjectAnimator.ofPropertyValuesHolder(view, pvhX, pvhY, pvhZ).setDuration(1000).start();
     }
-
+    //显示减号的动画
+    private Animation getShowAnimation(){
+        AnimationSet set = new AnimationSet(true);
+        RotateAnimation rotate = new RotateAnimation(0,720, RotateAnimation.RELATIVE_TO_SELF,0.5f,RotateAnimation.RELATIVE_TO_SELF,0.5f);
+        set.addAnimation(rotate);
+        TranslateAnimation translate = new TranslateAnimation(
+                TranslateAnimation.RELATIVE_TO_SELF,2f
+                ,TranslateAnimation.RELATIVE_TO_SELF,0
+                ,TranslateAnimation.RELATIVE_TO_SELF,0
+                ,TranslateAnimation.RELATIVE_TO_SELF,0);
+        set.addAnimation(translate);
+        AlphaAnimation alpha = new AlphaAnimation(0,1);
+        set.addAnimation(alpha);
+        set.setDuration(500);
+        return set;
+    }
+    //隐藏减号的动画
+    private Animation getHiddenAnimation(){
+        AnimationSet set = new AnimationSet(true);
+        RotateAnimation rotate = new RotateAnimation(0,720,RotateAnimation.RELATIVE_TO_SELF,0.5f,RotateAnimation.RELATIVE_TO_SELF,0.5f);
+        set.addAnimation(rotate);
+        TranslateAnimation translate = new TranslateAnimation(
+                TranslateAnimation.RELATIVE_TO_SELF,0
+                ,TranslateAnimation.RELATIVE_TO_SELF,2f
+                ,TranslateAnimation.RELATIVE_TO_SELF,0
+                ,TranslateAnimation.RELATIVE_TO_SELF,0);
+        set.addAnimation(translate);
+        AlphaAnimation alpha = new AlphaAnimation(1,0);
+        set.addAnimation(alpha);
+        set.setDuration(500);
+        return set;
+    }
     public static void showCategoryIcon(int code, ImageView dishIcon, boolean isSelected) {
         switch (code) {
             case 10001://烘焙
@@ -206,9 +246,9 @@ public class CommonUtils {
                 break;
             case 10012://酱腌小菜
                 if (isSelected) {
-                    dishIcon.setImageResource(R.mipmap.staple_food_pressed);
+                    dishIcon.setImageResource(R.mipmap.jiangyan_pressed);
                 } else {
-                    dishIcon.setImageResource(R.mipmap.staple_food_normal);
+                    dishIcon.setImageResource(R.mipmap.jiangyan_normal);
                 }
                 break;
             case 10013://调味酱汁
@@ -220,9 +260,9 @@ public class CommonUtils {
                 break;
             case 10014://其他类
                 if (isSelected) {
-                    dishIcon.setImageResource(R.mipmap.staple_food_pressed);
+                    dishIcon.setImageResource(R.mipmap.other_pressed);
                 } else {
-                    dishIcon.setImageResource(R.mipmap.staple_food_normal);
+                    dishIcon.setImageResource(R.mipmap.other_normal);
                 }
                 break;
         }

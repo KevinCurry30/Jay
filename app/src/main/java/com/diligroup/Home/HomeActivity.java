@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -44,7 +45,7 @@ import butterknife.Bind;
 import me.nereo.multi_image_selector.MultiImageSelector;
 import okhttp3.Request;
 
-public class HomeActivity extends BaseActivity implements RequestManager.ResultCallback {
+public class HomeActivity extends BaseActivity implements RequestManager.ResultCallback{
 
 
     private static final int REQUEST_IMAGE = 2;
@@ -164,6 +165,20 @@ public class HomeActivity extends BaseActivity implements RequestManager.ResultC
             }
         }
     }
+class MyOnClickListener implements OnClickListener{
+    int index;
+    public MyOnClickListener(int index){
+        this.index=index;
+    }
+    @Override
+    public void onClick(View view) {
+        if(index==1){
+            ((BeforeFragment)( adapter.getItem(1))).clickShare();
+        }else if(index==2){
+            ((AfterFragment)( adapter.getItem(2))).clickShare();
+        }
+    }
+}
 
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
@@ -235,13 +250,18 @@ public class HomeActivity extends BaseActivity implements RequestManager.ResultC
                 case 1:
                     title_root.setVisibility(View.VISIBLE);
                     tv_title.setText(titles.get(1));
+                    ivShare.setVisibility(View.VISIBLE);
+                    ivShare.setOnClickListener(new MyOnClickListener(1));
                     break;
                 case 2:
                     title_root.setVisibility(View.VISIBLE);
                     tv_title.setText(titles.get(2));
+                    ivShare.setVisibility(View.VISIBLE);
+                    ivShare.setOnClickListener(new MyOnClickListener(2));
                     break;
                 case 3:
                     title_root.setVisibility(View.VISIBLE);
+                    ivShare.setVisibility(View.GONE);
                     tv_title.setText(titles.get(3));
                     break;
             }

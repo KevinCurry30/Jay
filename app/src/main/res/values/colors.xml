@@ -176,4 +176,5 @@
 
     <drawable name="common_green">@color/common_green</drawable>
     <drawable name="common_black">@color/black1</drawable>
+    <color name="dialog_bg">#eaeaea</color>
 </resources>

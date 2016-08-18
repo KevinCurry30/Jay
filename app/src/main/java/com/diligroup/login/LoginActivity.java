@@ -167,7 +167,15 @@ public class LoginActivity extends BaseActivity {
                     UserInfoBean.getInstance().setBirthday(userInfo.getUser().getBirthday());
                     UserInfoBean.getInstance().setSex(userInfo.getUser().getSex());
                     UserInfoBean.getInstance().setHeight(userInfo.getUser().getHeight());
-//                    UserInfoBean.getInstance().setWeight(userInfo.getUserDetail().getWeight());
+                    UserInfoBean.getInstance().setWeight(userInfo.getUserDetail().getWeight());
+                    UserInfoBean.getInstance().setJob(userInfo.getUserDetail().getJobName());
+                    UserInfoBean.getInstance().setAllergyFood(userInfo.getUserDetail().getAllergyName());
+                    UserInfoBean.getInstance().setNoEatFood(userInfo.getUserDetail().getTabooNames());
+                    UserInfoBean.getInstance().setOtherReq(userInfo.getUserDetail().getOtherReqName());
+                    UserInfoBean.getInstance().setCurrentAddress(userInfo.getUserDetail().getCurrentAdd());
+                    UserInfoBean.getInstance().setNoEatFood(userInfo.getUserDetail().getAllergyName());
+                    UserInfoBean.getInstance().setTaste(userInfo.getUserDetail().getTasteNames());
+
                     readyGo(HomeActivity.class);
                     AppManager.getAppManager().finishActivity(this);
                 }

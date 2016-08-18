@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.HorizontalScrollView;
@@ -17,13 +18,19 @@ import android.widget.TextView;
 import com.diligroup.Home.HomeActivity;
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
+import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
 import com.diligroup.net.Api;
+
 import android.view.ViewGroup.LayoutParams;
+
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnCheckedChanged;
@@ -53,14 +60,24 @@ public class ReportOther extends BaseActivity {
     TextView target_weight;
 
     @Bind(R.id.weightRuler)
-    HorizontalScrollView  weightRuler;
+    HorizontalScrollView weightRuler;
     @Bind(R.id.ll_ruler)
-    LinearLayout  ll_ruler;
+    LinearLayout ll_ruler;
     int beginWeight;
     private int screenWidth;
-
+    @Bind(R.id.tv_weight_now)
+    TextView tv_now;
+    @Bind(R.id.tv_time_need)
+    TextView time_need;
+    @Bind(R.id.tv_cost_total)
+    TextView tv_cost_total;
+    @Bind(R.id.tv_day_cost)
+    TextView tv_day_cost;
     Boolean isFrist;
     Bundle bundle;
+    @Bind(R.id.bt_report_user)
+    Button bt_other;
+
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_report_other;
@@ -90,7 +107,10 @@ public class ReportOther extends BaseActivity {
         Intent intent = getIntent();
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
-
+        if (isFrist == false) {
+            bt_other.setText("确定");
+        }
+        tv_now.setText(UserInfoBean.getInstance().getWeight());
         cb_jianzhi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -150,8 +170,8 @@ public class ReportOther extends BaseActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 int action = event.getAction();
-                double scrollx=weightRuler.getScrollX()/20;
-                double value=scrollx/10;
+                double scrollx = weightRuler.getScrollX() / 20;
+                double value = scrollx / 10;
                 target_weight.setText(String.valueOf(beginWeight
                         + value));
                 switch (action) {
@@ -160,8 +180,8 @@ public class ReportOther extends BaseActivity {
                             @Override
                             public void run() {
 
-                                double scrollx=weightRuler.getScrollX()/20;
-                                double value=scrollx/10;
+                                double scrollx = weightRuler.getScrollX() / 20;
+                                double value = scrollx / 10;
                                 Log.e("Value=========", String.valueOf(scrollx));
                                 Log.e("Double==Value=========", String.valueOf(value));
                                 target_weight.setText(String.valueOf(beginWeight
@@ -174,12 +194,15 @@ public class ReportOther extends BaseActivity {
             }
         });
     }
+
     private void showPopJian() {
         linear_jianzhi.setVisibility(View.VISIBLE);
     }
+
     private void hidePop() {
         linear_jianzhi.setVisibility(View.GONE);
     }
+
     private boolean is_first = true;
 
     @Override
@@ -200,10 +223,10 @@ public class ReportOther extends BaseActivity {
                 LayoutParams.MATCH_PARENT));
         ll_ruler.addView(leftview);
         for (int i = 0; i < 20; i++) {
-            View view =  LayoutInflater.from(this).inflate(
+            View view = LayoutInflater.from(this).inflate(
                     R.layout.hrulerunit, null);
             view.setLayoutParams(new ViewGroup.LayoutParams(200,
-                   LayoutParams.MATCH_PARENT));
+                    LayoutParams.MATCH_PARENT));
             TextView tv = (TextView) view.findViewById(R.id.hrulerunit);
             tv.setText(String.valueOf(beginWeight + i));
 
@@ -215,14 +238,26 @@ public class ReportOther extends BaseActivity {
                 LayoutParams.MATCH_PARENT));
         ll_ruler.addView(rightview);
     }
+
     @OnClick(R.id.bt_report_user)
     public void reportOther() {
+        if (isFrist) {
+            UserInfoBean.getInstance().setOtherReq(otherTarget);
+            LogUtils.e("otherTarget==========" + otherTarget);
+            Api.setUserInfo(this);
+            readyGo(HomeActivity.class);
+            this.finish();
+        } else {
+            if (otherTarget != null) {
+                Map map = new HashMap();
+                map.put("reqType", otherTarget);
+                map.put("targetWeight", target_weight);
+//                Api.updataUserInfo(map,this);
+                this.finish();
+            }
 
-        UserInfoBean.getInstance().setOtherReq(otherTarget);
-        LogUtils.e("otherTarget==========" + otherTarget);
-        Api.setUserInfo(this);
-        readyGo(HomeActivity.class);
-        this.finish();
+        }
+
     }
 
     @Override
@@ -232,8 +267,14 @@ public class ReportOther extends BaseActivity {
 
     @Override
     public void onResponse(Request request, Action action, Object object) {
+                if (action==Action.SET_INFOS&&object!=null){
+                    CommonBean  commonBean= (CommonBean) object;
+                    if (commonBean.getCode().equals("000000")){
 
+                    }
+                }
     }
+
     @Override
     protected void onResume() {
         super.onResume();

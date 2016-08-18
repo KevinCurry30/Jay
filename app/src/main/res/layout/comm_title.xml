@@ -22,4 +22,13 @@
         android:layout_centerInParent="true"
         android:textColor="#FFFFFF"
         android:textSize="18sp" />
+    <ImageView
+        android:id="@+id/iv_share"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:padding="10dp"
+        android:layout_marginRight="7dp"
+        android:src="@mipmap/share" />
 </RelativeLayout>

@@ -35,7 +35,7 @@
             android:layout_below="@id/tv_shoujihao"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/user_icon"
-            android:text="123482313" />
+            android:text="" />
 
         <ImageView
             android:id="@+id/iv_kevin"
@@ -99,7 +99,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
-                    android:text="男"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -152,7 +152,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
-                    android:text="1990-2-22"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -205,7 +205,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
-                    android:text="程序员"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -258,7 +258,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
-                    android:text="177"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -311,7 +311,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
-                    android:text="133"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -364,7 +364,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
-                    android:text="已选4项"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -417,7 +417,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
-                    android:text="海鲜"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -470,7 +470,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
-                    android:text="香港"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -523,7 +523,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
-                    android:text="台湾"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -576,7 +576,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
-                    android:text="土豆"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -631,7 +631,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
-                    android:text="已选三项"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -683,7 +683,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
-                    android:text="神经病人"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -734,7 +734,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
-                    android:text="5.2-5.7"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -786,7 +786,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
-                    android:text="已选三项"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -798,6 +798,13 @@
                     android:layout_marginRight="10dp"
                     android:src="@drawable/iv_go_more" />
             </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:layout_marginTop="10dp"
+                android:background="#DCDCDC" />
         </LinearLayout>
 
     </ScrollView>

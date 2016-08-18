@@ -13,34 +13,43 @@
         />
     <com.diligroup.view.CityPicker
         android:background="@color/white"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="21dp"
         android:id="@+id/select_address"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="5"
         android:layout_gravity="center"
         android:gravity="center" >
     </com.diligroup.view.CityPicker>
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
-        android:layout_marginTop="20dp"
-        android:text="下一步"
-        android:textColor="@color/white"
-        android:textSize="13.3sp"
-        android:background="@drawable/em_button_login_bg"
-        android:id="@+id/bt_ok_address"/>
-    <Button
-        android:layout_marginBottom="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="15dp"
-        android:text="稍后再说"
-        android:textColor="#c5c5c5"
-        android:textSize="13.3sp"
-        android:background="@drawable/em_grey_button"
-        android:id="@+id/bt_later_address"/>
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="3">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="34dp"
+            android:text="下一步"
+            android:textColor="@color/white"
+            android:textSize="13.3sp"
+            android:background="@drawable/em_button_login_bg"
+            android:id="@+id/bt_ok_address"/>
+        <Button
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="25dp"
+            android:text="稍后再说"
+            android:textColor="#c5c5c5"
+            android:textSize="13.3sp"
+            android:background="@drawable/em_grey_button"
+            android:id="@+id/bt_later_address"/>
+    </LinearLayout>
+
 </LinearLayout>

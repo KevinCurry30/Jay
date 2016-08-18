@@ -52,7 +52,7 @@ public class BaseViewPager implements AdapterView.OnItemClickListener {
         mList.add("0000000000");
         mList.add("0000000000");
         mList.add("0000000000");
-//        HomeRighAdapter righAdapter = new HomeRighAdapter(mContext, mList);
+//        HomeRighAdapter_1 righAdapter = new HomeRighAdapter_1(mContext, mList);
 //        righAdapter.setListener(new MyItemClickListener() {
 //
 //            private Intent mIntent;

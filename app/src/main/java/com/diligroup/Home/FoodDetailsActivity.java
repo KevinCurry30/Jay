@@ -54,7 +54,7 @@ public class FoodDetailsActivity extends AppCompatActivity implements RequestMan
     @Override
     protected void onStart() {
         super.onStart();
-        Api.getFoodDetails("H101001022", this);
+
 
     }
 
@@ -67,8 +67,12 @@ public class FoodDetailsActivity extends AppCompatActivity implements RequestMan
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_details);
+
         ButterKnife.bind(this);
         AppManager.getAppManager().addActivity(this);
+        String code=getIntent().getStringExtra("foodCode");
+        Api.getFoodDetails(code, this);
+
     }
 
     @Override

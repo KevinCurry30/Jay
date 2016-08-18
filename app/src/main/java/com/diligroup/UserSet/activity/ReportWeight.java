@@ -2,6 +2,7 @@ package com.diligroup.UserSet.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
@@ -30,7 +31,8 @@ public class ReportWeight extends BaseActivity {
     String select_weight;
     Boolean isFrist;
     Bundle bundle;
-
+    @Bind(R.id.bt_ok_weight)
+    Button bt_weight;
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_select_weight;
@@ -54,7 +56,9 @@ public class ReportWeight extends BaseActivity {
         Intent intent = getIntent();
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
-
+        if (isFrist){
+            bt_weight.setText("下一步");
+        }
         wheelView.setOffset(3);
         if (UserInfoBean.getInstance().getSex()!=null&&UserInfoBean.getInstance().getSex()==0){
             wheelView.setSeletion(5);
@@ -68,7 +72,7 @@ public class ReportWeight extends BaseActivity {
         wheelView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
-                select_weight = item;
+                select_weight = item.replace(" ","").replace("Kg","");
 
             }
         });
@@ -79,13 +83,15 @@ public class ReportWeight extends BaseActivity {
 //        ToastUtil.showShort(this, select_weight);
         LogUtils.e("体重======"+select_weight);
         if (isFrist){
-            UserInfoBean.getInstance().setHeight(select_weight);
+            UserInfoBean.getInstance().setHeight(select_weight.trim());
             readyGo(ReportNoeat.class,bundle);
         }else{
             Map map =new HashMap();
             map.put("weight",select_weight);
             Api.updataUserInfo(map,this);
             readyGo(UserInfoActivity.class);
+            this.finish();
+
         }
 
 

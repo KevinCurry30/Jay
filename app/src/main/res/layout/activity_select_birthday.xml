@@ -46,15 +46,17 @@
         <!--android:layout_height="wrap_content">-->
     <!--</DatePicker>-->
     <Button
-        android:textSize="20sp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
-        android:text="确定"
         android:id="@+id/bt_getTime"
-        android:textColor="@color/white"
-        android:background="@drawable/em_button_login_bg"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="40dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="35dp"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="13.3sp"
+        android:background="@drawable/em_button_login_bg"
+        />
+
 </LinearLayout>

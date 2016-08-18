@@ -28,20 +28,20 @@ import butterknife.ButterKnife;
 /**
  * Created by hjf on 2016/7/19.
  */
-public class HomeRighAdapter extends RecyclerView.Adapter implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
+public class HomeRighAdapter_1 extends RecyclerView.Adapter implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
     Context mContext;
     List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> mList;
     private List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> rightDishesList=new ArrayList<>();//所有右侧成品分类列表
     MyStickyHeadChangeListener listener;
-    public HomeRighAdapter(Context mContext, List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> mList,MyStickyHeadChangeListener listener) {
+    public HomeRighAdapter_1(Context mContext, List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> mList,MyStickyHeadChangeListener listener) {
         super();
         this.mContext = mContext;
         this.mList = mList;
         this.listener=listener;
         initListDate();
     }
-    public  void setDate(List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> mList){
-        this.mList=mList;
+    public  void setDate(List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> mList){
+        this.rightDishesList=mList;
         notifyDataSetChanged();
     }
     private void initListDate() {

@@ -7,6 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/home_right_view"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
         android:layout_marginLeft="3dp">
 
         <ImageView
@@ -14,15 +16,12 @@
             android:layout_width="55.6dp"
             android:layout_height="55.6dp"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="12dp"
-            android:layout_marginTop="12dp"
             android:src="@mipmap/banner_3" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/home_right_icon"
-            android:layout_alignBottom="@id/home_right_icon"
+           android:layout_gravity="center_vertical"
             android:layout_marginLeft="16dp"
             android:layout_toRightOf="@id/home_right_icon"
             android:orientation="vertical"
@@ -35,6 +34,7 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:singleLine="true"
+                android:layout_marginTop="-2dp"
                 android:text="胡萝卜"
                 android:textColor="#323232"
                 android:textSize="14sp" />
@@ -44,17 +44,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="配料：黄瓜+小葱"
-                android:layout_gravity="center_vertical"
                 android:textColor="#B5ADA1"
-                android:textSize="12sp" />
+                android:layout_marginTop="2dp"
+                android:singleLine="true"
+                android:textSize="11sp" />
             <TextView
                 android:id="@+id/home_evaluate"
                 android:layout_width="57dp"
                 android:layout_height="17dp"
-                android:layout_marginTop="4dp"
                 android:background="@drawable/kuang_red"
                 android:gravity="center"
                 android:singleLine="true"
+                android:layout_marginTop="3.3dp"
                 android:layout_gravity="bottom"
                 android:text="菜品评价"
                 android:textColor="@color/common_orenge"

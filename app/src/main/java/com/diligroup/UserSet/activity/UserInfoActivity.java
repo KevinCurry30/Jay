@@ -53,13 +53,16 @@ public class UserInfoActivity extends BaseActivity {
     private static final int REQUEST_IMAGE = 2;
     private static final int CROP_CODE = 3;
     private String fileName;
-
+    @Bind(R.id.tv_user_phone_number)
+    TextView tv_user_number;
     @Bind(R.id.tv_sex)
     TextView tv_sex;
     @Bind(R.id.tv_birth)
     TextView tv_birthday;
     @Bind(R.id.tv_work)
     TextView tv_job;
+    @Bind(R.id.tv_noeat)
+    TextView tv_noeat;
     @Bind(R.id.tv_height)
     TextView tv_height;
     @Bind(R.id.tv_weight)
@@ -70,9 +73,12 @@ public class UserInfoActivity extends BaseActivity {
     TextView tv_address;
     @Bind(R.id.tv_special)
     TextView tv_special;
+    @Bind(R.id.tv_allergy)
+    TextView tv_alLeryFood;
 
     Boolean isFrist;
     Bundle bundle;
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -106,84 +112,107 @@ public class UserInfoActivity extends BaseActivity {
     @Override
     protected void initViewAndData() {
 
-        bundle=new Bundle();
-        bundle.putBoolean("isFrist",false);
-        tv_birthday.setText(UserInfoBean.getInstance().getBirthday());
+        bundle = new Bundle();
+        bundle.putBoolean("isFrist", false);
+        tv_user_number.setText(Constant.userNumber);
+        if (UserInfoBean.getInstance()!=null){
+            if (UserInfoBean.getInstance().getSex()==0){
+                tv_sex.setText("男");
+            }else{
+                tv_sex.setText("女");
+            }
+            tv_job.setText(UserInfoBean.getInstance().getJob());
+            tv_birthday.setText(UserInfoBean.getInstance().getBirthday());
+            tv_height.setText(UserInfoBean.getInstance().getHeight());
+            tv_weight.setText(UserInfoBean.getInstance().getWeight());
+            tv_weight.setText(UserInfoBean.getInstance().getWeight());
+            tv_noeat.setText(UserInfoBean.getInstance().getNoEatFood());
+            tv_alLeryFood.setText(UserInfoBean.getInstance().getAllergyFood());
+            tv_where.setText(UserInfoBean.getInstance().getHomeAddress());
+            tv_address.setText(UserInfoBean.getInstance().getCurrentAddress());
+        }
+
+
 
     }
-@OnClick(R.id.rl_time_of_month)
-public void ClickPhysiolog(){
-    Intent mIntent =new Intent(UserInfoActivity.this,PhysiologicalPeriodActivity.class);
-    mIntent.putExtra("isFromMy",true);
-    startActivityForResult(mIntent,10);
-}
+
+    @OnClick(R.id.rl_time_of_month)
+    public void ClickPhysiolog() {
+        Intent mIntent = new Intent(UserInfoActivity.this, PhysiologicalPeriodActivity.class);
+        mIntent.putExtra("isFromMy", true);
+        startActivityForResult(mIntent, 10);
+    }
+
     @OnClick(R.id.rl_sex)
     public void ClickSex() {
-        readyGo(ReportSex.class,bundle);
+        readyGo(ReportSex.class, bundle);
     }
 
     @OnClick(R.id.rl_birthday)
     public void ClickBirthday() {
-        readyGo(ReportBirthday.class,bundle);
+        readyGo(ReportBirthday.class, bundle);
     }
 
     @OnClick(R.id.rl_height)
     public void ClickHeight() {
-        readyGo(ReportHeight.class,bundle);
+        readyGo(ReportHeight.class, bundle);
     }
 
     @OnClick(R.id.rl_other)
     public void ClickOther() {
-        readyGo(ReportOther.class,bundle);
+        readyGo(ReportOther.class, bundle);
     }
 
     @OnClick(R.id.rl_special)
     public void ClickTsrq() {
-        readyGo(ReportSpecial.class,bundle);
+        readyGo(ReportSpecial.class, bundle);
     }
 
     @OnClick(R.id.rl_taste)
     public void ClickTaste() {
-        readyGo(ReportTaste.class,bundle);
+        readyGo(ReportTaste.class, bundle);
     }
 
     @OnClick(R.id.rl_where)
     public void ClickWhere() {
-        readyGo(ReportWhere.class,bundle);
+        readyGo(ReportWhere.class, bundle);
     }
 
     @OnClick(R.id.rl_weight)
     public void ClickWeight() {
-        readyGo(ReportWeight.class,bundle);
+        readyGo(ReportWeight.class, bundle);
     }
 
     @OnClick(R.id.rl_noeat)
     public void ClickYsjj() {
-        readyGo(ReportNoeat.class,bundle);
+        readyGo(ReportNoeat.class, bundle);
     }
 
     @OnClick(R.id.rl_work)
     public void ClickWork() {
-        readyGo(ReportWork.class,bundle);
+        readyGo(ReportWork.class, bundle);
     }
 
     @OnClick(R.id.rl_history)
     public void ClickHistory() {
-        readyGo(ReportHistory.class,bundle);
+        readyGo(ReportHistory.class, bundle);
     }
 
     @OnClick(R.id.rl_allergy)
     public void ClickAllergy() {
-        readyGo(ReportAllergy.class,bundle);
+        readyGo(ReportAllergy.class, bundle);
     }
+
     @OnClick(R.id.change_headicon)
     public void ChangeHeadPhoto() {
         new UpLoadPhotoUtils(this).pickImage();
     }
-@OnClick(R.id.rl_now)
-public void ClickAddress(){
-    readyGo(ReportAddress.class,bundle);
-}
+
+    @OnClick(R.id.rl_now)
+    public void ClickAddress() {
+        readyGo(ReportAddress.class, bundle);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
@@ -234,15 +263,15 @@ public void ClickAddress(){
     public void onResponse(Request request, Action action, Object object) {
         if (action == Action.UPLOAD_PHOTO && null != object) {
             UploadInfo bean = (UploadInfo) object;
-            if (bean.getCode().equals( Constant.RESULT_SUCESS)) {
+            if (bean.getCode().equals(Constant.RESULT_SUCESS)) {
                 ToastUtil.showLong(this, "上传成功");
                 Picasso.with(this).load(bean.getFilePath()).into(userIcon);
                 UserInfoBean.getInstance().setHeadPhotoAdd(bean.getFilePath());
-                Api.perfectInfoAfterUpLoad(Constant.userId+"",bean.getFilePath(),this);
+                Api.perfectInfoAfterUpLoad(Constant.userId + "", bean.getFilePath(), this);
             }
-        }else if(action==Action.SET_INFOS && object!=null){
-            CommonBean bean1=(CommonBean)object;
-            if(bean1.getCode().equals(Constant.RESULT_SUCESS)){
+        } else if (action == Action.SET_INFOS && object != null) {
+            CommonBean bean1 = (CommonBean) object;
+            if (bean1.getCode().equals(Constant.RESULT_SUCESS)) {
                 LogUtils.i("完善信息成功==");
             }
         }

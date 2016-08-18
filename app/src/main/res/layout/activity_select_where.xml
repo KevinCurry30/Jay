@@ -14,7 +14,7 @@
         />
     <com.diligroup.view.CityPicker
 
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="21dp"
         android:background="@color/white"
         android:id="@+id/select_where"
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="35dp"
             android:layout_marginRight="35dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="34dp"
             android:text="下一步"
             android:textColor="@color/white"
             android:textSize="13.3sp"

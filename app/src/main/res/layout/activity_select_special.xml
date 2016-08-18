@@ -16,9 +16,8 @@
         android:layout_marginTop="15dp"
         android:background="@color/white"
         android:id="@+id/lv_special"
-        android:layout_weight="8"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:scrollbars="none">
     </ListView>
     <Button
@@ -26,19 +25,19 @@
         android:layout_height="40dp"
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"
-        android:layout_marginTop="20dp"
-        android:text="下一步"
+        android:layout_marginTop="34dp"
+        android:text="确定"
         android:textColor="@color/white"
         android:textSize="13.3sp"
         android:background="@drawable/em_button_login_bg"
         android:id="@+id/bt_report_special"/>
     <Button
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="34dp"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="25dp"
         android:text="稍后再说"
         android:textColor="#c5c5c5"
         android:textSize="13.3sp"

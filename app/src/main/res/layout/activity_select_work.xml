@@ -9,12 +9,10 @@
 
     <include layout="@layout/title_info" />
 <ScrollView
-    android:layout_marginTop="10dp"
-
+    android:layout_marginTop="21dp"
     android:layout_width="match_parent"
     android:scrollbars="none"
-    android:layout_weight="7"
-    android:layout_height="0dp">
+    android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
@@ -184,24 +182,19 @@
         </com.diligroup.view.MyGridView>
     </LinearLayout>
 </ScrollView>
-
-<FrameLayout
-    android:layout_weight="2"
-    android:layout_width="match_parent"
-    android:layout_height="0dp">
     <Button
-
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
-        android:textColor="@color/white"
         android:id="@+id/bt_commit_work"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="13.3sp"
         android:background="@drawable/em_button_login_bg"
-        android:text="确定" />
-</FrameLayout>
+        />
+
 
 </LinearLayout>

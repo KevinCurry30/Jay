@@ -32,7 +32,8 @@ import okhttp3.Request;
  * Created by Kevin on 2016/6/20.
  */
 public class ReportSpecial extends BaseActivity {
-
+    @Bind(R.id.bt_report_special)
+    Button bt_specail;
     @Bind(R.id.bt_jump_special)
     Button bt_later_report;
     Boolean isFrist;
@@ -72,6 +73,8 @@ public class ReportSpecial extends BaseActivity {
             map.put("specialCrowdCode", s2);
             Api.updataUserInfo(map, this);
             readyGo(UserInfoActivity.class);
+            this.finish();
+
         }
 
     }
@@ -108,6 +111,7 @@ public class ReportSpecial extends BaseActivity {
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
         if (isFrist) {
+            bt_specail.setText("下一步");
             bt_later_report.setVisibility(View.INVISIBLE);
         }
         bt_later_report.setVisibility(View.GONE);

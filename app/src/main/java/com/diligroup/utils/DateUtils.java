@@ -55,7 +55,6 @@ public class DateUtils {
         day = calendar.get(Calendar.DATE);
         return year + "年" + (month + 1) + "月" + day + "日";
     }
-
     /**
      * 获取当前日期 2016年7月20日
      *

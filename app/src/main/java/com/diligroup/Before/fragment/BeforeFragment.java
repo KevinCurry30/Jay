@@ -10,6 +10,7 @@ import android.webkit.WebViewClient;
 
 import com.diligroup.R;
 import com.diligroup.base.BaseFragment;
+import com.diligroup.utils.ShareUtils;
 
 import butterknife.Bind;
 
@@ -70,5 +71,9 @@ public class BeforeFragment extends BaseFragment {
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
             super.onReceivedSslError(view, handler, error);
         }
+    }
+    //点击了分享按钮
+    public void clickShare(){
+        new ShareUtils(getActivity(),"http://tuanche.com","http://baidu.com").openSharebord("AAAA");
     }
 }

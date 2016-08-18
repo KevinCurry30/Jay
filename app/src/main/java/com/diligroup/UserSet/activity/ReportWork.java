@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,6 +38,8 @@ import okhttp3.Request;
  */
 public class ReportWork extends BaseActivity {
 
+    @Bind(R.id.bt_commit_work)
+    Button bt_ok_work;
 
     @Bind(R.id.gv_light)
     GridView gv_light;
@@ -96,7 +99,9 @@ public class ReportWork extends BaseActivity {
         Intent intent = getIntent();
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
-
+        if (isFrist){
+            bt_ok_work.setText("下一步");
+        }
         light_job_name = new ArrayList<>();
         middle_job_name = new ArrayList<>();
         heavy_job_name = new ArrayList<>();
@@ -194,7 +199,8 @@ public class ReportWork extends BaseActivity {
             LogUtils.e("职业Code======"+jobCode);
             LogUtils.e("职业Type======"+jobType);
             if (isFrist) {
-                UserInfoBean.getInstance().setJob(userSelect);
+//                UserInfoBean.getInstance().setJob(userSelect);
+
                 UserInfoBean.getInstance().setJobType(jobCode);
                 readyGo(ReportHeight.class, bundle);
                 return;
@@ -204,6 +210,7 @@ public class ReportWork extends BaseActivity {
             map.put("job",userSelect);
             Api.updataUserInfo(map,this);
             readyGo(UserInfoActivity.class);
+this.finish();
 
         } else {
             ToastUtil.showShort(ReportWork.this, "请选择职业");

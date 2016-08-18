@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -20,6 +19,7 @@ import com.diligroup.net.Action;
 import com.diligroup.net.Api;
 import com.diligroup.net.RequestManager;
 import com.diligroup.utils.DateUtils;
+import com.diligroup.utils.ShareUtils;
 
 import java.util.List;
 
@@ -72,7 +72,8 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
 
         homeToday.setText(currentDay);
         homeWeekday.setText("(今天 " + DateUtils.getWeekDay() + ")");
-        Api.getDietRecord(currentDay,this);
+        String  today=currentDay.replace("年","").replace("月","").replace("日","");
+        Api.getDietRecord(today,this);
 
     }
 
@@ -89,6 +90,9 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
             homeWeekday.setText("（今天、" + temp.split(" ")[1] + "）");
         } else {
             homeWeekday.setText("（" + temp.split(" ")[1] + "）");
+            String  today=temp.replace("年","").replace("月","").replace("日","");
+            Api.getDietRecord(today,this);
+
         }
     }
 
@@ -100,6 +104,8 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
             homeWeekday.setText("（今天、" + tempDay.split(" ")[1] + ")");
         } else {
             homeWeekday.setText("（" + tempDay.split(" ")[1] + "）");
+            String  today=tempDay.replace("年","").replace("月","").replace("日","");
+            Api.getDietRecord(today,this);
         }
     }
 
@@ -148,13 +154,13 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
                 dinnerBeanList=dietRecordBean.getEven();
 
                 if (afternoonBeanList!=null){
-                    lv_lunch.setAdapter(new LunchAdapter());
+                    lv_lunch.setAdapter(new LunchAdapter(2));
                 }
                 if (mornBeanList!=null){
-                    lv_lunch.setAdapter(new LunchAdapter());
+                    lv_breakfast.setAdapter(new LunchAdapter(1));
                 }
                 if (dinnerBeanList!=null){
-                    lv_lunch.setAdapter(new LunchAdapter());
+                    lv_dinner.setAdapter(new LunchAdapter(3));
                 }
 
             }
@@ -164,15 +170,34 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
 
     }
     class  LunchAdapter extends BaseAdapter{
-
+        int  type;
+        LunchAdapter(int mType){
+            this.type=mType;
+        }
         @Override
         public int getCount() {
-            return afternoonBeanList.size();
+            if (type==1){
+                return  mornBeanList.size();
+            }if (type==2){
+                return afternoonBeanList.size();
+            }
+            if (type==3){
+                return dinnerBeanList.size();
+            }
+            return 0;
         }
 
         @Override
         public Object getItem(int position) {
-            return afternoonBeanList.get(position);
+            if (type==1){
+                return mornBeanList.get(position);
+            }if (type==2){
+                return afternoonBeanList.get(position);
+            }
+            if (type==3){
+                return dinnerBeanList.get(position);
+            }return position;
+
         }
 
         @Override
@@ -195,9 +220,24 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
                 // 取出holder
                 holder = (ViewHolder) convertView.getTag();
             }
-                holder.tv_name.setText(afternoonBeanList.get(position).getDishesName());
-                holder.tv_num.setText(String.valueOf(afternoonBeanList.get(position).getNum()));
-                holder.tv_Kcal.setText(String.valueOf(afternoonBeanList.get(position).getEnergyKc()));
+            switch (type){
+                case 1:
+                    holder.tv_name.setText(mornBeanList.get(position).getDishesName());
+                    holder.tv_num.setText(String.valueOf(mornBeanList.get(position).getNum()));
+                    holder.tv_Kcal.setText(String.valueOf(mornBeanList.get(position).getEnergyKc()));
+                    break;
+                case 2:
+                    holder.tv_name.setText(afternoonBeanList.get(position).getDishesName());
+                    holder.tv_num.setText(String.valueOf(afternoonBeanList.get(position).getNum()));
+                    holder.tv_Kcal.setText(String.valueOf(afternoonBeanList.get(position).getEnergyKc()));
+                    break;
+                case 3:
+                    holder.tv_name.setText(dinnerBeanList.get(position).getDishesName());
+                    holder.tv_num.setText(String.valueOf(dinnerBeanList.get(position).getNum()));
+                    holder.tv_Kcal.setText(String.valueOf(dinnerBeanList.get(position).getEnergyKc()));
+                    break;
+            }
+
             return convertView;
         }
 
@@ -207,5 +247,9 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
         TextView tv_num;
         ImageView iv_icon;
         TextView tv_Kcal;
+    }
+    //点击了分享按钮
+    public void clickShare(){
+        new ShareUtils(getActivity(),"http://tuanche.com","http://baidu.com").openSharebord("AAAA");
     }
 }

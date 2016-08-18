@@ -40,6 +40,8 @@ public class ReportTaste extends BaseActivity {
     List<GetJiaoQinBean.ListBean> tasteBean_list;
     @Bind(R.id.bt_jump_taste)
     Button bt_later_report;
+    @Bind(R.id.bt_report_taste)
+    Button bt_taste;
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_select_taste;
@@ -70,6 +72,7 @@ public class ReportTaste extends BaseActivity {
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
         if (isFrist){
+            bt_taste.setText("下一步");
             bt_later_report.setVisibility(View.INVISIBLE);
         }
         bt_later_report.setVisibility(View.GONE);
@@ -112,6 +115,8 @@ public class ReportTaste extends BaseActivity {
         map.put("tasteCode ",s2);
         Api.updataUserInfo(map,this);
        readyGo(UserInfoActivity.class);
+        this.finish();
+
 
     }
     @OnClick(R.id.bt_jump_taste)

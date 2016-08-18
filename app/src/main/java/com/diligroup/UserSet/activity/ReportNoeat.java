@@ -7,6 +7,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.diligroup.R;
@@ -42,6 +43,8 @@ public class ReportNoeat extends BaseActivity {
     GetJiaoQinBean getJiaoQinBean;
     Boolean isFrist;
     Bundle bundle;
+    @Bind(R.id.bt_ok_noeat)
+    Button bt_noEat;
     private Handler mHandler = new Handler() {
 
         public void handleMessage(Message msg) {
@@ -109,7 +112,9 @@ public class ReportNoeat extends BaseActivity {
         Intent intent = getIntent();
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
-
+        if (isFrist){
+            bt_noEat.setText("下一步");
+        }
         datalist = new ArrayList<>();
         noeat_list = new ArrayList<>();
 
@@ -132,6 +137,8 @@ public class ReportNoeat extends BaseActivity {
             map.put("tabooCode ",s2);
             Api.updataUserInfo(map,this);
             readyGo(UserInfoActivity.class);
+            this.finish();
+
         }
     }
 

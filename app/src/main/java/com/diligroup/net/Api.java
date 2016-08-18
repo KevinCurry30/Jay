@@ -282,7 +282,8 @@ public class Api {
         map.put("transCode", TransCode.updataUserInfos);
         map.put("type","update");
         map.put("mobileNum", Constant.userNumber);
-        map.put("jobType ",UserInfoBean.getInstance().getJob());
+        map.put("job",UserInfoBean.getInstance().getJob());
+        map.put("jobType ",UserInfoBean.getInstance().getJobType());
         map.put("birthday", UserInfoBean.getInstance().getBirthday());
         map.put("sex ",String.valueOf(UserInfoBean.getInstance().getSex()));
         map.put("height", UserInfoBean.getInstance().getHeight());
@@ -352,6 +353,7 @@ public class Api {
         map.put("type","findAll");
         map.put("transCode",TransCode.GET_DIET_RECORD );
         map.put("time",time);
+
         map.put("userId",String.valueOf(Constant.userId));
         RequestManager.getInstance().getAsync(Action.GET_DIET_RECORD,map,callback);
     }

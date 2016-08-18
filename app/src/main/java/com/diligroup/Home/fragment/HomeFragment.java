@@ -16,8 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.diligroup.After.AddLunchActivity;
-import com.diligroup.Home.adapter.HomeRighAdapter;
+import com.diligroup.Home.ServiceActivity;
+import com.diligroup.Home.adapter.HomeRighAdapter_1;
 import com.diligroup.Home.adapter.LeftAdapter;
 import com.diligroup.R;
 import com.diligroup.UserSet.activity.PhysiologicalPeriodActivity;
@@ -91,15 +91,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private ArrayList<String> templateDateList = new ArrayList<>();//门店供应的菜品日期集合
     private int currentClickItem;
     private LeftAdapter adapter;
-    HomeRighAdapter righAdapter;
+    HomeRighAdapter_1 righAdapter;
     @Bind(R.id.collapsing_toolbar_layout)
     CollapsingToolbarLayout mCollapsingToolbarLayout;
 
     private List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> dishesTypeList;//左侧成品分类列表
-    //    private List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> rightDishesList;//左侧成品分类列表
+    private List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> rightDishesList = new ArrayList<>();//左侧成品分类列表
     private DividerItemDecoration dividerItemDecoration;
 
-    int mealTypeCode;//餐别
+    String currentMealTypeCode;//当前餐别
     private int hour;
     private LinearLayoutManager layoutManager_1;
 
@@ -126,19 +126,24 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         hour = DateUtils.getCurrentTime();
         if (hour >= 0 && hour <= 9) {
             select_meal(0);
+            currentMealTypeCode="20001";
         } else if (hour > 9 && hour <= 16) {
             select_meal(1);
+            currentMealTypeCode="20002";
         } else {
             select_meal(2);
+            currentMealTypeCode="20003";
         }
 
-        CommonUtils.initRerecyelerView(getActivity(),home_left_listView);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        CommonUtils.initRerecyelerView(getActivity(), home_left_listView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         home_left_listView.setLayoutManager(layoutManager);
         layoutManager_1 = new LinearLayoutManager(getActivity());
         home_right_recycleView.setLayoutManager(layoutManager_1);
-
-        CommonUtils.initRerecyelerView(getActivity(),home_right_recycleView);
+        CommonUtils.initRerecyelerView(getActivity(), home_right_recycleView);
+//        StickyHeaderLayoutManager stickyHeaderLayoutManager = new StickyHeaderLayoutManager();
+//        home_right_recycleView.setLayoutManager(stickyHeaderLayoutManager);
+//        home_right_recycleView.setAdapter(new SimpleDemoAdapter(5, 5, true, false, false, false));
         initDate();
     }
 
@@ -159,7 +164,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             @Override
             public boolean onHover(View v, MotionEvent event) {
                 int what = event.getAction();
-                switch(what){
+                switch (what) {
                     case MotionEvent.ACTION_HOVER_ENTER:  //鼠标进入view
                         homeFlipper.setAutoStart(false);
                         System.out.println("bottom ACTION_HOVER_ENTER");
@@ -173,6 +178,34 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                         break;
                 }
                 return false;
+            }
+        });
+//            home_right_recycleView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+//                @Override
+//                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                  int position=  ((LinearLayoutManager)home_right_recycleView.getLayoutManager()).findFirstVisibleItemPosition();
+//                    if(getRightList(dishesTypeList).get(position).getDishesCode()!=getRightList(dishesTypeList).get(position-1).getDishesCode()){
+//                        LogUtils.i("头部dishcODE 变化了");
+//                    }
+//                }
+//            });
+        home_right_recycleView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+//                int position=  ((LinearLayoutManager)home_right_recycleView.getLayoutManager()).findFirstVisibleItemPosition();
+//                ((LinearLayoutManager)home_right_recycleView.getLayoutManager()).getChildAt(0);
+                View view = home_right_recycleView.getChildAt(0);
+//                home_right_recycleView.findChildViewUnder()
+                int position = home_right_recycleView.getChildAdapterPosition(view);
+                if (position > 0 && !getRightList(dishesTypeList).get(position).getHeaderCode().equals(getRightList(dishesTypeList).get(position - 1).getHeaderCode())) {
+                    LogUtils.i("头部dishcODE 变化了" + getRightList(dishesTypeList).get(position).getHeaderCode());
+                }
             }
         });
     }
@@ -208,7 +241,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             dotter.setLayoutParams(layoutParams);
             banner_dot_ll.addView(dotter);
         }
-        Api.homeStoreSupplyList(Constant.cusId,DateUtils.dateFormatChanged_2(DateUtils.dateFormatChagee(currentDay)), "", "", "1", this);
     }
 
     private void switchDottor(int index) {
@@ -232,9 +264,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 startActivityForResult(mIntent, 10);//传递当前日期
                 break;
             case R.id.home_thisService_evaluation:
-//                mIntent = new Intent(getActivity(), ServiceActivity.class);
-//                startActivity(mIntent);
-                startActivity(new Intent(getActivity(), AddLunchActivity.class));
+                mIntent = new Intent(getActivity(), ServiceActivity.class);
+                startActivity(mIntent);
                 break;
             case R.id.select_store:
                 mIntent = new Intent(getActivity(), GetShopActivity.class);
@@ -261,17 +292,20 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             case 0:
                 mealIcon.setImageResource(R.mipmap.breakfase_icon_normal);
                 mealText.setText("早餐");
-                Api.homeStoreSupplyList(Constant.cusId, DateUtils.dateFormatChanged_2(DateUtils.dateFormatChagee(homeToday.getText().toString())), "", "", "1", this);
+                currentMealTypeCode="20001";
+                Api.homeStoreSupplyList(Constant.cusId, DateUtils.dateFormatChanged_2(DateUtils.dateFormatChagee(homeToday.getText().toString())),currentMealTypeCode, "", "1", this);
                 break;
             case 1:
                 mealIcon.setImageResource(R.mipmap.lunch_icon_normal);
                 mealText.setText("午餐");
-                Api.homeStoreSupplyList(Constant.cusId,DateUtils.dateFormatChanged_2(DateUtils.dateFormatChagee(homeToday.getText().toString())), "", "", "1", this);
+                currentMealTypeCode="20002";
+                Api.homeStoreSupplyList(Constant.cusId, DateUtils.dateFormatChanged_2(DateUtils.dateFormatChagee(homeToday.getText().toString())),currentMealTypeCode, "", "1", this);
                 break;
             case 2:
                 mealIcon.setImageResource(R.mipmap.dinner_icon_normal);
                 mealText.setText("晚餐");
-                Api.homeStoreSupplyList(Constant.cusId,DateUtils.dateFormatChanged_2(DateUtils.dateFormatChagee(homeToday.getText().toString())), "", "", "1", this);
+                currentMealTypeCode="20003";
+                Api.homeStoreSupplyList(Constant.cusId, DateUtils.dateFormatChanged_2(DateUtils.dateFormatChagee(homeToday.getText().toString())),currentMealTypeCode, "", "1", this);
                 break;
         }
     }
@@ -289,7 +323,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     homeWeekday.setText("(今天 " + DateUtils.getWeekdayOfMonth(currentYear, currentMonth, currentDay) + ")");
                 } else {
                     homeWeekday.setText("(" + DateUtils.getWeekdayOfMonth(currentYear, currentMonth, currentDay) + ")");
-                    Api.homeStoreSupplyList(Constant.cusId, DateUtils.dateFormatChanged_2(currenStr), "", "", "1", this);
+                    Api.homeStoreSupplyList(Constant.cusId, DateUtils.dateFormatChanged_2(currenStr),currentMealTypeCode, "", "1", this);
                 }
                 break;
         }
@@ -335,29 +369,24 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     e.printStackTrace();
                 }
                 if (adapter == null) {
-                    adapter = new LeftAdapter(getActivity(), dishesTypeList,this);
+                    adapter = new LeftAdapter(getActivity(), dishesTypeList, this);
                     home_left_listView.setAdapter(adapter);
                 } else {
                     adapter.setDate(dishesTypeList);
                 }
                 if (righAdapter == null) {
-                    righAdapter = new HomeRighAdapter(getActivity(), dishesTypeList, new MyStickyHeadChangeListener() {
+                    righAdapter = new HomeRighAdapter_1(getActivity(), dishesTypeList, new MyStickyHeadChangeListener() {
+
                         @Override
                         public void headChange(int position, String headId) {
-                            for (int i = 0; i < dishesTypeList.size(); i++) {
-                                if (dishesTypeList.get(i).getDishesTypeCode().equals(headId)) {
-                                    home_left_listView.scrollToPosition(i);
-                                    adapter.selectPosion(i);
-                                    adapter.notifyDataSetChanged();
-                                }
-                            }
+                            LogUtils.i("当前的headerId==" + headId);
                         }
                     });
                     final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(righAdapter);
                     home_right_recycleView.addItemDecoration(headersDecor);
                     home_right_recycleView.setAdapter(righAdapter);
                 } else {
-                    righAdapter.setDate(dishesTypeList);
+                    righAdapter.setDate(getRightList(dishesTypeList));
                 }
             }
         }
@@ -379,10 +408,48 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 }
             }
         }
+        if (righAdapter != null) {
+            righAdapter.setDate(getRightList(dishesTypeList));
+        }
     }
 
     @Override
-    public void onItemClick(View view, int position) {
+    public void onItemClick(View view, int position) {//左侧item点击事件
+        int count = 0;
+        for (int i = 0; i < dishesTypeList.size(); i++) {
+            if (position == 0) {
+                home_right_recycleView.scrollToPosition(0);
+                return;
+            } else if (i < position && dishesTypeList.get(i).getDishesSupplyDtlList() == null) {
+                continue;
+            } else if (i < position && dishesTypeList.get(i).getDishesSupplyDtlList() != null) {
+                count = count + dishesTypeList.get(i).getDishesSupplyDtlList().size();
+            } else {
+                break;
+            }
+        }
+        home_right_recycleView.scrollToPosition(position);
+        ((LinearLayoutManager) home_right_recycleView.getLayoutManager()).scrollToPositionWithOffset(count, 0);
+    }
 
+    /**
+     * 获取右侧菜品列表
+     *
+     * @param mList
+     * @return
+     */
+    private List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> getRightList(List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> mList) {
+        if (mList != null && mList.size() > 0) {
+            for (int i = 0; i < mList.size(); i++) {
+                if (mList.get(i).getDishesSupplyDtlList() != null) {
+                    for (int j = 0; j < mList.get(i).getDishesSupplyDtlList().size(); j++) {
+                        mList.get(i).getDishesSupplyDtlList().get(j).setHeaderCode(mList.get(i).getDishesTypeCode());
+                        mList.get(i).getDishesSupplyDtlList().get(j).setHeaderName(mList.get(i).getDishesTypeName());
+                    }
+                    rightDishesList.addAll(mList.get(i).getDishesSupplyDtlList());
+                }
+            }
+        }
+        return rightDishesList;
     }
 }

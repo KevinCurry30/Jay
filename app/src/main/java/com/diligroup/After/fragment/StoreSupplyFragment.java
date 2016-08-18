@@ -301,7 +301,7 @@ public class StoreSupplyFragment extends BaseFragment implements View.OnClickLis
     }
 
     @Override
-    public void onItemClick(View view, int position) {
+    public void onItemClick(View view, int position) {//左侧点击右侧联动
         int count = 0;
 //        rightRecyclerView.setSelection(0);
         for (int i = 0; i < dishesTypeList.size(); i++) {

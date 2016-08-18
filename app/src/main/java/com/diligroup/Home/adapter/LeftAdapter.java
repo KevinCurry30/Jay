@@ -24,6 +24,8 @@ public class LeftAdapter extends RecyclerView.Adapter {
     List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> mlist;
     OnGetView onGetView;
     MyItemClickListener listener;
+    private int currentPosition;//当前选中的position
+
     public LeftAdapter(Context mContext, List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> mlist, MyItemClickListener listener) {
         super();
         this.mContext = mContext;
@@ -32,6 +34,7 @@ public class LeftAdapter extends RecyclerView.Adapter {
         initDate(mlist);
     }
     public void setDate(List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> mlist){
+        mlist.get(currentPosition).setSelected(true);
         this.mlist=mlist;
         notifyDataSetChanged();
     }
@@ -48,6 +51,7 @@ public class LeftAdapter extends RecyclerView.Adapter {
      * @param position
      */
     public void selectPosion(int position) {
+        currentPosition = position;
         for (int i = 0; i < mlist.size(); i++) {
             if (i == position) {
                 mlist.get(i).setSelected(true);
@@ -55,6 +59,7 @@ public class LeftAdapter extends RecyclerView.Adapter {
                 mlist.get(i).setSelected(false);
             }
         }
+        setDate(mlist);
     }
 
     @Override

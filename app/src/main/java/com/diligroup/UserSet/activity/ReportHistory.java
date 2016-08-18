@@ -41,7 +41,8 @@ public class ReportHistory extends BaseActivity {
     Button bt_later_report;
     Boolean isFrist;
     Bundle bundle;
-
+    @Bind(R.id.bt_report_history)
+    Button bt_history;
     @OnClick(R.id.bt_report_history)
     public void ReportHisty() {
         String s = id_list.toString().replaceAll(" ", "");
@@ -56,6 +57,8 @@ public class ReportHistory extends BaseActivity {
             map.put("chronicDiseaseCode", s2);
             Api.updataUserInfo(map, this);
             readyGo(UserInfoActivity.class);
+            this.finish();
+
         }
 
 
@@ -98,6 +101,7 @@ public class ReportHistory extends BaseActivity {
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
         if (isFrist) {
+            bt_history.setText("下一步");
             bt_later_report.setVisibility(View.VISIBLE);
         }
         bt_later_report.setVisibility(View.INVISIBLE);
