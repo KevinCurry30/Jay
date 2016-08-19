@@ -71,9 +71,15 @@ public class AddLunchActivity extends BaseActivity implements RadioGroup.OnCheck
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
     public void setTitle() {
         super.setTitle();
-        tv_title.setText("添加午餐");
+
         isShowBack(true);
     }
 
@@ -81,6 +87,17 @@ public class AddLunchActivity extends BaseActivity implements RadioGroup.OnCheck
     protected void initViewAndData() {
         mealType = getIntent().getStringExtra("mealType");
         currentDay = getIntent().getStringExtra("currentDay");
+        switch (mealType) {
+            case "20001":
+                tv_title.setText("添加早餐");
+                break;
+            case "20002":
+                tv_title.setText("添加午餐");
+                break;
+            case "20003":
+                tv_title.setText("添加晚餐");
+                break;
+        }
 
         addlunchRgroup.check(R.id.addlunch_storeSuppy);
         addlunchRgroup.setOnCheckedChangeListener(this);
@@ -152,7 +169,7 @@ public class AddLunchActivity extends BaseActivity implements RadioGroup.OnCheck
         } else {
             for (int i = 0; i < addMealList.size(); i++) {
                 if (addMealList.get(i).getDishesCode().equals(bean.getDishesCode()) && addMealList.get(i).getWayType().equals(bean.getWayType())) {
-                    addMealList.get(i).setWeight(Float.parseFloat(TextUtils.isEmpty(addMealList.get(i).getWeight())?"0.0f":addMealList.get(i).getWeight()) + Float.parseFloat(TextUtils.isEmpty(bean.getWeight())?"0.0f":bean.getWeight()) + "");
+                    addMealList.get(i).setWeight(Float.parseFloat(TextUtils.isEmpty(addMealList.get(i).getWeight()) ? "0.0f" : addMealList.get(i).getWeight()) + Float.parseFloat(TextUtils.isEmpty(bean.getWeight()) ? "0.0f" : bean.getWeight()) + "");
                     return;
                 }
             }
@@ -169,7 +186,7 @@ public class AddLunchActivity extends BaseActivity implements RadioGroup.OnCheck
         if (addMealList.contains(bean)) {
             for (int i = 0; i < addMealList.size(); i++) {
                 if (addMealList.get(i).getDishesCode().equals(bean.getDishesCode()) && addMealList.get(i).getWayType().equals(bean.getWayType())) {
-                    addMealList.get(i).setWeight(Float.parseFloat(TextUtils.isEmpty(addMealList.get(i).getWeight())?"0.0f":addMealList.get(i).getWeight()) - Float.parseFloat(TextUtils.isEmpty(bean.getWeight())?"0.0f":bean.getWeight()) + "");
+                    addMealList.get(i).setWeight(Float.parseFloat(TextUtils.isEmpty(addMealList.get(i).getWeight()) ? "0.0f" : addMealList.get(i).getWeight()) - Float.parseFloat(TextUtils.isEmpty(bean.getWeight()) ? "0.0f" : bean.getWeight()) + "");
                 }
                 if (TextUtils.isEmpty(addMealList.get(i).getWeight())) {
                     addMealList.remove(addMealList.get(i));

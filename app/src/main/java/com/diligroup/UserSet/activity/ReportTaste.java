@@ -112,7 +112,7 @@ public class ReportTaste extends BaseActivity {
             return;
         }
         Map map =new HashMap();
-        map.put("tasteCode ",s2);
+        map.put("tasteCode",s2);
         Api.updataUserInfo(map,this);
        readyGo(UserInfoActivity.class);
         this.finish();

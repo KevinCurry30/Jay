@@ -201,16 +201,17 @@ public class ReportWork extends BaseActivity {
             if (isFrist) {
 //                UserInfoBean.getInstance().setJob(userSelect);
 
-                UserInfoBean.getInstance().setJobType(jobCode);
+                UserInfoBean.getInstance().setJobType(jobType);
+                UserInfoBean.getInstance().setJob(jobCode);
                 readyGo(ReportHeight.class, bundle);
                 return;
             }
             Map map =new HashMap();
-            map.put("jobType","jobType");
-            map.put("job",userSelect);
+            map.put("jobType",jobType);
+            map.put("job",jobCode);
             Api.updataUserInfo(map,this);
             readyGo(UserInfoActivity.class);
-this.finish();
+            this.finish();
 
         } else {
             ToastUtil.showShort(ReportWork.this, "请选择职业");

@@ -1,20 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:background="@color/white" >
+    android:layout_height="match_parent"
+    android:background="#F0F0F0"
+    android:orientation="vertical">
 
+        <include layout="@layout/comm_title" />
 
-        <TextView
-            android:id="@+id/gv_bushou_TextView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            android:textSize="25dp"
-            android:textColor="@color/blue"
-            android:text="难" >
-        </TextView>
+        <include layout="@layout/title_info" />
+        <ScrollView
+            android:layout_marginTop="21dp"
+            android:layout_width="match_parent"
+            android:scrollbars="none"
+            android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                        <RelativeLayout
+                            android:padding="10dp"
+                            android:visibility="visible"
+                            android:id="@+id/rl_light"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white">
+
+                                <ImageView
+                                    android:id="@+id/iv_shutiao"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_margin="7dp"
+                                    android:src="@drawable/iv_shutiao" />
+
+                                <TextView
+                                    android:id="@+id/tv_light"
+                                    android:textSize="14sp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_toRightOf="@id/iv_shutiao"
+                                    android:text="轻体力"
+                                    android:textColor="@color/title_color" />
+
+                                <TextView
+                                    android:textSize="10sp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="15sp"
+                                    android:text="75%时间坐或站立;25%时间站着活动"
+                                    android:textColor="#FF6531" />
+                        </RelativeLayout>
+
+                        <com.diligroup.view.MyGridView
+                            android:visibility="visible"
+                            android:id="@+id/gv_light"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:numColumns="4"
+                            android:listSelector="@null"
+                            android:verticalSpacing="1.0px"
+                            android:horizontalSpacing="1.0px"
+                            />
+                        <RelativeLayout
+                            android:id="@+id/rl_middle"
+                            android:layout_marginTop="10dp"
+                            android:padding="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white">
+
+                                <ImageView
+                                    android:id="@+id/iv_shutiao2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="7dp"
+                                    android:src="@drawable/iv_shutiao" />
+
+                                <TextView
+                                    android:id="@+id/tv_middle"
+                                    android:textSize="12sp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_toRightOf="@id/iv_shutiao2"
+                                    android:text="中等体力"
+                                    android:textColor="@color/title_color" />
+
+                                <TextView
+                                    android:textSize="10sp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="10dp"
+                                    android:text="25%时间坐或站立;75%时间特殊活动"
+                                    android:textColor="#FF6531" />
+                        </RelativeLayout>
+
+                        <com.diligroup.view.MyGridView
+
+                            android:id="@+id/gv_middle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:numColumns="4"
+                            android:listSelector="@null"
+                            android:verticalSpacing="1.0px"
+                            android:horizontalSpacing="1.0px"
+                         >
+
+                        </com.diligroup.view.MyGridView>
+
+                        <RelativeLayout
+                            android:padding="10dp"
+                            android:id="@+id/rl_heavy"
+                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white">
+
+                                <ImageView
+                                    android:id="@+id/iv_shutiao3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="7dp"
+                                    android:src="@drawable/iv_shutiao" />
+
+                                <TextView
+                                    android:id="@+id/tv_heavy"
+                                    android:textSize="12sp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_toRightOf="@id/iv_shutiao3"
+                                    android:text="重体力"
+                                    android:textColor="@color/title_color" />
+
+                                <TextView
+                                    android:textSize="10sp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="10dp"
+                                    android:text="40%时间坐或站立;60%时间特殊活动"
+                                    android:textColor="#FF6531" />
+                        </RelativeLayout>
+
+                        <com.diligroup.view.MyGridView
+                            android:id="@+id/gv_heavy"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:columnWidth="60dp"
+                            android:numColumns="4"
+                            android:listSelector="@null"
+                            android:verticalSpacing="1.0px"
+                            android:horizontalSpacing="1.0px"
+                           >
+                        </com.diligroup.view.MyGridView>
+                        <Button
+                            android:id="@+id/bt_commit_work"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="35dp"
+                            android:layout_marginRight="35dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginBottom="30dp"
+                            android:text="确定"
+                            android:textColor="@color/white"
+                            android:textSize="13.3sp"
+                            android:background="@drawable/em_button_login_bg"
+                            />
+                </LinearLayout>
+        </ScrollView>
+
 
 
 </LinearLayout>

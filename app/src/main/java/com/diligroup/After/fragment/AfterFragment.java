@@ -20,6 +20,9 @@ import com.diligroup.net.Api;
 import com.diligroup.net.RequestManager;
 import com.diligroup.utils.DateUtils;
 import com.diligroup.utils.ShareUtils;
+import com.diligroup.utils.ToastUtil;
+import com.diligroup.view.ListViewForScrollView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -44,23 +47,33 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
     String currentDay;//今天日期字符串
     List<GetDietRecordBean.MornBean>  mornBeanList;
     List<GetDietRecordBean.AfternoonBean>  afternoonBeanList;
-    List<GetDietRecordBean.EvenBean>  dinnerBeanList;
+    List<GetDietRecordBean.EvenBean> dinnerBeanList;
     @Bind(R.id.lv_breakfast)
-    ListView lv_breakfast;
+    ListViewForScrollView  lv_breakfast;
     @Bind(R.id.lv_lunch)
-    ListView lv_lunch;
+    ListViewForScrollView  lv_lunch;
     @Bind(R.id.lv_dinner)
-    ListView lv_dinner;
+    ListViewForScrollView  lv_dinner;
     @Bind(R.id.ll_no_record)
     LinearLayout  ll_NoRecord;
     @Bind(R.id.sl_recorde)
     ScrollView sl_Record;
+    @Bind(R.id.tv_kcal_breakfast)
+    TextView tv_kcal_breakfast;
+    @Bind(R.id.tv_kcal_lunch)
+    TextView tv_kcal_lunch;
+    @Bind(R.id.tv_kcal_dinner)
+    TextView tv_kcal_dinner;
+    String today;
+    LunchAdapter  mornAdapter;
+    LunchAdapter  lunchAdapter;
+    LunchAdapter  dinnerAdapter;
     @Override
     public void onStart() {
         super.onStart();
     }
 
-    //餐别：早餐20001，午餐20002，晚餐20003，夜宵20004，加餐	20005
+
     @Override
     public int getLayoutXml() {
         return R.layout.fragment_after;
@@ -69,10 +82,9 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
     @Override
     public void setViews() {
         currentDay = DateUtils.getCurrentDate();
-
         homeToday.setText(currentDay);
         homeWeekday.setText("(今天 " + DateUtils.getWeekDay() + ")");
-        String  today=currentDay.replace("年","").replace("月","").replace("日","");
+          today=currentDay.replace("年","").replace("月","").replace("日","");
         Api.getDietRecord(today,this);
 
     }
@@ -90,7 +102,7 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
             homeWeekday.setText("（今天、" + temp.split(" ")[1] + "）");
         } else {
             homeWeekday.setText("（" + temp.split(" ")[1] + "）");
-            String  today=temp.replace("年","").replace("月","").replace("日","");
+              today=temp.replace("年","").replace("月","").replace("日","");
             Api.getDietRecord(today,this);
 
         }
@@ -104,7 +116,7 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
             homeWeekday.setText("（今天、" + tempDay.split(" ")[1] + ")");
         } else {
             homeWeekday.setText("（" + tempDay.split(" ")[1] + "）");
-            String  today=tempDay.replace("年","").replace("月","").replace("日","");
+              today=tempDay.replace("年","").replace("月","").replace("日","");
             Api.getDietRecord(today,this);
         }
     }
@@ -114,7 +126,7 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
         Intent  intent=new Intent(getActivity(), AddLunchActivity.class);
         intent.putExtra("mealType","20001");
         intent.putExtra("currentDay",homeToday.getText().toString().trim());
-        startActivity(intent);
+        startActivityForResult(intent,1);
     }
 
     @OnClick(R.id.ll_lunch)
@@ -122,7 +134,7 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
         Intent  intent=new Intent(getActivity(), AddLunchActivity.class);
         intent.putExtra("mealType","20002");
         intent.putExtra("currentDay",homeToday.getText().toString().trim());
-        startActivity(intent);
+        startActivityForResult(intent,2);
     }
 
     @OnClick(R.id.ll_dinner)
@@ -130,7 +142,8 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
         Intent  intent=new Intent(getActivity(), AddLunchActivity.class);
         intent.putExtra("currentDay",homeToday.getText().toString().trim());
         intent.putExtra("mealType","20003");
-        startActivity(intent);
+        startActivityForResult(intent,3);
+//        startActivity(intent);
     }
 
     @Override
@@ -143,29 +156,46 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
     public void onResponse(Request request, Action action, Object object) {
         if (action==Action.GET_DIET_RECORD&&object!=null){
             GetDietRecordBean  dietRecordBean = (GetDietRecordBean) object;
-            if (dietRecordBean.getCode().equals("C011601")){
-                sl_Record.setVisibility(View.GONE);
-                ll_NoRecord.setVisibility(View.VISIBLE);
-                return;
-            }
-            if (dietRecordBean.getCode().equals("000000")){
+            if (dietRecordBean.getCode().equals("000000")) {
                 mornBeanList=dietRecordBean.getMorn();
                 afternoonBeanList=dietRecordBean.getAfternoon();
                 dinnerBeanList=dietRecordBean.getEven();
-
+                if (mornBeanList.size()==0&&afternoonBeanList.size()==0&&dinnerBeanList.size()==0){
+                    sl_Record.setVisibility(View.GONE);
+                    ll_NoRecord.setVisibility(View.VISIBLE);
+                }
                 if (afternoonBeanList!=null){
-                    lv_lunch.setAdapter(new LunchAdapter(2));
+                    lunchAdapter=new LunchAdapter(2);
+                    lv_lunch.setAdapter(lunchAdapter);
+                    double  T_kcal=0;
+                    for (int i=0;i<afternoonBeanList.size();i++){
+                       T_kcal+= Double.valueOf(afternoonBeanList.get(i).getEnergyKc());
+                    }
+                    tv_kcal_lunch.setText(String.valueOf(T_kcal)+"Kcal");
+                    lunchAdapter.notifyDataSetChanged();
                 }
                 if (mornBeanList!=null){
-                    lv_breakfast.setAdapter(new LunchAdapter(1));
+                    mornAdapter=new LunchAdapter(1);
+                    lv_breakfast.setAdapter(mornAdapter);
+                    double  T_kcal=0;
+                    for (int i=0;i<mornBeanList.size();i++){
+                        T_kcal+= Double.valueOf(mornBeanList.get(i).getEnergyKc());
+                    }
+                    mornAdapter.notifyDataSetChanged();
+
+                    tv_kcal_breakfast.setText(String.valueOf(T_kcal)+"Kcal");
                 }
                 if (dinnerBeanList!=null){
-                    lv_dinner.setAdapter(new LunchAdapter(3));
+                    dinnerAdapter=new LunchAdapter(3);
+                    lv_dinner.setAdapter(dinnerAdapter);
+                    double  T_kcal=0;
+                    for (int i=0;i<dinnerBeanList.size();i++){
+                        T_kcal+= Double.valueOf(dinnerBeanList.get(i).getEnergyKc());
+                    }
+                    dinnerAdapter.notifyDataSetChanged();
+                    tv_kcal_dinner.setText(String.valueOf(T_kcal)+"Kcal");
                 }
-
             }
-
-
         }
 
     }
@@ -215,6 +245,7 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
                 holder.tv_name = (TextView) convertView.findViewById(R.id.tv_food_name);
                 holder.tv_num = (TextView) convertView.findViewById(R.id.tv_count);
                 holder.tv_Kcal = (TextView) convertView.findViewById(R.id.tv_food_kcal);
+                holder.iv_icon= (ImageView) convertView.findViewById(R.id.iv_after_icon);
                 convertView.setTag(holder);
             } else {
                 // 取出holder
@@ -222,16 +253,19 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
             }
             switch (type){
                 case 1:
+                    Picasso.with(getActivity()).load(R.mipmap.banner_3).into(holder.iv_icon);
                     holder.tv_name.setText(mornBeanList.get(position).getDishesName());
                     holder.tv_num.setText(String.valueOf(mornBeanList.get(position).getNum()));
                     holder.tv_Kcal.setText(String.valueOf(mornBeanList.get(position).getEnergyKc()));
                     break;
                 case 2:
+                    Picasso.with(getActivity()).load(R.mipmap.banner_3).into(holder.iv_icon);
                     holder.tv_name.setText(afternoonBeanList.get(position).getDishesName());
                     holder.tv_num.setText(String.valueOf(afternoonBeanList.get(position).getNum()));
                     holder.tv_Kcal.setText(String.valueOf(afternoonBeanList.get(position).getEnergyKc()));
                     break;
                 case 3:
+                    Picasso.with(getActivity()).load(R.mipmap.banner_3).into(holder.iv_icon);
                     holder.tv_name.setText(dinnerBeanList.get(position).getDishesName());
                     holder.tv_num.setText(String.valueOf(dinnerBeanList.get(position).getNum()));
                     holder.tv_Kcal.setText(String.valueOf(dinnerBeanList.get(position).getEnergyKc()));
@@ -251,5 +285,29 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
     //点击了分享按钮
     public void clickShare(){
         new ShareUtils(getActivity(),"http://tuanche.com","http://baidu.com").openSharebord("AAAA");
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode==10){
+            Api.getDietRecord(today,this);
+//
+            switch (requestCode){
+                case 1:
+                    mornAdapter.notifyDataSetChanged();
+//                    ToastUtil.showShort(getActivity(),"接受到了添加早餐的数据");
+                    break;
+                case 2:
+                    lunchAdapter.notifyDataSetChanged();
+                    ToastUtil.showShort(getActivity(),"接受到了添加午餐的数据");
+                    break;
+                case 3:
+                    dinnerAdapter.notifyDataSetChanged();
+//                ToastUtil.showShort(getActivity(),"接受到了添加晚餐的数据");
+                    break;
+            }
+        }
+
+
     }
 }

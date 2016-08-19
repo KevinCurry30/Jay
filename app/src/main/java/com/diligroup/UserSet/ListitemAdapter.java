@@ -59,7 +59,7 @@ public class ListitemAdapter extends BaseAdapter {
             holder = (ViewHolder)convertView.getTag();  
         }  
            
-        holder.tvName.setText((String)mList.get(position).getDictName());
+        holder.tvName.setText(mList.get(position).getDictName());
 		holder.foodId=mList.get(position).getCode();
         return convertView;  
 	}

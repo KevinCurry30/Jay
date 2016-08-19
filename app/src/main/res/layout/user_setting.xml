@@ -34,7 +34,6 @@
 
        <ToggleButton
            android:layout_alignParentEnd="true"
-           android:layout_marginEnd="10dp"
            android:layout_centerVertical="true"
            android:id="@+id/mTogBtn"
            android:layout_width="wrap_content"

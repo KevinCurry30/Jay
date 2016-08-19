@@ -87,7 +87,6 @@ public class HomeActivity extends BaseActivity implements RequestManager.ResultC
     @Override
     protected void initViewAndData() {
         isShowBack(false);
-        mViewPager.setOffscreenPageLimit(4);
         setupViewPager(mViewPager);
 
         titles = new ArrayList<>();

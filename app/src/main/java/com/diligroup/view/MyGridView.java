@@ -10,8 +10,8 @@ import android.widget.GridView;
 
 /**
  * 自定义gridview，解决ListView中嵌套gridview显示不正常的问题（1行半）
- * @author wangyx
- * @version 1.0.0 2012-9-14
+ * @author
+ * @version
  */
 public class MyGridView extends GridView {
     public MyGridView(Context context, AttributeSet attrs) {

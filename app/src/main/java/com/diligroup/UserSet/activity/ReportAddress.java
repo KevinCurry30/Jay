@@ -58,8 +58,11 @@ Button bt_address;
 //        ToastUtil.showShort(this,now_address);
         if (isFrist) {
 //            UserInfoBean.getInstance().setHomeAddress(now_address);
+            bt_address.setText("下一步");
+            bt_later_report.setVisibility(View.VISIBLE);
             readyGo(ReportTaste.class,bundle);
         } else {
+
             readyGo(UserInfoActivity.class);
             this.finish();
 

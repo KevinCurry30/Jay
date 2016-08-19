@@ -8,66 +8,65 @@ import java.util.List;
  */
 public class GetDietRecordBean extends CommonBean {
 
-
     /**
-     * afternoon : [{"carbohydrates":10540,"dishesCode":"H102001001","dishesName":"冬笋炒肉丝","energyKc":153896,"fat":8830,"imageUrl":"","mealType":2,"num":1,"protein":11440,"storeId":1,"time":1470758400000,"userId":1,"wayType":2,"weight":200}]
-     * even : [{"carbohydrates":10540,"dishesCode":"H102001001","dishesName":"冬笋炒肉丝","energyKc":153896,"fat":8830,"imageUrl":"","mealType":2,"num":1,"protein":11440,"storeId":1,"time":1470758400000,"userId":1,"wayType":2,"weight":200}]
-     * morn : [{"carbohydrates":10540,"dishesCode":"H102001001","dishesName":"冬笋炒肉丝","energyKc":153896,"fat":8830,"imageUrl":"","mealType":2,"num":1,"protein":11440,"storeId":1,"time":1470758400000,"userId":1,"wayType":2,"weight":200}]
+     * afternoon : [{"carbohydrates":"1.27","dishesCode":"H201003005","dishesName":"双色馒头","energyKc":" 5.78","fat":" 0.03","imageUrl":"","mealType":1,"num":1,"protein":"0.17","storeId":0,"time":1471536000000,"userId":11,"wayType":1,"weight":""}]
+     * even : [{"carbohydrates":"1.27","dishesCode":"H201003005","dishesName":"双色馒头","energyKc":" 5.78","fat":" 0.03","imageUrl":"","mealType":1,"num":1,"protein":"0.17","storeId":0,"time":1471536000000,"userId":11,"wayType":1,"weight":""}]
+     * morn : [{"carbohydrates":"1.27","dishesCode":"H201003005","dishesName":"双色馒头","energyKc":" 5.78","fat":" 0.03","imageUrl":"","mealType":1,"num":1,"protein":"0.17","storeId":0,"time":1471536000000,"userId":11,"wayType":1,"weight":""}]
      * totalCount : 0
      */
 
     private int totalCount;
     /**
-     * carbohydrates : 10540
-     * dishesCode : H102001001
-     * dishesName : 冬笋炒肉丝
-     * energyKc : 153896
-     * fat : 8830
+     * carbohydrates : 1.27
+     * dishesCode : H201003005
+     * dishesName : 双色馒头
+     * energyKc :  5.78
+     * fat :  0.03
      * imageUrl :
-     * mealType : 2
+     * mealType : 1
      * num : 1
-     * protein : 11440
-     * storeId : 1
-     * time : 1470758400000
-     * userId : 1
-     * wayType : 2
-     * weight : 200
+     * protein : 0.17
+     * storeId : 0
+     * time : 1471536000000
+     * userId : 11
+     * wayType : 1
+     * weight :
      */
 
     private List<AfternoonBean> afternoon;
     /**
-     * carbohydrates : 10540
-     * dishesCode : H102001001
-     * dishesName : 冬笋炒肉丝
-     * energyKc : 153896
-     * fat : 8830
+     * carbohydrates : 1.27
+     * dishesCode : H201003005
+     * dishesName : 双色馒头
+     * energyKc :  5.78
+     * fat :  0.03
      * imageUrl :
-     * mealType : 2
+     * mealType : 1
      * num : 1
-     * protein : 11440
-     * storeId : 1
-     * time : 1470758400000
-     * userId : 1
-     * wayType : 2
-     * weight : 200
+     * protein : 0.17
+     * storeId : 0
+     * time : 1471536000000
+     * userId : 11
+     * wayType : 1
+     * weight :
      */
 
     private List<EvenBean> even;
     /**
-     * carbohydrates : 10540
-     * dishesCode : H102001001
-     * dishesName : 冬笋炒肉丝
-     * energyKc : 153896
-     * fat : 8830
+     * carbohydrates : 1.27
+     * dishesCode : H201003005
+     * dishesName : 双色馒头
+     * energyKc :  5.78
+     * fat :  0.03
      * imageUrl :
-     * mealType : 2
+     * mealType : 1
      * num : 1
-     * protein : 11440
-     * storeId : 1
-     * time : 1470758400000
-     * userId : 1
-     * wayType : 2
-     * weight : 200
+     * protein : 0.17
+     * storeId : 0
+     * time : 1471536000000
+     * userId : 11
+     * wayType : 1
+     * weight :
      */
 
     private List<MornBean> morn;
@@ -105,26 +104,26 @@ public class GetDietRecordBean extends CommonBean {
     }
 
     public static class AfternoonBean {
-        private int carbohydrates;
+        private String carbohydrates;
         private String dishesCode;
         private String dishesName;
-        private int energyKc;
-        private int fat;
+        private String energyKc;
+        private String fat;
         private String imageUrl;
         private int mealType;
         private int num;
-        private int protein;
+        private String protein;
         private int storeId;
         private long time;
         private int userId;
         private int wayType;
-        private int weight;
+        private String weight;
 
-        public int getCarbohydrates() {
+        public String getCarbohydrates() {
             return carbohydrates;
         }
 
-        public void setCarbohydrates(int carbohydrates) {
+        public void setCarbohydrates(String carbohydrates) {
             this.carbohydrates = carbohydrates;
         }
 
@@ -144,19 +143,19 @@ public class GetDietRecordBean extends CommonBean {
             this.dishesName = dishesName;
         }
 
-        public int getEnergyKc() {
+        public String getEnergyKc() {
             return energyKc;
         }
 
-        public void setEnergyKc(int energyKc) {
+        public void setEnergyKc(String energyKc) {
             this.energyKc = energyKc;
         }
 
-        public int getFat() {
+        public String getFat() {
             return fat;
         }
 
-        public void setFat(int fat) {
+        public void setFat(String fat) {
             this.fat = fat;
         }
 
@@ -184,11 +183,11 @@ public class GetDietRecordBean extends CommonBean {
             this.num = num;
         }
 
-        public int getProtein() {
+        public String getProtein() {
             return protein;
         }
 
-        public void setProtein(int protein) {
+        public void setProtein(String protein) {
             this.protein = protein;
         }
 
@@ -224,36 +223,36 @@ public class GetDietRecordBean extends CommonBean {
             this.wayType = wayType;
         }
 
-        public int getWeight() {
+        public String getWeight() {
             return weight;
         }
 
-        public void setWeight(int weight) {
+        public void setWeight(String weight) {
             this.weight = weight;
         }
     }
 
     public static class EvenBean {
-        private int carbohydrates;
+        private String carbohydrates;
         private String dishesCode;
         private String dishesName;
-        private int energyKc;
-        private int fat;
+        private String energyKc;
+        private String fat;
         private String imageUrl;
         private int mealType;
         private int num;
-        private int protein;
+        private String protein;
         private int storeId;
         private long time;
         private int userId;
         private int wayType;
-        private int weight;
+        private String weight;
 
-        public int getCarbohydrates() {
+        public String getCarbohydrates() {
             return carbohydrates;
         }
 
-        public void setCarbohydrates(int carbohydrates) {
+        public void setCarbohydrates(String carbohydrates) {
             this.carbohydrates = carbohydrates;
         }
 
@@ -273,19 +272,19 @@ public class GetDietRecordBean extends CommonBean {
             this.dishesName = dishesName;
         }
 
-        public int getEnergyKc() {
+        public String getEnergyKc() {
             return energyKc;
         }
 
-        public void setEnergyKc(int energyKc) {
+        public void setEnergyKc(String energyKc) {
             this.energyKc = energyKc;
         }
 
-        public int getFat() {
+        public String getFat() {
             return fat;
         }
 
-        public void setFat(int fat) {
+        public void setFat(String fat) {
             this.fat = fat;
         }
 
@@ -313,11 +312,11 @@ public class GetDietRecordBean extends CommonBean {
             this.num = num;
         }
 
-        public int getProtein() {
+        public String getProtein() {
             return protein;
         }
 
-        public void setProtein(int protein) {
+        public void setProtein(String protein) {
             this.protein = protein;
         }
 
@@ -353,36 +352,36 @@ public class GetDietRecordBean extends CommonBean {
             this.wayType = wayType;
         }
 
-        public int getWeight() {
+        public String getWeight() {
             return weight;
         }
 
-        public void setWeight(int weight) {
+        public void setWeight(String weight) {
             this.weight = weight;
         }
     }
 
     public static class MornBean {
-        private int carbohydrates;
+        private String carbohydrates;
         private String dishesCode;
         private String dishesName;
-        private int energyKc;
-        private int fat;
+        private String energyKc;
+        private String fat;
         private String imageUrl;
         private int mealType;
         private int num;
-        private int protein;
+        private String protein;
         private int storeId;
         private long time;
         private int userId;
         private int wayType;
-        private int weight;
+        private String weight;
 
-        public int getCarbohydrates() {
+        public String getCarbohydrates() {
             return carbohydrates;
         }
 
-        public void setCarbohydrates(int carbohydrates) {
+        public void setCarbohydrates(String carbohydrates) {
             this.carbohydrates = carbohydrates;
         }
 
@@ -402,19 +401,19 @@ public class GetDietRecordBean extends CommonBean {
             this.dishesName = dishesName;
         }
 
-        public int getEnergyKc() {
+        public String getEnergyKc() {
             return energyKc;
         }
 
-        public void setEnergyKc(int energyKc) {
+        public void setEnergyKc(String energyKc) {
             this.energyKc = energyKc;
         }
 
-        public int getFat() {
+        public String getFat() {
             return fat;
         }
 
-        public void setFat(int fat) {
+        public void setFat(String fat) {
             this.fat = fat;
         }
 
@@ -442,11 +441,11 @@ public class GetDietRecordBean extends CommonBean {
             this.num = num;
         }
 
-        public int getProtein() {
+        public String getProtein() {
             return protein;
         }
 
-        public void setProtein(int protein) {
+        public void setProtein(String protein) {
             this.protein = protein;
         }
 
@@ -482,11 +481,11 @@ public class GetDietRecordBean extends CommonBean {
             this.wayType = wayType;
         }
 
-        public int getWeight() {
+        public String getWeight() {
             return weight;
         }
 
-        public void setWeight(int weight) {
+        public void setWeight(String weight) {
             this.weight = weight;
         }
     }

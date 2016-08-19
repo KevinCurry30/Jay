@@ -29,6 +29,7 @@ import com.diligroup.UserSet.calendar.CalendarAdapter;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
+import com.diligroup.net.Api;
 import com.diligroup.utils.DateUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
@@ -38,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -243,6 +245,11 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
                     UserInfoBean.getInstance().setPeriodNum(cycle_num + "");
                     finish();
                 } else {
+                    Map map=new HashMap();
+                    map.put("periodStartTime",selectDate.get(0));
+                    map.put("periodEndTime",selectDate.get(1));
+                    map.put("periodNum","");
+                    Api.updataUserInfo(map,this);
                     setResult(10, mIntent);
                     this.finish();
                 }

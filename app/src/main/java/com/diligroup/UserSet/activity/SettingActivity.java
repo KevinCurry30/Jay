@@ -38,7 +38,7 @@ public class SettingActivity extends BaseActivity {
 
     @OnClick(R.id.rl_clearcache)
     public void clearCache() {
-    readyGo(FoodDetailsActivity.class);
+
     }
 
     @Override

@@ -385,7 +385,6 @@ public class Api {
         map.put("transCode",TransCode.ADD_FOOD_COMPLETE);
         map.put("userId",userId);
         map.put("mealType",mealType.substring(mealType.length()-1));
-        map.put("mealType",mealType);
         map.put("list",list);
         RequestManager.getInstance().getAsync(Action.ADD_FOOD_COMPLETE,map,callback);
     }

@@ -134,7 +134,7 @@ public class ReportNoeat extends BaseActivity {
             }
         }else{
             Map map =new HashMap();
-            map.put("tabooCode ",s2);
+            map.put("tabooCode",s2);
             Api.updataUserInfo(map,this);
             readyGo(UserInfoActivity.class);
             this.finish();

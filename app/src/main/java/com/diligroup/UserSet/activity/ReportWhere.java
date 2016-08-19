@@ -67,7 +67,7 @@ public class ReportWhere extends BaseActivity {
 
         if (isFrist) {
             bt_where.setText("下一步");
-            bt_later_report.setVisibility(View.GONE);
+            bt_later_report.setVisibility(View.VISIBLE);
         }
 //        cityPicker.set
         select_city= cityPicker.getCity_string();

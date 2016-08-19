@@ -78,6 +78,7 @@
     <include layout="@layout/meals_selector" />
 
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FCF3E2">
@@ -102,7 +103,8 @@
         android:id="@+id/sl_recorde"
         android:layout_width="match_parent"
         android:scrollbars="none"
-        android:layout_height="wrap_content">
+        android:layout_weight="7"
+        android:layout_height="0dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
@@ -129,7 +131,7 @@
                     android:layout_alignParentRight="true"
                     android:textColor="@color/title_color"
                     android:layout_width="wrap_content"
-                    android:text="888Kcal"
+                    android:text=""
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/tv_reliang"
@@ -141,12 +143,12 @@
                     android:layout_marginRight="5dp"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
-            <ListView
+            <com.diligroup.view.ListViewForScrollView
                 android:id="@+id/lv_breakfast"
                 android:scrollbars="none"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            </ListView>
+            </com.diligroup.view.ListViewForScrollView>
             <RelativeLayout
                 android:background="#dddddd"
                 android:layout_width="match_parent"
@@ -169,7 +171,7 @@
                     android:layout_alignParentRight="true"
                     android:textColor="@color/title_color"
                     android:layout_width="wrap_content"
-                    android:text="888Kcal"
+                    android:text=""
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/tv_reliang2"
@@ -181,12 +183,12 @@
                     android:layout_marginRight="5dp"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
-            <ListView
+            <com.diligroup.view.ListViewForScrollView
                 android:id="@+id/lv_lunch"
                 android:scrollbars="none"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            </ListView>
+            </com.diligroup.view.ListViewForScrollView>
             <RelativeLayout
                 android:background="#dddddd"
                 android:layout_width="match_parent"
@@ -209,7 +211,7 @@
                     android:layout_alignParentRight="true"
                     android:textColor="@color/title_color"
                     android:layout_width="wrap_content"
-                    android:text="888Kcal"
+                    android:text=""
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/tv_reliang3"
@@ -221,12 +223,12 @@
                     android:layout_marginRight="5dp"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
-            <ListView
+            <com.diligroup.view.ListViewForScrollView
                 android:id="@+id/lv_dinner"
                 android:scrollbars="none"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            </ListView>
+            </com.diligroup.view.ListViewForScrollView>
         </LinearLayout>
     </ScrollView>
     <LinearLayout
@@ -249,9 +251,10 @@
             android:textColor="@color/black" />
     </LinearLayout>
 <RelativeLayout
-    android:background="#DDDDDD"
+    android:background="#F0F0F0"
+    android:layout_weight="2"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="0dp">
     <Button
         android:layout_margin="20dp"
         android:paddingTop="10dp"

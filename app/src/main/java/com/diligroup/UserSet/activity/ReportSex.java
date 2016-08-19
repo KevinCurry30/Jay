@@ -8,6 +8,7 @@ import android.widget.CompoundButton;
 
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
+import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
 import com.diligroup.net.Api;
@@ -62,7 +63,8 @@ public class ReportSex extends BaseActivity {
     protected void initViewAndData() {
         isShowBack(true);
         Intent intent = getIntent();
-        bundle = intent.getExtras();
+        bundle=     intent.getExtras();
+//        bundle = intent.getBundleExtra("sex");
         isFrist = bundle.getBoolean("isFrist");
         if (isFrist){
             bt_sex.setText("下一步");
@@ -96,19 +98,16 @@ public class ReportSex extends BaseActivity {
     public void reportSex() {
         if (sexMark == 1 || sexMark == 0) {
             if (isFrist) {
-
                 UserInfoBean.getInstance().setSex(sexMark);
                 readyGo(ReportBirthday.class, bundle);
             } else{
                 Map<String,String>  map =new HashMap();
                 map.put("sex",String.valueOf(sexMark));
                 Api.updataUserInfo(map,this);
-                readyGo(UserInfoActivity.class);
-                this.finish();
-
 
             }
             LogUtils.e("性别====="+String.valueOf(sexMark));
+
         } else{
             ToastUtil.showShort(ReportSex.this, "请选择性别");
         }
@@ -126,6 +125,15 @@ public class ReportSex extends BaseActivity {
 
     @Override
     public void onResponse(Request request, Action action, Object object) {
+                if (action==Action.UPDATA_USERINFO&&object!=null){
+                    CommonBean  commonBean= (CommonBean) object;
+                    if (commonBean.getCode().equals("000000")){
+                        Intent intent=new Intent();
+                        intent.putExtra("sex",String.valueOf(sexMark));
+                        setResult(0x0,intent);
+                        this.finish();
 
+                    }
+                }
     }
 }

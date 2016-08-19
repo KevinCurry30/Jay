@@ -10,6 +10,9 @@ import android.webkit.WebViewClient;
 
 import com.diligroup.R;
 import com.diligroup.base.BaseFragment;
+import com.diligroup.base.Constant;
+import com.diligroup.net.Urls;
+import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.ShareUtils;
 
 import butterknife.Bind;
@@ -38,7 +41,9 @@ public class BeforeFragment extends BaseFragment {
         webView_before.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
         MyWebClient  client=new MyWebClient();
         webView_before.setWebViewClient(client);
-        webView_before.loadUrl("http://www.zealer.com/");
+        String loadUrl=Urls.BeforeUr+"userId="+String.valueOf(Constant.userId);
+        LogUtils.e("loadBeforeUrl============="+loadUrl);
+        webView_before.loadUrl(loadUrl);
     }
 
     @Override

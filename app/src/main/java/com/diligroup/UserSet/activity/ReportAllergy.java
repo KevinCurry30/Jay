@@ -103,7 +103,6 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
             readyGo(ReportWhere.class, bundle);
             return;
         }
-
 //        Map map =new HashMap();
 //        map.put("sex",sexMark);
 //        Api.updataUserInfo(map,this);

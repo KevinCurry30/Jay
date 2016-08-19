@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -78,7 +79,8 @@ public class UserInfoActivity extends BaseActivity {
 
     Boolean isFrist;
     Bundle bundle;
-
+        @Bind(R.id.iv_back)
+    ImageView iv_back;
     @Override
     protected void onStart() {
         super.onStart();
@@ -100,7 +102,10 @@ public class UserInfoActivity extends BaseActivity {
     protected void onNetworkDisConnected() {
 
     }
-
+@OnClick(R.id.iv_back)
+public void getBack(){
+    this.finish();
+}
     @Override
     public void setTitle() {
         super.setTitle();
@@ -145,7 +150,14 @@ public class UserInfoActivity extends BaseActivity {
 
     @OnClick(R.id.rl_sex)
     public void ClickSex() {
-        readyGo(ReportSex.class, bundle);
+
+        Intent intent=new Intent(this,ReportSex.class);
+
+        intent.putExtras(bundle);
+//        intent.putExtra(bundle2);
+        startActivityForResult(intent,0x0);
+
+//        readyGo(ReportSex.class, bundle);
     }
 
     @OnClick(R.id.rl_birthday)
@@ -216,7 +228,19 @@ public class UserInfoActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
+
         switch (requestCode) {
+            case 0x0:
+                ToastUtil.showShort(UserInfoActivity.this,"收到了返回的 信息 Sex");
+                if (null!=data){
+                    String sexTag=data.getStringExtra("sex");
+                    if (sexTag.equals("1")){
+                        tv_sex.setText("男");
+                    }else{
+                        tv_sex.setText("女");
+                    }
+                }
+                break;
             case 10:
                 if (null != data) {
                     ArrayList<String> selectDate = (ArrayList<String>) data.getSerializableExtra("cycle");
