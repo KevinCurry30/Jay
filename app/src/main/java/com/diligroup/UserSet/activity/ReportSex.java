@@ -64,7 +64,6 @@ public class ReportSex extends BaseActivity {
         isShowBack(true);
         Intent intent = getIntent();
         bundle=     intent.getExtras();
-//        bundle = intent.getBundleExtra("sex");
         isFrist = bundle.getBoolean("isFrist");
         if (isFrist){
             bt_sex.setText("下一步");
@@ -104,7 +103,6 @@ public class ReportSex extends BaseActivity {
                 Map<String,String>  map =new HashMap();
                 map.put("sex",String.valueOf(sexMark));
                 Api.updataUserInfo(map,this);
-
             }
             LogUtils.e("性别====="+String.valueOf(sexMark));
 
@@ -130,7 +128,7 @@ public class ReportSex extends BaseActivity {
                     if (commonBean.getCode().equals("000000")){
                         Intent intent=new Intent();
                         intent.putExtra("sex",String.valueOf(sexMark));
-                        setResult(0x0,intent);
+                        setResult(0x00,intent);
                         this.finish();
 
                     }

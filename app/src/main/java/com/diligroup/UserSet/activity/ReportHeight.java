@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
+import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
 import com.diligroup.net.Api;
@@ -90,8 +91,8 @@ public class ReportHeight extends BaseActivity {
         Map map =new HashMap();
         map.put("height",selectHeight);
         Api.updataUserInfo(map,this);
-        readyGo(UserInfoActivity.class);
-        this.finish();
+//        readyGo(UserInfoActivity.class);
+//        this.finish();
 
     }
 
@@ -109,6 +110,15 @@ public class ReportHeight extends BaseActivity {
 
     @Override
     public void onResponse(Request request, Action action, Object object) {
+        if (action==Action.UPDATA_USERINFO&&object!=null){
+            CommonBean commonBean= (CommonBean) object;
+            if (commonBean.getCode().equals("000000")){
+                Intent intent=new Intent();
+                intent.putExtra("height",selectHeight);
+                setResult(0x30,intent);
+                this.finish();
 
+            }
+        }
     }
 }

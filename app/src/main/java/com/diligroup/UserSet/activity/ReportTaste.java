@@ -10,6 +10,7 @@ import android.widget.ListView;
 import com.diligroup.R;
 import com.diligroup.UserSet.ListitemAdapter;
 import com.diligroup.base.BaseActivity;
+import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.GetJiaoQinBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
@@ -70,8 +71,8 @@ public class ReportTaste extends BaseActivity {
         Api.getTaste(this);
         Intent intent = getIntent();
         bundle = intent.getExtras();
-        isFrist = bundle.getBoolean("isFrist");
         if (isFrist){
+            isFrist = bundle.getBoolean("isFrist");
             bt_taste.setText("下一步");
             bt_later_report.setVisibility(View.INVISIBLE);
         }
@@ -99,6 +100,7 @@ public class ReportTaste extends BaseActivity {
             }
         }
     }
+    int selectCount;
     @OnClick(R.id.bt_report_taste)
     public void ReporTaste() {
         String s=id_list.toString().replaceAll(" ","");
@@ -106,16 +108,16 @@ public class ReportTaste extends BaseActivity {
         LogUtils.e("口味======"+s2);
 
         if (isFrist){
-
             UserInfoBean.getInstance().setTaste(s2);
             readyGo(ReportHistory.class,bundle);
             return;
         }
+        selectCount=id_list.size();
         Map map =new HashMap();
         map.put("tasteCode",s2);
         Api.updataUserInfo(map,this);
-       readyGo(UserInfoActivity.class);
-        this.finish();
+//       readyGo(UserInfoActivity.class);
+//        this.finish();
 
 
     }
@@ -141,6 +143,16 @@ public class ReportTaste extends BaseActivity {
             tasteBean_list = tasteBean.getList();
             ListitemAdapter adapter = new ListitemAdapter(this,tasteBean_list);
             lv_taste.setAdapter(adapter);
+        }
+        if (action==Action.UPDATA_USERINFO&&object!=null){
+            CommonBean commonBean= (CommonBean) object;
+            if (commonBean.getCode().equals("000000")){
+                Intent intent=new Intent();
+                intent.putExtra("taste",String.valueOf(selectCount));
+                setResult(0x30,intent);
+                this.finish();
+
+            }
         }
     }
 }

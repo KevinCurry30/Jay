@@ -46,10 +46,10 @@ public class UserInfoActivity extends BaseActivity {
     TextView tv_time_of_month;
     @Bind(R.id.user_icon)
     CircleImageView userIcon;
-    @Bind(R.id.change_headicon)
-    TextView change_headicon;//更换用户头像
-    @Bind(R.id.rl_time_of_month)
-    RelativeLayout rl_time_of_month;//生理期rl布局
+//    @Bind(R.id.change_headicon)
+//    TextView change_headicon;//更换用户头像
+//    @Bind(R.id.rl_time_of_month)
+//    RelativeLayout rl_time_of_month;//生理期rl布局
     ArrayList<String> mSelectPath;
     private static final int REQUEST_IMAGE = 2;
     private static final int CROP_CODE = 3;
@@ -152,67 +152,98 @@ public void getBack(){
     public void ClickSex() {
 
         Intent intent=new Intent(this,ReportSex.class);
-
         intent.putExtras(bundle);
-//        intent.putExtra(bundle2);
-        startActivityForResult(intent,0x0);
+        startActivityForResult(intent,0x00);
 
-//        readyGo(ReportSex.class, bundle);
     }
 
     @OnClick(R.id.rl_birthday)
     public void ClickBirthday() {
-        readyGo(ReportBirthday.class, bundle);
+//        readyGo(ReportBirthday.class, bundle);
+        Intent intent=new Intent(this,ReportBirthday.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent,0x10);
     }
 
     @OnClick(R.id.rl_height)
     public void ClickHeight() {
         readyGo(ReportHeight.class, bundle);
+
+        Intent intent=new Intent(this,ReportHeight.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent,0x30);
     }
 
     @OnClick(R.id.rl_other)
     public void ClickOther() {
-        readyGo(ReportOther.class, bundle);
+//        readyGo(ReportOther.class, bundle);
+        Intent intent=new Intent(this,ReportOther.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent,0x1);
     }
 
     @OnClick(R.id.rl_special)
     public void ClickTsrq() {
-        readyGo(ReportSpecial.class, bundle);
+//        readyGo(ReportSpecial.class, bundle);
+        Intent intent=new Intent(this,ReportSpecial.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent,0x1);
     }
 
     @OnClick(R.id.rl_taste)
     public void ClickTaste() {
-        readyGo(ReportTaste.class, bundle);
+//        readyGo(ReportTaste.class, bundle);
+        Intent intent=new Intent(this,ReportTaste.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent,0x70);
     }
 
     @OnClick(R.id.rl_where)
     public void ClickWhere() {
-        readyGo(ReportWhere.class, bundle);
+        Intent intent=new Intent(this,ReportWhere.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent,0x50);
+//        readyGo(ReportWhere.class, bundle);
     }
 
     @OnClick(R.id.rl_weight)
     public void ClickWeight() {
-        readyGo(ReportWeight.class, bundle);
+        Intent intent=new Intent(this,ReportWeight.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent,0x40);
+//        readyGo(ReportWeight.class, bundle);
     }
 
     @OnClick(R.id.rl_noeat)
     public void ClickYsjj() {
-        readyGo(ReportNoeat.class, bundle);
+        Intent intent=new Intent(this,ReportNoeat.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent,0x1);
+//        readyGo(ReportNoeat.class, bundle);
     }
 
     @OnClick(R.id.rl_work)
     public void ClickWork() {
-        readyGo(ReportWork.class, bundle);
+        Intent intent=new Intent(this,ReportWork.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent,0x20);
+//        readyGo(ReportWork.class, bundle);
     }
 
     @OnClick(R.id.rl_history)
     public void ClickHistory() {
-        readyGo(ReportHistory.class, bundle);
+//        readyGo(ReportHistory.class, bundle);
+        Intent intent=new Intent(this,ReportHistory.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent,0x1);
     }
 
     @OnClick(R.id.rl_allergy)
     public void ClickAllergy() {
-        readyGo(ReportAllergy.class, bundle);
+        Intent intent=new Intent(this,ReportAllergy.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent,0x1);
+//        readyGo(ReportAllergy.class, bundle);
     }
 
     @OnClick(R.id.change_headicon)
@@ -222,7 +253,10 @@ public void getBack(){
 
     @OnClick(R.id.rl_now)
     public void ClickAddress() {
-        readyGo(ReportAddress.class, bundle);
+//        readyGo(ReportAddress.class, bundle);
+        Intent intent=new Intent(this,ReportAddress.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent,0x60);
     }
 
     @Override
@@ -230,8 +264,7 @@ public void getBack(){
 //        super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
-            case 0x0:
-                ToastUtil.showShort(UserInfoActivity.this,"收到了返回的 信息 Sex");
+            case 0x00:
                 if (null!=data){
                     String sexTag=data.getStringExtra("sex");
                     if (sexTag.equals("1")){
@@ -239,6 +272,54 @@ public void getBack(){
                     }else{
                         tv_sex.setText("女");
                     }
+                }
+                break;
+            case 0x10:
+                if (null!=data){
+                    String sexTag=data.getStringExtra("brithday");
+                    tv_birthday.setText(sexTag);
+                }
+                break;
+            case 0x20:
+                if (null!=data){
+                    String job=data.getStringExtra("job");
+                    tv_job.setText(job);
+                }
+                break;
+            case 0x30:
+                if (null!=data){
+                    String height=data.getStringExtra("height");
+                    tv_height.setText(height);
+                }
+                break;
+            case 0x40:
+                if (null!=data){
+                    String weight=data.getStringExtra("weight");
+                    tv_weight.setText(weight);
+                }
+                break;
+            case 0x50:
+                if (null!=data){
+                    String weight=data.getStringExtra("where");
+                    tv_where.setText(weight);
+                }
+                break;
+            case 0x60:
+                if (null!=data){
+                    String weight=data.getStringExtra("address");
+                    tv_address.setText(weight);
+                }
+                break;
+            case 0x70:
+                if (null!=data){
+                    String seleCount=data.getStringExtra("taste");
+
+                }
+                break;
+            case 0x80:
+                if (null!=data){
+                    String seleCount=data.getStringExtra("taste");
+
                 }
                 break;
             case 10:

@@ -6,6 +6,7 @@ import android.widget.Button;
 
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
+import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
 import com.diligroup.net.Api;
@@ -89,8 +90,8 @@ public class ReportWeight extends BaseActivity {
             Map map =new HashMap();
             map.put("weight",select_weight);
             Api.updataUserInfo(map,this);
-            readyGo(UserInfoActivity.class);
-            this.finish();
+//            readyGo(UserInfoActivity.class);
+//            this.finish();
 
         }
 
@@ -111,6 +112,15 @@ public class ReportWeight extends BaseActivity {
 
     @Override
     public void onResponse(Request request, Action action, Object object) {
+        if (action==Action.UPDATA_USERINFO&&object!=null){
+            CommonBean commonBean= (CommonBean) object;
+            if (commonBean.getCode().equals("000000")){
+                Intent intent=new Intent();
+                intent.putExtra("weight",select_weight);
+                setResult(0x40,intent);
+                this.finish();
 
+            }
+        }
     }
 }

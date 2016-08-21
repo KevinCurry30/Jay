@@ -11,6 +11,7 @@ import com.diligroup.Home.HomeActivity;
 import com.diligroup.R;
 import com.diligroup.UserSet.ListitemAdapter;
 import com.diligroup.base.BaseActivity;
+import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.GetJiaoQinBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
@@ -145,6 +146,16 @@ public class ReportHistory extends BaseActivity {
             hisList = historyBean.getList();
             ListitemAdapter adapter = new ListitemAdapter(this, hisList);
             lv_history.setAdapter(adapter);
+        }
+        if (object!=null&&action==Action.UPDATA_USERINFO){
+            CommonBean commonBean= (CommonBean) object;
+            if (commonBean.getCode().equals("000000")){
+//                Intent intent=new Intent();
+//                intent.putExtra("history",String.valueOf(selectCount));
+//                setResult(0x80,intent);
+//                this.finish();
+
+            }
         }
     }
 }

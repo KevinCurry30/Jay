@@ -34,11 +34,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".login.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".login.ModifyPSDActivity" >
 
@@ -73,7 +69,13 @@
         <activity android:name=".UserSet.activity.ReportAllergy">
 
         </activity>
-        <activity android:name=".UserSet.activity.UserInfoActivity" />
+        <activity android:name=".UserSet.activity.UserInfoActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".UserSet.activity.SettingActivity" />
         <activity android:name=".shop.SelectShopByUser" />
         <activity android:name=".shop.GetShopActivity" />

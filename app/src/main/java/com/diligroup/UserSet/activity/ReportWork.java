@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.diligroup.R;import com.diligroup.base.BaseActivity;
+import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.GetJobBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
@@ -210,8 +211,7 @@ public class ReportWork extends BaseActivity {
             map.put("jobType",jobType);
             map.put("job",jobCode);
             Api.updataUserInfo(map,this);
-            readyGo(UserInfoActivity.class);
-            this.finish();
+
 
         } else {
             ToastUtil.showShort(ReportWork.this, "请选择职业");
@@ -258,8 +258,15 @@ public class ReportWork extends BaseActivity {
                     gv_heavy.setAdapter(adapter3);
                 }
             }
-
-
+        }
+        if (object!=null&&action==Action.UPDATA_USERINFO){
+            CommonBean  commonBean= (CommonBean) object;
+            if (commonBean.getCode().equals("00000")){
+                Intent intent=new Intent();
+                intent.putExtra("job",userSelect);
+                setResult(0x20,intent);
+                this.finish();
+            }
         }
     }
 

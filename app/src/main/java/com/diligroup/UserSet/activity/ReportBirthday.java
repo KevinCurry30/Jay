@@ -10,6 +10,7 @@ import android.widget.DatePicker;
 
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
+import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
 import com.diligroup.net.Api;
@@ -69,7 +70,7 @@ public class ReportBirthday extends BaseActivity {
     String year;
     String month;
     String day;
-
+    String brithday;
     @Override
     protected void initViewAndData() {
         WindowManager wm = this.getWindowManager();
@@ -140,7 +141,7 @@ month=item.replace("月","");
     Button bt_birthday;
     @OnClick(R.id.bt_getTime)
     public void getBirthday() {
-        String brithday = year + "-" + month + "-" + day;
+        brithday = year + "-" + month + "-" + day;
         LogUtils.e("生日======"+brithday);
         if (isFrist) {
 
@@ -174,6 +175,15 @@ month=item.replace("月","");
 
     @Override
     public void onResponse(Request request, Action action, Object object) {
+        if (action==Action.UPDATA_USERINFO&&object!=null){
+            CommonBean commonBean= (CommonBean) object;
+            if (commonBean.getCode().equals("000000")){
+                Intent intent=new Intent();
+                intent.putExtra("brithday",brithday);
+                setResult(0x10,intent);
+                this.finish();
 
+            }
+        }
     }
 }
