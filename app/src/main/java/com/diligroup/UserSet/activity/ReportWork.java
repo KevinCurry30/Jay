@@ -261,7 +261,7 @@ public class ReportWork extends BaseActivity {
         }
         if (object!=null&&action==Action.UPDATA_USERINFO){
             CommonBean  commonBean= (CommonBean) object;
-            if (commonBean.getCode().equals("00000")){
+            if (commonBean.getCode().equals("000000")){
                 Intent intent=new Intent();
                 intent.putExtra("job",userSelect);
                 setResult(0x20,intent);

@@ -1,39 +1,36 @@
 package com.diligroup.bean;
 
-import java.util.List;
-
 /**
- * 省
- * Created by Administrator on 2016/8/15.
+ * Created by Administrator on 2016/8/23.
  */
-public class ProvinceBean extends CommonBean {
+public class GetCityCode extends CommonBean {
 
     /**
-     * area : 西北地区
-     * areaCode : 100005
+     * area :
+     * areaCode : 100004
      * areaType : 1
      * createTime : 20160506
      * creatorId : 1
-     * districtId : 3898
-     * name : 宁夏回族自治区
+     * districtId : 3869
+     * name : 北京市
      * parentCode :
      * priority : 1
      * remark :
-     * sortCode : 640000
+     * sortCode : 110000
      * status : 1
      */
 
-    private List<DistrictListBean> districtList;
+    private DisBean dis;
 
-    public List<DistrictListBean> getDistrictList() {
-        return districtList;
+    public DisBean getDis() {
+        return dis;
     }
 
-    public void setDistrictList(List<DistrictListBean> districtList) {
-        this.districtList = districtList;
+    public void setDis(DisBean dis) {
+        this.dis = dis;
     }
 
-    public static class DistrictListBean {
+    public static class DisBean {
         private String area;
         private String areaCode;
         private String areaType;

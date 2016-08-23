@@ -6,11 +6,14 @@ import com.diligroup.bean.CostomerCategory;
 import com.diligroup.bean.CustomerSearchResultBean;
 import com.diligroup.bean.FindFoodByCategory;
 import com.diligroup.bean.GetAllergyDetailBean;
+import com.diligroup.bean.GetCityCode;
 import com.diligroup.bean.GetDietRecordBean;
 import com.diligroup.bean.GetFoodDetailsBean;
 import com.diligroup.bean.GetFoodTypeBean;
 import com.diligroup.bean.GetJiaoQinBean;
 import com.diligroup.bean.GetJobBean;
+import com.diligroup.bean.GetShopBean;
+import com.diligroup.bean.GetWhereBean;
 import com.diligroup.bean.HomeStoreSupplyList;
 import com.diligroup.bean.ProvingCodeBean;
 import com.diligroup.bean.StoreSupplySearchBean;
@@ -23,6 +26,8 @@ import com.diligroup.bean.UserBeanFromService;
 public enum Action {
     /*登陆*/
     LOGIN(Urls.LOGIN),
+    THIRD_PART_LOGIN(Urls.REGISTER),
+    ALIPAY_LOGIN(Urls.alipaytUrl),
     /*注册*/
     REGISTER(Urls.REGISTER),
     /*获取验证码*/
@@ -41,6 +46,7 @@ public enum Action {
     /*上报更新用户信息*/
     SET_INFOS(Urls.UPDATA_USERINFOS),
     GET_WORK_TYPE(Urls.GET_WORK_TYPE),
+    GET_WHERE(Urls.BASE),
     GET_NO_EAT(Urls.GET_NO_EAT),
     GET_ALLERGY(Urls.GET_ALLERGY),
     GET_OTHER(Urls.BASE),
@@ -60,12 +66,20 @@ public enum Action {
     ADD_FOOD_COMPLETE(Urls.BASE),
     /*门店供应搜索*/
     STORESUPPLY_SEARCH(Urls.GET_HOMELIST),
+    SELECT_USER_INFO(Urls.LOGIN),
     CUSTOMER_FIND_BY_CATEGORYID(Urls.CUSTOMER_FINDBY_CATEGORYID),
     /**
      * 获取菜品详情
      */
     GET_DETAILS(Urls.BASE),
+    /**
+     * 获取 门店附近的
+     */
+    GET_SHOP_NEARBY(Urls.BASE),
+Get_CityCode(Urls.BASE),
+
     UPDATA_USERINFO(Urls.BASE);
+
     /**
      * 根据Action获取解析类
      *
@@ -126,6 +140,18 @@ public enum Action {
                 return CommonBean.class;
             case UPDATA_USERINFO:
                 return  CommonBean.class;
+            case GET_WHERE:
+                return GetWhereBean.class;
+            case GET_SHOP_NEARBY:
+                return  GetShopBean.class;
+            case THIRD_PART_LOGIN:
+                return UserBeanFromService.class;
+            case ALIPAY_LOGIN:
+                return CommonBean.class;
+            case SELECT_USER_INFO:
+                return UserBeanFromService.class;
+            case Get_CityCode:
+                return GetCityCode.class;
         }
         return null;
     }

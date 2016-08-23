@@ -71,13 +71,14 @@ public class ReportBirthday extends BaseActivity {
     String month;
     String day;
     String brithday;
+
     @Override
     protected void initViewAndData() {
         WindowManager wm = this.getWindowManager();
         Intent intent = getIntent();
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
-        if (isFrist){
+        if (isFrist) {
             bt_birthday.setText("下一步");
         }
 //        Calendar calendar = Calendar.getInstance();
@@ -105,7 +106,7 @@ public class ReportBirthday extends BaseActivity {
         wheelView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
-                year = item.replace("年","");
+                year = item.replace("年", "");
                 Log.d("====================", "selectedIndex: " + selectedIndex + ", item: " + item);
             }
         });
@@ -113,7 +114,7 @@ public class ReportBirthday extends BaseActivity {
         wheelView2.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
-month=item.replace("月","");
+                month = item.replace("月", "");
                 if (item.equals("1月") || item.equals("3月") || item.equals("5月") || item.equals("7月") || item.equals("8月") || item.equals("10月") || item.equals("12月")) {
 //                    wheelView3.setItems(BirthdayUtils.get31Day());
 //                    wheelView3.notify();
@@ -132,27 +133,29 @@ month=item.replace("月","");
         wheelView3.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
-                day = item.replace("日","");
+                day = item.replace("日", "");
                 Log.d("====================", "selectedIndex: " + selectedIndex + ", item: " + item);
             }
         });
     }
+
     @Bind(R.id.bt_getTime)
     Button bt_birthday;
+
     @OnClick(R.id.bt_getTime)
     public void getBirthday() {
         brithday = year + "-" + month + "-" + day;
-        LogUtils.e("生日======"+brithday);
+        LogUtils.e("生日======" + brithday);
         if (isFrist) {
 
             UserInfoBean.getInstance().setBirthday(brithday.trim());
-            readyGo(ReportWork.class,bundle);
-        }else{
-            Map map =new HashMap();
-            map.put("birthday",brithday);
-            Api.updataUserInfo(map,this);
-            readyGo(UserInfoActivity.class);
-            this.finish();
+            readyGo(ReportWork.class, bundle);
+        } else {
+            Map map = new HashMap();
+            map.put("birthday", brithday);
+            Api.updataUserInfo(map, this);
+//            readyGo(UserInfoActivity.class);
+//            this.finish();
 
         }
 //        ToastUtil.showShort(ReportBirthday.this, "您选择的日期是：" + data_select.getYear() + "年" + (data_select.getMonth() + 1) + "月" + data_select.getDayOfMonth() + "日。");
@@ -175,12 +178,12 @@ month=item.replace("月","");
 
     @Override
     public void onResponse(Request request, Action action, Object object) {
-        if (action==Action.UPDATA_USERINFO&&object!=null){
-            CommonBean commonBean= (CommonBean) object;
-            if (commonBean.getCode().equals("000000")){
-                Intent intent=new Intent();
-                intent.putExtra("brithday",brithday);
-                setResult(0x10,intent);
+        if (action == Action.UPDATA_USERINFO && object != null) {
+            CommonBean commonBean = (CommonBean) object;
+            if (commonBean.getCode().equals("000000")) {
+                Intent intent = new Intent();
+                intent.putExtra("brithday", brithday);
+                setResult(0x10, intent);
                 this.finish();
 
             }

@@ -7,9 +7,12 @@ import android.widget.Button;
 
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
+import com.diligroup.bean.CommonBean;
+import com.diligroup.bean.GetWhereBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
 import com.diligroup.net.Api;
+import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
 import com.diligroup.view.CityPicker;
@@ -34,6 +37,10 @@ public class ReportWhere extends BaseActivity {
     Button bt_where;
     @Bind(R.id.bt_later_where)
     Button bt_later_report;
+    String provinceCode;
+    String cityCode;
+    String counyCode;
+
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_select_where;
@@ -60,7 +67,7 @@ public class ReportWhere extends BaseActivity {
     @Override
     protected void initViewAndData() {
         isShowBack(true);
-
+//        Api.getCity(this);
         Intent intent = getIntent();
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
@@ -69,13 +76,20 @@ public class ReportWhere extends BaseActivity {
             bt_where.setText("下一步");
             bt_later_report.setVisibility(View.VISIBLE);
         }
-//        cityPicker.set
-        select_city= cityPicker.getCity_string();
+//        select_city= cityPicker.getCity_string().substring(0,2);
         cityPicker.setOnSelectingListener(new CityPicker.OnSelectingListener() {
             @Override
             public void selected(boolean selected) {
                 if (selected){
-                    select_city= cityPicker.getCity_string();
+                    select_city= cityPicker.getCity_string().substring(0,2);
+                    provinceCode=cityPicker.getProvinceCode();
+                    cityCode=cityPicker.getCity_code_string();
+                    counyCode=cityPicker.getCountCode();
+                    LogUtils.e("select_city====="+select_city);
+                    LogUtils.e("provinceCode====="+provinceCode);
+                    LogUtils.e("cityCode====="+cityCode);
+                    LogUtils.e("counyCode====="+counyCode);
+
                 }
             }
         });
@@ -86,20 +100,25 @@ public class ReportWhere extends BaseActivity {
 //        ToastUtil.showShort(this,select_city);
         if (isFrist){
 //            UserInfoBean.getInstance().setHomeAddress(select_city);
+            UserInfoBean.getInstance().setHomeProvinceCode(provinceCode);
+            UserInfoBean.getInstance().setHomeCityCode(cityCode);
+            UserInfoBean.getInstance().setHomeDistrictId(counyCode);
             readyGo(ReportAddress.class,bundle);
             return;
         }
         Map map =new HashMap();
-        map.put("homeAdd",select_city);
+        map.put("homeProvinceCode",provinceCode);
+        map.put("homeCityCode",cityCode);
+        map.put("homeDistrictId",counyCode);
         Api.updataUserInfo(map,this);
-        readyGo(UserInfoActivity.class);
-        this.finish();
+//        readyGo(UserInfoActivity.class);
+//        this.finish();
 
 
     }
     @OnClick(R.id.bt_later_where)
     public void reportLater(){
-        UserInfoBean.getInstance().setHomeAddress("");
+//        UserInfoBean.getInstance().setHomeAddress("");
         readyGo(UserInfoActivity.class);
     }
 
@@ -110,6 +129,18 @@ public class ReportWhere extends BaseActivity {
 
     @Override
     public void onResponse(Request request, Action action, Object object) {
-
+//        if (action==Action.GET_WHERE&&object!=null){
+//            GetWhereBean  getWhereBean= (GetWhereBean) object;
+//
+//        }
+        if (object!=null&&action==Action.UPDATA_USERINFO){
+            CommonBean commonBean= (CommonBean) object;
+            if (commonBean.getCode().equals("000000")){
+                Intent intent=new Intent();
+                intent.putExtra("where",select_city);
+                setResult(0x70,intent);
+                this.finish();
+            }
+        }
     }
 }

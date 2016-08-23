@@ -1,7 +1,6 @@
 package com.diligroup.UserSet.activity;
 
 
-import com.diligroup.Home.FoodDetailsActivity;
 import com.diligroup.R;
 import com.diligroup.base.AppManager;
 import com.diligroup.base.BaseActivity;
@@ -12,7 +11,6 @@ import com.diligroup.net.Api;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.SharedPreferenceUtil;
 
-import butterknife.Bind;
 import butterknife.OnClick;
 import okhttp3.Request;
 
@@ -65,7 +63,7 @@ public class SettingActivity extends BaseActivity {
     @OnClick(R.id.bt_exit)
     public void exit() {
         Api.loginOut(Constant.userNumber, this);
-        SharedPreferenceUtil spUtils = new SharedPreferenceUtil("auto_login");
+        SharedPreferenceUtil spUtils = new SharedPreferenceUtil();
         spUtils.clear();
         readyGo(LoginActivity.class);
         AppManager.getAppManager().finishActivity(this);

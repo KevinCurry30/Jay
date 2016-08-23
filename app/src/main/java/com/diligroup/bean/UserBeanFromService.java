@@ -10,65 +10,65 @@ public class UserBeanFromService extends CommonBean implements Serializable{
 
     /**
      * alipay :
-     * birthday : 1971年-12月-12日
+     * birthday : 1974-12-18
      * email :
-     * height : 159 CM
+     * height : 189
      * homeAdd :
      * homeCityCode :
      * homeDistrictId :
      * homeProvinceCode :
-     * lastLoginTime : 1471426143989
+     * lastLoginTime : 1471854565274
      * microblog :
-     * mobileNum : 18600089822
+     * mobileNum : 18600089824
      * nationCode :
      * password :
      * qq :
-     * registerTime : 1471425346152
+     * registerTime : 1471854198938
      * resouce : 1
-     * sex : 0
+     * sex : 男
      * status : 1
      * userCode :
-     * userId : 11
-     * userName :
+     * userId : 4
+     * userName : 九九
      * weChat :
      */
 
     private UserBean user;
     /**
-     * allergyName : 香菜
+     * allergyName :
      * carbohydrates : 258.75
-     * chronicDiseaseCode : 240003
-     * chronicDiseaseNames : 糖尿病
-     * currentAdd : 大望路1
-     * currentCityCode : 430000
+     * chronicDiseaseCode : 240001
+     * chronicDiseaseNames : 高血压
+     * currentAdd : 大望路12
+     * currentCityCode :
      * currentDistrictId : 430281
-     * currentProvinceCode : 430000
-     * energyKC : 1800.0
-     * fat : 50.0
+     * currentProvinceCode :
+     * energyKC : 1800
+     * fat : 50
      * headPhotoAdd : http://192.168.100.67/images.ypp2015.com/ypp/upload/img/IMG_20160807_104838.jpg
-     * id : 2
-     * job :
+     * id : 3
+     * job : M10000063
      * jobName :
-     * jobType : 15001
-     * jobTypeName :
-     * otherReq : 250002
-     * otherReqName : 增肌
+     * jobType : 150003
+     * jobTypeName : 重
+     * otherReq : 250001
+     * otherReqName : 减脂
      * periodEndTime : 2016-08-15
      * periodNum : 28
      * periodStartTime : 2016-08-10
-     * protein : 55.0
+     * protein : 55
      * reqType : 0
-     * specialCrowdCode : 200002
-     * specialCrowdName : 孕中期
+     * specialCrowdCode : 200003,200002,200004
+     * specialCrowdName :
      * storeId : 8
      * storeName : 测试08
-     * tabooCode : 40005
+     * tabooCode : 40004,40005
      * tabooNames :
-     * targetWeight : 60
+     * targetWeight :
      * tasteCode :
      * tasteNames :
-     * userId : 11
-     * weight : 52 Kg
+     * userId : 4
+     * weight : 82
      */
 
     private UserDetailBean userDetail;
@@ -106,7 +106,7 @@ public class UserBeanFromService extends CommonBean implements Serializable{
         private String qq;
         private long registerTime;
         private String resouce;
-        private int sex;
+        private String sex;
         private String status;
         private String userCode;
         private int userId;
@@ -241,11 +241,11 @@ public class UserBeanFromService extends CommonBean implements Serializable{
             this.resouce = resouce;
         }
 
-        public int getSex() {
+        public String getSex() {
             return sex;
         }
 
-        public void setSex(int sex) {
+        public void setSex(String sex) {
             this.sex = sex;
         }
 
@@ -299,8 +299,8 @@ public class UserBeanFromService extends CommonBean implements Serializable{
         private String currentCityCode;
         private String currentDistrictId;
         private String currentProvinceCode;
-        private double energyKC;
-        private double fat;
+        private int energyKC;
+        private int fat;
         private String headPhotoAdd;
         private int id;
         private String job;
@@ -312,7 +312,7 @@ public class UserBeanFromService extends CommonBean implements Serializable{
         private String periodEndTime;
         private String periodNum;
         private String periodStartTime;
-        private double protein;
+        private int protein;
         private String reqType;
         private String specialCrowdCode;
         private String specialCrowdName;
@@ -390,19 +390,19 @@ public class UserBeanFromService extends CommonBean implements Serializable{
             this.currentProvinceCode = currentProvinceCode;
         }
 
-        public double getEnergyKC() {
+        public int getEnergyKC() {
             return energyKC;
         }
 
-        public void setEnergyKC(double energyKC) {
+        public void setEnergyKC(int energyKC) {
             this.energyKC = energyKC;
         }
 
-        public double getFat() {
+        public int getFat() {
             return fat;
         }
 
-        public void setFat(double fat) {
+        public void setFat(int fat) {
             this.fat = fat;
         }
 
@@ -494,11 +494,11 @@ public class UserBeanFromService extends CommonBean implements Serializable{
             this.periodStartTime = periodStartTime;
         }
 
-        public double getProtein() {
+        public int getProtein() {
             return protein;
         }
 
-        public void setProtein(double protein) {
+        public void setProtein(int protein) {
             this.protein = protein;
         }
 

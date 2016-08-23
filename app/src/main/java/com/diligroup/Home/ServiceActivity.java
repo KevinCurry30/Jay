@@ -1,13 +1,20 @@
 package com.diligroup.Home;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
+import com.diligroup.base.Constant;
+import com.diligroup.bean.CommonBean;
 import com.diligroup.net.Action;
+import com.diligroup.net.Api;
+import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
+import com.diligroup.utils.ToastUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,6 +32,8 @@ public class ServiceActivity extends BaseActivity {
     EditText inputServiceEvaluation;
     @Bind(R.id.service_commit)
     Button serviceCommit;
+    private String mealType;
+    private String date;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -43,7 +52,22 @@ public class ServiceActivity extends BaseActivity {
 
     @Override
     protected void initViewAndData() {
+        mealType = getIntent().getStringExtra("mealType");
+        date = getIntent().getStringExtra("date");
 
+        serviceCommit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(TextUtils.isEmpty(inputServiceEvaluation.getText().toString())){
+                    ToastUtil.showLong(ServiceActivity.this,"亲：评价内容不能为空！");
+                    return;
+                }
+                //1:菜品评价 2:服务评价)
+                 String content=inputServiceEvaluation.getText().toString();
+                int serviceStar=serviceEvaluation.getRating();
+                Api.dishVarietyEvaluate(Constant.userId+"",Constant.storeId,"2","",date,mealType,content,"","",serviceStar+"",ServiceActivity.this);
+            }
+        });
     }
     @Override
     public void setTitle() {
@@ -59,8 +83,7 @@ public class ServiceActivity extends BaseActivity {
     }
 
     private void initDate() {
-        //1:菜品评价 2:服务评价)
-//        Api.dishVarietyEvaluate(Constant.USER_ID,"1","2","")
+
     }
 
     @Override
@@ -70,6 +93,11 @@ public class ServiceActivity extends BaseActivity {
 
     @Override
     public void onResponse(Request request, Action action, Object object) {
-
+        if(action==Action.DISEVALUATE  && object!=null){
+            CommonBean bean= (CommonBean) object;
+            if(bean.getCode().equals(Constant.RESULT_SUCESS)){
+                LogUtils.i("服务餐别评价接口调用成功");
+            }
+        }
     }
 }

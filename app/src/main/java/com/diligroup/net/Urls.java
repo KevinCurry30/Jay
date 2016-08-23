@@ -5,7 +5,11 @@ package com.diligroup.net;
  */
 public class Urls {
     private static final String HOST = "http://192.168.100.67:8181/gateway";
+//    private static final String HOST = "http://192.168.101.2:8181/gateway";
     public static final String BeforeUr = "http://192.168.100.67:8180/tmpl/guide.html?";
+    public static final String thirdPartUrl =HOST + "/dis/prepose.action";
+    public static final String alipaytUrl ="https://openauth.alipay.com/oauth2/appToAppAuth.htm?";
+
     //    private static final String HOST="http://192.168.101.77:8181/gateway";
     public static String BASE = HOST + "/dis/prepose.action";
 

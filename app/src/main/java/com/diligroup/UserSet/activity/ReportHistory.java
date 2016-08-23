@@ -44,6 +44,7 @@ public class ReportHistory extends BaseActivity {
     Bundle bundle;
     @Bind(R.id.bt_report_history)
     Button bt_history;
+    int  selectCount;
     @OnClick(R.id.bt_report_history)
     public void ReportHisty() {
         String s = id_list.toString().replaceAll(" ", "");
@@ -54,11 +55,12 @@ public class ReportHistory extends BaseActivity {
             UserInfoBean.getInstance().setChronicDiseaseCode(s2);
             readyGo(ReportSpecial.class, bundle);
         } else {
+            selectCount=id_list.size();
             Map map = new HashMap();
             map.put("chronicDiseaseCode", s2);
             Api.updataUserInfo(map, this);
-            readyGo(UserInfoActivity.class);
-            this.finish();
+//            readyGo(UserInfoActivity.class);
+//            this.finish();
 
         }
 
@@ -150,10 +152,10 @@ public class ReportHistory extends BaseActivity {
         if (object!=null&&action==Action.UPDATA_USERINFO){
             CommonBean commonBean= (CommonBean) object;
             if (commonBean.getCode().equals("000000")){
-//                Intent intent=new Intent();
-//                intent.putExtra("history",String.valueOf(selectCount));
-//                setResult(0x80,intent);
-//                this.finish();
+                Intent intent=new Intent();
+                intent.putExtra("history",String.valueOf(selectCount));
+                setResult(0x100,intent);
+                this.finish();
 
             }
         }

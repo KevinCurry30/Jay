@@ -22,11 +22,16 @@ public class DiliApplication extends Application {
         //微信 appid appsecret
         PlatformConfig.setWeixin(Constant.WX_APPID, Constant.WX_APPSECRET);
         //新浪微博 appkey appsecret
-        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad");
+        PlatformConfig.setSinaWeibo(Constant.WB_APPID,Constant.WB_KEY);
+        //支付宝分享 appId
+        PlatformConfig.setAlipay("2016081601755137");
         // QQ和Qzone appid appkey
-        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+        PlatformConfig.setQQZone(Constant.QQ_APPID,Constant.QQ_KEY);
 
         CrashHandler.getInstance().setCustomCrashInfo(this);
+
+//        AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do",APP_ID,APP_PRIVATE_KEY,"json","GBK",ALIPAY_PUBLIC_KEY);
+//        alipayClient.execute()
     }
     public static Context getContext() {
         return instance;

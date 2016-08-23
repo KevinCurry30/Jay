@@ -39,6 +39,9 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
     EditText inputDishesEvaluation;//输入你的产品印象
     @Bind(R.id.feedback_commit)
     Button feedbackCommit;//提交评价
+    private String dishesCode;
+    private String mealType;
+    private String date;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -61,7 +64,9 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
     }
     @Override
     protected void initViewAndData() {
-
+        dishesCode = getIntent().getStringExtra("foodCode");
+        mealType = getIntent().getStringExtra("mealType");
+        date = getIntent().getStringExtra("date");
     }
 
     @Override
@@ -84,7 +89,7 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
                     ToastUtil.showLong(this,"亲！您还没有输入评价内容呢");
                     return;
                 }
-                Api.dishVarietyEvaluate("2","1","1",dishName,"2016-05-11","中餐",content,tast+"",cost+"",this);
+                Api.dishVarietyEvaluate(Constant.userId+"",Constant.storeId,"1",dishesCode,date,mealType,content,tast+"",cost+"","",this);
                 break;
             default:
                 break;

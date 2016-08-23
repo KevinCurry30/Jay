@@ -5,16 +5,12 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
+import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.ViewFlipper;
 
 import com.diligroup.Home.ServiceActivity;
 import com.diligroup.Home.adapter.HomeRighAdapter_1;
@@ -36,7 +32,9 @@ import com.diligroup.utils.CommonUtils;
 import com.diligroup.utils.DateUtils;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.view.DividerItemDecoration;
-import com.diligroup.view.MyViewFilpper;
+import com.diligroup.view.banner.BaseSliderView;
+import com.diligroup.view.banner.DefaultSliderView;
+import com.diligroup.view.banner.SliderLayout;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.text.ParseException;
@@ -53,10 +51,8 @@ import okhttp3.Request;
  */
 public class HomeFragment extends BaseFragment implements View.OnClickListener, RequestManager.ResultCallback, MyItemClickListener {
 
-    @Bind(R.id.home_flipper)
-    MyViewFilpper homeFlipper;
-    @Bind(R.id.banner_dot_ll)
-    LinearLayout banner_dot_ll;
+    @Bind(R.id.slider)
+    SliderLayout sliderLayout;
     @Bind(R.id.home_today)
     TextView homeToday;//今天日期
     @Bind(R.id.home_weekday)
@@ -102,15 +98,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     String currentMealTypeCode;//当前餐别
     private int hour;
     private LinearLayoutManager layoutManager_1;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        //使用CollapsingToolbarLayout必须把title设置到CollapsingToolbarLayout上，设置到Toolbar上则不会显示
-        ButterKnife.bind(this, rootView);
-        return rootView;
-    }
+    int currentLeftPosition;
+    //    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        // TODO: inflate a fragment view
+//        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+//        //使用CollapsingToolbarLayout必须把title设置到CollapsingToolbarLayout上，设置到Toolbar上则不会显示
+//        ButterKnife.bind(this, rootView);
+//        return rootView;
+//    }
+    String currentHeadCode;//右侧滚动时候，当前sticky的headCode值
 
     @Override
     public int getLayoutXml() {
@@ -126,13 +123,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         hour = DateUtils.getCurrentTime();
         if (hour >= 0 && hour <= 9) {
             select_meal(0);
-            currentMealTypeCode="20001";
+            currentMealTypeCode = "20001";
         } else if (hour > 9 && hour <= 16) {
             select_meal(1);
-            currentMealTypeCode="20002";
+            currentMealTypeCode = "20002";
         } else {
             select_meal(2);
-            currentMealTypeCode="20003";
+            currentMealTypeCode = "20003";
         }
 
         CommonUtils.initRerecyelerView(getActivity(), home_left_listView);
@@ -149,47 +146,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     public void setListeners() {
-        homeFlipper.setOnDisplayChagnedListener(new MyViewFilpper.OnDisplayChagnedListener() {
-            @Override
-            public void OnDisplayChildChanging(ViewFlipper view, int index) {
-                switchDottor(index);
-            }
-        });
+
         home_currend_date.setOnClickListener(this);
 
         homeThisServiceEvaluation.setOnClickListener(this);
         select_store.setOnClickListener(this);
         meal_choice.setOnClickListener(this);
-        homeFlipper.setOnHoverListener(new View.OnHoverListener() {
-            @Override
-            public boolean onHover(View v, MotionEvent event) {
-                int what = event.getAction();
-                switch (what) {
-                    case MotionEvent.ACTION_HOVER_ENTER:  //鼠标进入view
-                        homeFlipper.setAutoStart(false);
-                        System.out.println("bottom ACTION_HOVER_ENTER");
-                        break;
-                    case MotionEvent.ACTION_HOVER_MOVE:  //鼠标在view上
-                        System.out.println("bottom ACTION_HOVER_MOVE");
-                        break;
-                    case MotionEvent.ACTION_HOVER_EXIT:  //鼠标离开view
-                        homeFlipper.setAutoStart(true);
-                        System.out.println("bottom ACTION_HOVER_EXIT");
-                        break;
-                }
-                return false;
-            }
-        });
-//            home_right_recycleView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-//                @Override
-//                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//                  int position=  ((LinearLayoutManager)home_right_recycleView.getLayoutManager()).findFirstVisibleItemPosition();
-//                    if(getRightList(dishesTypeList).get(position).getDishesCode()!=getRightList(dishesTypeList).get(position-1).getDishesCode()){
-//                        LogUtils.i("头部dishcODE 变化了");
-//                    }
-//                }
-//            });
-        home_right_recycleView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+
+        home_right_recycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -198,13 +162,24 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-//                int position=  ((LinearLayoutManager)home_right_recycleView.getLayoutManager()).findFirstVisibleItemPosition();
-//                ((LinearLayoutManager)home_right_recycleView.getLayoutManager()).getChildAt(0);
-                View view = home_right_recycleView.getChildAt(0);
-//                home_right_recycleView.findChildViewUnder()
-                int position = home_right_recycleView.getChildAdapterPosition(view);
-                if (position > 0 && !getRightList(dishesTypeList).get(position).getHeaderCode().equals(getRightList(dishesTypeList).get(position - 1).getHeaderCode())) {
-                    LogUtils.i("头部dishcODE 变化了" + getRightList(dishesTypeList).get(position).getHeaderCode());
+                int position = ((LinearLayoutManager) home_right_recycleView.getLayoutManager()).findFirstVisibleItemPosition();
+                String tempHeadCode = getRightList(dishesTypeList).get(position).getHeaderCode();
+//                    if(position==0){
+//                        home_left_listView.scrollToPosition(0);
+//                        adapter.selectPosion(0);
+//                        currentLeftPosition=0;
+//                        return;
+//                    }
+                if (!tempHeadCode.equals(currentHeadCode)) {
+                    for (int i = 0; i < dishesTypeList.size(); i++) {
+                        if (dishesTypeList.get(i).getDishesTypeCode().equals(tempHeadCode)) {
+                            home_left_listView.scrollToPosition(i);
+                            adapter.selectPosion(i);
+                            currentHeadCode = tempHeadCode;
+                            currentLeftPosition = i;
+                            break;
+                        }
+                    }
                 }
             }
         });
@@ -222,34 +197,35 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 {
                         R.mipmap.banner_1, R.mipmap.banner_2, R.mipmap.banner_3
                 };
+//        for (int i = 0; i < image.length; i++) {
+//            ImageView iv = new ImageView(getActivity());
+//            iv.setBackgroundResource(image[i]);
+//            iv.setScaleType(ImageView.ScaleType.FIT_XY);
+//            iv.setLayoutParams(new FrameLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+//            homeFlipper.addView(iv);
+//
+//            ImageView dotter = new ImageView(getActivity());
+//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(15, 15);
+//            dotter.setBackgroundResource(R.drawable.banner_dot_selector);
+//            if (i != 0) {
+//                layoutParams.leftMargin = 5;
+//                dotter.setSelected(false);
+//            } else {
+//                dotter.setSelected(true);
+//            }
+//            dotter.setLayoutParams(layoutParams);
+//            banner_dot_ll.addView(dotter);
+//        }
         for (int i = 0; i < image.length; i++) {
-            ImageView iv = new ImageView(getActivity());
-            iv.setBackgroundResource(image[i]);
-            iv.setScaleType(ImageView.ScaleType.FIT_XY);
-            iv.setLayoutParams(new FrameLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-            homeFlipper.addView(iv);
-
-            ImageView dotter = new ImageView(getActivity());
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(15, 15);
-            dotter.setBackgroundResource(R.drawable.banner_dot_selector);
-            if (i != 0) {
-                layoutParams.leftMargin = 5;
-                dotter.setSelected(false);
-            } else {
-                dotter.setSelected(true);
-            }
-            dotter.setLayoutParams(layoutParams);
-            banner_dot_ll.addView(dotter);
-        }
-    }
-
-    private void switchDottor(int index) {
-        for (int i = 0; i < banner_dot_ll.getChildCount(); i++) {
-            if (i == index) {
-                banner_dot_ll.getChildAt(i).setSelected(true);
-            } else {
-                banner_dot_ll.getChildAt(i).setSelected(false);
-            }
+            DefaultSliderView sliderView = new DefaultSliderView(
+                    getActivity(), false);
+            sliderView
+                    .image(image[i])
+                    .setScaleType(BaseSliderView.ScaleType.Fit);
+            sliderView.bundle(new Bundle());
+            sliderView.getBundle().putString("extra", "" + i);
+            sliderLayout.setPresetTransformer(SliderLayout.Transformer.Default);
+            sliderLayout.addSlider(sliderView);
         }
     }
 
@@ -265,6 +241,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 break;
             case R.id.home_thisService_evaluation:
                 mIntent = new Intent(getActivity(), ServiceActivity.class);
+                mIntent.putExtra("mealType", mealText.getText().toString());
+                mIntent.putExtra("date", currentDay);
                 startActivity(mIntent);
                 break;
             case R.id.select_store:
@@ -292,20 +270,20 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             case 0:
                 mealIcon.setImageResource(R.mipmap.breakfase_icon_normal);
                 mealText.setText("早餐");
-                currentMealTypeCode="20001";
-                Api.homeStoreSupplyList(Constant.cusId, DateUtils.dateFormatChanged_2(DateUtils.dateFormatChagee(homeToday.getText().toString())),currentMealTypeCode, "", "1", this);
+                currentMealTypeCode = "20001";
+                Api.homeStoreSupplyList(Constant.cusId, DateUtils.dateFormatChanged_2(DateUtils.dateFormatChagee(homeToday.getText().toString())), currentMealTypeCode, "", "1", this);
                 break;
             case 1:
                 mealIcon.setImageResource(R.mipmap.lunch_icon_normal);
                 mealText.setText("午餐");
-                currentMealTypeCode="20002";
-                Api.homeStoreSupplyList(Constant.cusId, DateUtils.dateFormatChanged_2(DateUtils.dateFormatChagee(homeToday.getText().toString())),currentMealTypeCode, "", "1", this);
+                currentMealTypeCode = "20002";
+                Api.homeStoreSupplyList(Constant.cusId, DateUtils.dateFormatChanged_2(DateUtils.dateFormatChagee(homeToday.getText().toString())), currentMealTypeCode, "", "1", this);
                 break;
             case 2:
                 mealIcon.setImageResource(R.mipmap.dinner_icon_normal);
                 mealText.setText("晚餐");
-                currentMealTypeCode="20003";
-                Api.homeStoreSupplyList(Constant.cusId, DateUtils.dateFormatChanged_2(DateUtils.dateFormatChagee(homeToday.getText().toString())),currentMealTypeCode, "", "1", this);
+                currentMealTypeCode = "20003";
+                Api.homeStoreSupplyList(Constant.cusId, DateUtils.dateFormatChanged_2(DateUtils.dateFormatChagee(homeToday.getText().toString())), currentMealTypeCode, "", "1", this);
                 break;
         }
     }
@@ -323,7 +301,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     homeWeekday.setText("(今天 " + DateUtils.getWeekdayOfMonth(currentYear, currentMonth, currentDay) + ")");
                 } else {
                     homeWeekday.setText("(" + DateUtils.getWeekdayOfMonth(currentYear, currentMonth, currentDay) + ")");
-                    Api.homeStoreSupplyList(Constant.cusId, DateUtils.dateFormatChanged_2(currenStr),currentMealTypeCode, "", "1", this);
+                    Api.homeStoreSupplyList(Constant.cusId, DateUtils.dateFormatChanged_2(currenStr), currentMealTypeCode, "", "1", this);
                 }
                 break;
         }
@@ -375,18 +353,21 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     adapter.setDate(dishesTypeList);
                 }
                 if (righAdapter == null) {
-                    righAdapter = new HomeRighAdapter_1(getActivity(), dishesTypeList, new MyStickyHeadChangeListener() {
+                    righAdapter = new HomeRighAdapter_1(getActivity(), dishesTypeList, currentDay, mealText.getText().toString(), new MyStickyHeadChangeListener() {
 
                         @Override
                         public void headChange(int position, String headId) {
-                            LogUtils.i("当前的headerId==" + headId);
+                            if (TextUtils.isEmpty(currentHeadCode)) {
+                                currentHeadCode = dishesTypeList.get(0).getDishesSupplyDtlList().get(0).getHeaderCode();
+                            }
                         }
                     });
                     final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(righAdapter);
                     home_right_recycleView.addItemDecoration(headersDecor);
                     home_right_recycleView.setAdapter(righAdapter);
                 } else {
-                    righAdapter.setDate(getRightList(dishesTypeList));
+                    List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> temprightDishesList = getRightList(dishesTypeList);
+                    righAdapter.setDate(temprightDishesList, currentDay, mealText.getText().toString());
                 }
             }
         }
@@ -409,13 +390,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             }
         }
         if (righAdapter != null) {
-            righAdapter.setDate(getRightList(dishesTypeList));
+            righAdapter.setDate(getRightList(dishesTypeList), currentDay, mealText.getText().toString());
         }
     }
 
     @Override
     public void onItemClick(View view, int position) {//左侧item点击事件
         int count = 0;
+
         for (int i = 0; i < dishesTypeList.size(); i++) {
             if (position == 0) {
                 home_right_recycleView.scrollToPosition(0);
@@ -424,6 +406,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 continue;
             } else if (i < position && dishesTypeList.get(i).getDishesSupplyDtlList() != null) {
                 count = count + dishesTypeList.get(i).getDishesSupplyDtlList().size();
+                currentLeftPosition = count;
             } else {
                 break;
             }

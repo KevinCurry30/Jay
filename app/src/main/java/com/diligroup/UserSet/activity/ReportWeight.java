@@ -12,7 +12,6 @@ import com.diligroup.net.Action;
 import com.diligroup.net.Api;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
-import com.diligroup.utils.ToastUtil;
 import com.diligroup.view.WheelView;
 
 import java.util.Arrays;
@@ -61,11 +60,12 @@ public class ReportWeight extends BaseActivity {
             bt_weight.setText("下一步");
         }
         wheelView.setOffset(3);
-        if (UserInfoBean.getInstance().getSex()!=null&&UserInfoBean.getInstance().getSex()==0){
+        if (UserInfoBean.getInstance().getSex()!=null&&UserInfoBean.getInstance().getSex().equals("0")){
             wheelView.setSeletion(5);
             select_weight="50";
         }
-        if (UserInfoBean.getInstance().getSex()!=null&&UserInfoBean.getInstance().getSex()==1){
+
+        if (UserInfoBean.getInstance().getSex()!=null&&UserInfoBean.getInstance().getSex().equals("1")){
             wheelView.setSeletion(25);
             select_weight="70";
         }
@@ -90,8 +90,8 @@ public class ReportWeight extends BaseActivity {
             Map map =new HashMap();
             map.put("weight",select_weight);
             Api.updataUserInfo(map,this);
-//            readyGo(UserInfoActivity.class);
-//            this.finish();
+            readyGo(UserInfoActivity.class);
+            this.finish();
 
         }
 

@@ -60,6 +60,7 @@ android {
 }
 dependencies {
     compile project(path: ':stickylibrary')
+    compile files('libs/alipaySdk-20160812.jar')
 }
 
 

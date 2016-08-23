@@ -13,6 +13,7 @@ import android.widget.ListView;
 import com.diligroup.R;
 import com.diligroup.UserSet.ListitemAdapter;
 import com.diligroup.base.BaseActivity;
+import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.GetJiaoQinBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
@@ -127,7 +128,6 @@ public class ReportNoeat extends BaseActivity {
         String s2 = s.substring(1, s.length() - 1);
         LogUtils.e("饮食禁忌======" + s2);
         if (isFrist){
-
             if (!TextUtils.isEmpty(s2)) {
                 UserInfoBean.getInstance().setNoEatFood(s2);
                 readyGo(ReportAllergy.class,bundle);
@@ -136,8 +136,8 @@ public class ReportNoeat extends BaseActivity {
             Map map =new HashMap();
             map.put("tabooCode",s2);
             Api.updataUserInfo(map,this);
-            readyGo(UserInfoActivity.class);
-            this.finish();
+//            readyGo(UserInfoActivity.class);
+//            this.finish();
 
         }
     }
@@ -163,7 +163,15 @@ public class ReportNoeat extends BaseActivity {
         if (object != null && action == Action.GET_NO_EAT) {
             getJiaoQinBean = (GetJiaoQinBean) object;
             mHandler.sendEmptyMessage(1);
-
+        }
+        if (action==Action.UPDATA_USERINFO&&object!=null){
+            CommonBean  commonBean= (CommonBean) object;
+            if (commonBean.getCode().equals("000000")){
+                Intent intent=new Intent();
+                intent.putExtra("noeat",String.valueOf(noeat_list.size()));
+                setResult(0x50,intent);
+                this.finish();
+            }
         }
     }
 }

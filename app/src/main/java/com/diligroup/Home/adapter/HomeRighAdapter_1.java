@@ -31,17 +31,23 @@ import butterknife.ButterKnife;
 public class HomeRighAdapter_1 extends RecyclerView.Adapter implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
     Context mContext;
     List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> mList;
+    String date;
+    String mealType;
     private List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> rightDishesList=new ArrayList<>();//所有右侧成品分类列表
     MyStickyHeadChangeListener listener;
-    public HomeRighAdapter_1(Context mContext, List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> mList,MyStickyHeadChangeListener listener) {
+    public HomeRighAdapter_1(Context mContext, List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> mList,String date,String mealType,MyStickyHeadChangeListener listener) {
         super();
         this.mContext = mContext;
         this.mList = mList;
         this.listener=listener;
+        this.date=date;
+        this.mealType=mealType;
         initListDate();
     }
-    public  void setDate(List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> mList){
+    public  void setDate(List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> mList,String date,String mealType){
         this.rightDishesList=mList;
+        this.date=date;
+        this.mealType=mealType;
         notifyDataSetChanged();
     }
     private void initListDate() {
@@ -133,6 +139,9 @@ public class HomeRighAdapter_1 extends RecyclerView.Adapter implements StickyRec
             switch (v.getId()) {
                 case R.id.home_evaluate:
                     mIntent = new Intent(mContext, FeedbackActivity.class);
+                    mIntent.putExtra("foodCode",rightDishesList.get(position).getDishesCode());
+                    mIntent.putExtra("mealType",mealType);
+                    mIntent.putExtra("date",date);
                     mContext.startActivity(mIntent);
                     break;
                 case R.id.home_right_view:

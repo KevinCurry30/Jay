@@ -71,8 +71,8 @@ public class ReportTaste extends BaseActivity {
         Api.getTaste(this);
         Intent intent = getIntent();
         bundle = intent.getExtras();
+        isFrist = bundle.getBoolean("isFrist");
         if (isFrist){
-            isFrist = bundle.getBoolean("isFrist");
             bt_taste.setText("下一步");
             bt_later_report.setVisibility(View.INVISIBLE);
         }
@@ -149,7 +149,7 @@ public class ReportTaste extends BaseActivity {
             if (commonBean.getCode().equals("000000")){
                 Intent intent=new Intent();
                 intent.putExtra("taste",String.valueOf(selectCount));
-                setResult(0x30,intent);
+                setResult(0x90,intent);
                 this.finish();
 
             }

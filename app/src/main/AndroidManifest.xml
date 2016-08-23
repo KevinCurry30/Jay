@@ -70,15 +70,16 @@
 
         </activity>
         <activity android:name=".UserSet.activity.UserInfoActivity">
+        </activity>
+        <activity android:name=".UserSet.activity.SettingActivity" />
+        <activity android:name=".shop.SelectShopByUser" />
+        <activity android:name=".shop.GetShopActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UserSet.activity.SettingActivity" />
-        <activity android:name=".shop.SelectShopByUser" />
-        <activity android:name=".shop.GetShopActivity" />
         <activity android:name=".UserSet.activity.ServiceCenter" />
         <activity
             android:name=".UserSet.activity.PhysiologicalPeriodActivity"
@@ -136,7 +137,7 @@
         <!-- 百度地图api -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="3MFvQULXv0yrgNluHkDVbNyqFvekoBgh" />
+            android:value="Avo2zUYUGhwgEVmFIdHkdd8ao0b39Kt4" />
 
         <service
             android:name="com.baidu.location.f"

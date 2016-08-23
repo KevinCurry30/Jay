@@ -45,7 +45,7 @@ import butterknife.Bind;
 import me.nereo.multi_image_selector.MultiImageSelector;
 import okhttp3.Request;
 
-public class HomeActivity extends BaseActivity implements RequestManager.ResultCallback{
+public class HomeActivity extends BaseActivity implements RequestManager.ResultCallback {
 
 
     private static final int REQUEST_IMAGE = 2;
@@ -68,6 +68,7 @@ public class HomeActivity extends BaseActivity implements RequestManager.ResultC
     private String fileName;
     private File file;
     private MyPagerAdapter adapter;
+    private String imagPath;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -149,35 +150,40 @@ public class HomeActivity extends BaseActivity implements RequestManager.ResultC
     public void onResponse(Request request, Action action, Object object) {
         if (action == Action.UPLOAD_PHOTO && null != object) {
             UploadInfo bean = (UploadInfo) object;
-            if (bean.getCode().equals( Constant.RESULT_SUCESS)) {
+            if (bean.getCode().equals(Constant.RESULT_SUCESS)) {
                 ToastUtil.showLong(this, "上传成功");
-
-                final UserSetFragment userSetFragment = (UserSetFragment) (adapter.getItem(3));
-                userSetFragment.chageHeadIcon(bean.getFilePath());
-                UserInfoBean.getInstance().setHeadPhotoAdd(bean.getFilePath());
-                Api.perfectInfoAfterUpLoad(Constant.userId+"",bean.getFilePath(),this);
+                imagPath = bean.getFilePath();
+                Api.perfectInfoAfterUpLoad(Constant.userId + "", bean.getFilePath(), this);
             }
-        }else if(action==Action.SET_INFOS && object!=null){
-            CommonBean bean1=(CommonBean)object;
-            if(bean1.getCode().equals(Constant.RESULT_SUCESS)){
+        } else if (action == Action.SET_INFOS && object != null) {
+            CommonBean bean1 = (CommonBean) object;
+            if (bean1.getCode().equals(Constant.RESULT_SUCESS)) {
                 LogUtils.i("完善信息成功==");
+                final UserSetFragment userSetFragment = (UserSetFragment) (adapter.getItem(3));
+                if (null != imagPath) {
+                    userSetFragment.chageHeadIcon(imagPath);
+                    UserInfoBean.getInstance().setHeadPhotoAdd(imagPath);
+                }
             }
         }
     }
-class MyOnClickListener implements OnClickListener{
-    int index;
-    public MyOnClickListener(int index){
-        this.index=index;
-    }
-    @Override
-    public void onClick(View view) {
-        if(index==1){
-            ((BeforeFragment)( adapter.getItem(1))).clickShare();
-        }else if(index==2){
-            ((AfterFragment)( adapter.getItem(2))).clickShare();
+
+    class MyOnClickListener implements OnClickListener {
+        int index;
+
+        public MyOnClickListener(int index) {
+            this.index = index;
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (index == 1) {
+                ((BeforeFragment) (adapter.getItem(1))).clickShare(ivShare);
+            } else if (index == 2) {
+                ((AfterFragment) (adapter.getItem(2))).clickShare(ivShare);
+            }
         }
     }
-}
 
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
@@ -234,6 +240,7 @@ class MyOnClickListener implements OnClickListener{
                 break;
         }
     }
+
     ViewPager.OnPageChangeListener changeListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

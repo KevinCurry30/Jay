@@ -17,11 +17,15 @@ public class SharedPreferenceUtil {
 	Editor editor;
 	
 	@SuppressLint("CommitPrefEdits")
+	public SharedPreferenceUtil() {
+		sp = DiliApplication.getContext().getSharedPreferences("auto_login", Context.MODE_PRIVATE);
+		editor = sp.edit();
+	}
+	@SuppressLint("CommitPrefEdits")
 	public SharedPreferenceUtil(String name) {
 		sp = DiliApplication.getContext().getSharedPreferences(name, Context.MODE_PRIVATE);
 		editor = sp.edit();
 	}
-
 	public boolean getBoolean(String key, boolean value) {
 		return sp.getBoolean(key, value);
 	}

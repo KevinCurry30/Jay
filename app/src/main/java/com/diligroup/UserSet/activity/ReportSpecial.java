@@ -10,10 +10,12 @@ import android.widget.ListView;
 import com.diligroup.R;
 import com.diligroup.UserSet.ListitemAdapter;
 import com.diligroup.base.BaseActivity;
+import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.GetJiaoQinBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
 import com.diligroup.net.Api;
+import com.diligroup.utils.GetCheckStateUtils;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
@@ -58,6 +60,7 @@ public class ReportSpecial extends BaseActivity {
 
     private List<String> id_list;
     List<GetJiaoQinBean.ListBean> hisList;
+    int selectCount;
 
     @OnClick(R.id.bt_report_special)
     public void ReprotSpecial() {
@@ -69,11 +72,12 @@ public class ReportSpecial extends BaseActivity {
             UserInfoBean.getInstance().setSpecialCrowdCode(s2);
             readyGo(ReportOther.class, bundle);
         } else {
+            selectCount = id_list.size();
             Map map = new HashMap();
             map.put("specialCrowdCode", s2);
             Api.updataUserInfo(map, this);
-            readyGo(UserInfoActivity.class);
-            this.finish();
+//            readyGo(UserInfoActivity.class);
+//            this.finish();
 
         }
 
@@ -123,9 +127,11 @@ public class ReportSpecial extends BaseActivity {
                 ListitemAdapter.ViewHolder holder = (ListitemAdapter.ViewHolder) view.getTag();
 //                holder.cb.toggle();
                 holder.cb.setEnabled(true);
-                if (holder.cb.isChecked()){
+                if (holder.cb.isChecked()) {
                     id_list.add(holder.foodId);
-                }else {
+                    GetCheckStateUtils.addSelect(holder.foodId);
+                } else {
+                    GetCheckStateUtils.removeSelect(holder.foodId);
                     removeUnChecked(holder.foodId);
                 }
             }
@@ -146,15 +152,39 @@ public class ReportSpecial extends BaseActivity {
             }
         }
     }
-
+//HashMap<Integer,Boolean>  hashMap;
     @Override
     public void onResponse(Request request, Action action, Object object) {
+
         if (action == Action.GET_SPECIAL && object != null) {
             specialBean = (GetJiaoQinBean) object;
             if (specialBean.getCode().equals("000000")) {
                 hisList = specialBean.getList();
+//                hashMap=new HashMap();
+//                hashMap.put(0,false);
+//                hashMap.put(1,true);
+//                hashMap.put(2,false);
+//                hashMap.put(3,true);
+//                hashMap.put(4,false);
+//                hashMap.put(5,true);
+//                hashMap.put(6,true);
+//                hashMap.put(7,true);
+//                hashMap.put(8,true);
+//                ListitemAdapter.setIsSelected(hashMap);
                 ListitemAdapter adapter = new ListitemAdapter(this, hisList);
+
                 lv_special.setAdapter(adapter);
+
+//                adapter.notifyDataSetChanged();
+            }
+        }
+        if (object != null && action == Action.UPDATA_USERINFO) {
+            CommonBean commonBean = (CommonBean) object;
+            if (commonBean.getCode().equals("000000")) {
+                Intent intent = new Intent();
+                intent.putExtra("special", String.valueOf(selectCount));
+                setResult(0x110, intent);
+                this.finish();
             }
         }
     }

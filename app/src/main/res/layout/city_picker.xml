@@ -25,7 +25,6 @@
         android:id="@+id/city"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
         android:layout_weight="1"
         su:itemNumber="7"
         su:lineColor="#ffff6000"
@@ -41,7 +40,6 @@
         android:id="@+id/couny"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
         android:layout_weight="1"
         su:itemNumber="7"
         su:lineColor="#ffff6000"

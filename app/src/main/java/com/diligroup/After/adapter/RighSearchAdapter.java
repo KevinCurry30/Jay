@@ -63,7 +63,7 @@ public class RighSearchAdapter extends RecyclerView.Adapter {
             view = View.inflate(mContext, R.layout.delete_hository, null);
             return new BottomViewHolder(view);
         } else {
-            view = View.inflate(parent.getContext(), R.layout.addlunch_rightlist, null);
+            view = View.inflate(parent.getContext(), R.layout.customer_search_rightlist, null);
             return new MyViewHoder(view);
         }
     }

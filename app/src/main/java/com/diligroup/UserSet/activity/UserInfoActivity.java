@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -76,11 +75,16 @@ public class UserInfoActivity extends BaseActivity {
     TextView tv_special;
     @Bind(R.id.tv_allergy)
     TextView tv_alLeryFood;
-
+    @Bind(R.id.tv_taste)
+    TextView tv_taste;
+    @Bind(R.id.tv_history)
+    TextView tv_history;
+    @Bind(R.id.tv_other)
+    TextView tv_Other;
     Boolean isFrist;
     Bundle bundle;
         @Bind(R.id.iv_back)
-    ImageView iv_back;
+        ImageView iv_back;
     @Override
     protected void onStart() {
         super.onStart();
@@ -102,10 +106,7 @@ public class UserInfoActivity extends BaseActivity {
     protected void onNetworkDisConnected() {
 
     }
-@OnClick(R.id.iv_back)
-public void getBack(){
-    this.finish();
-}
+
     @Override
     public void setTitle() {
         super.setTitle();
@@ -121,7 +122,8 @@ public void getBack(){
         bundle.putBoolean("isFrist", false);
         tv_user_number.setText(Constant.userNumber);
         if (UserInfoBean.getInstance()!=null){
-            if (UserInfoBean.getInstance().getSex()==0){
+
+            if (UserInfoBean.getInstance().getSex()!=null&&UserInfoBean.getInstance().getSex().equals("1")){
                 tv_sex.setText("男");
             }else{
                 tv_sex.setText("女");
@@ -133,7 +135,7 @@ public void getBack(){
             tv_weight.setText(UserInfoBean.getInstance().getWeight());
             tv_noeat.setText(UserInfoBean.getInstance().getNoEatFood());
             tv_alLeryFood.setText(UserInfoBean.getInstance().getAllergyFood());
-            tv_where.setText(UserInfoBean.getInstance().getHomeAddress());
+            tv_where.setText(UserInfoBean.getInstance().getHomeDistrictId());
             tv_address.setText(UserInfoBean.getInstance().getCurrentAddress());
         }
 
@@ -167,7 +169,7 @@ public void getBack(){
 
     @OnClick(R.id.rl_height)
     public void ClickHeight() {
-        readyGo(ReportHeight.class, bundle);
+//        readyGo(ReportHeight.class, bundle);
 
         Intent intent=new Intent(this,ReportHeight.class);
         intent.putExtras(bundle);
@@ -179,7 +181,7 @@ public void getBack(){
 //        readyGo(ReportOther.class, bundle);
         Intent intent=new Intent(this,ReportOther.class);
         intent.putExtras(bundle);
-        startActivityForResult(intent,0x1);
+        startActivityForResult(intent,0x120);
     }
 
     @OnClick(R.id.rl_special)
@@ -187,7 +189,7 @@ public void getBack(){
 //        readyGo(ReportSpecial.class, bundle);
         Intent intent=new Intent(this,ReportSpecial.class);
         intent.putExtras(bundle);
-        startActivityForResult(intent,0x1);
+        startActivityForResult(intent,0x110);
     }
 
     @OnClick(R.id.rl_taste)
@@ -195,14 +197,14 @@ public void getBack(){
 //        readyGo(ReportTaste.class, bundle);
         Intent intent=new Intent(this,ReportTaste.class);
         intent.putExtras(bundle);
-        startActivityForResult(intent,0x70);
+        startActivityForResult(intent,0x90);
     }
 
     @OnClick(R.id.rl_where)
     public void ClickWhere() {
         Intent intent=new Intent(this,ReportWhere.class);
         intent.putExtras(bundle);
-        startActivityForResult(intent,0x50);
+        startActivityForResult(intent,0x70);
 //        readyGo(ReportWhere.class, bundle);
     }
 
@@ -218,7 +220,7 @@ public void getBack(){
     public void ClickYsjj() {
         Intent intent=new Intent(this,ReportNoeat.class);
         intent.putExtras(bundle);
-        startActivityForResult(intent,0x1);
+        startActivityForResult(intent,0x50);
 //        readyGo(ReportNoeat.class, bundle);
     }
 
@@ -235,14 +237,14 @@ public void getBack(){
 //        readyGo(ReportHistory.class, bundle);
         Intent intent=new Intent(this,ReportHistory.class);
         intent.putExtras(bundle);
-        startActivityForResult(intent,0x1);
+        startActivityForResult(intent,0x100);
     }
 
     @OnClick(R.id.rl_allergy)
     public void ClickAllergy() {
         Intent intent=new Intent(this,ReportAllergy.class);
         intent.putExtras(bundle);
-        startActivityForResult(intent,0x1);
+        startActivityForResult(intent,0x60);
 //        readyGo(ReportAllergy.class, bundle);
     }
 
@@ -256,7 +258,7 @@ public void getBack(){
 //        readyGo(ReportAddress.class, bundle);
         Intent intent=new Intent(this,ReportAddress.class);
         intent.putExtras(bundle);
-        startActivityForResult(intent,0x60);
+        startActivityForResult(intent,0x80);
     }
 
     @Override
@@ -269,57 +271,99 @@ public void getBack(){
                     String sexTag=data.getStringExtra("sex");
                     if (sexTag.equals("1")){
                         tv_sex.setText("男");
+                        UserInfoBean.getInstance().setSex("1");
                     }else{
                         tv_sex.setText("女");
+                        UserInfoBean.getInstance().setSex("0");
                     }
                 }
                 break;
             case 0x10:
                 if (null!=data){
-                    String sexTag=data.getStringExtra("brithday");
-                    tv_birthday.setText(sexTag);
+                    String brithday=data.getStringExtra("brithday");
+                    tv_birthday.setText(brithday);
+                    UserInfoBean.getInstance().setBirthday(brithday);
                 }
                 break;
             case 0x20:
                 if (null!=data){
                     String job=data.getStringExtra("job");
                     tv_job.setText(job);
+                    UserInfoBean.getInstance().setJob(job);
+
                 }
                 break;
             case 0x30:
                 if (null!=data){
                     String height=data.getStringExtra("height");
                     tv_height.setText(height);
+                    UserInfoBean.getInstance().setHeight(height);
+
                 }
                 break;
             case 0x40:
                 if (null!=data){
                     String weight=data.getStringExtra("weight");
                     tv_weight.setText(weight);
+                    UserInfoBean.getInstance().setWeight(weight);
+
                 }
                 break;
             case 0x50:
                 if (null!=data){
-                    String weight=data.getStringExtra("where");
-                    tv_where.setText(weight);
+                    String noeat=data.getStringExtra("noeat");
+                    tv_noeat.setText(noeat);
                 }
                 break;
             case 0x60:
                 if (null!=data){
-                    String weight=data.getStringExtra("address");
-                    tv_address.setText(weight);
+                    String allergy=data.getStringExtra("allergy");
+                    tv_alLeryFood.setText(allergy);
                 }
                 break;
             case 0x70:
                 if (null!=data){
-                    String seleCount=data.getStringExtra("taste");
-
+                    String where=data.getStringExtra("where");
+                    tv_where.setText(where);
+                    UserInfoBean.getInstance().setHomeDistrictId(where);
                 }
                 break;
             case 0x80:
                 if (null!=data){
-                    String seleCount=data.getStringExtra("taste");
+                    String address=data.getStringExtra("address");
+                    tv_address.setText(address);
+                    UserInfoBean.getInstance().setCurrentAddress(address);
+                }
+                break;
+            case 0x90:
+                if (null!=data){
+                    String taste=data.getStringExtra("taste");
+                    tv_taste.setText("已选择"+taste+"项");
+                    UserInfoBean.getInstance().setTaste(taste);
+                }
+                break;
+            case  0x100:
+                if (null!=data){
+                    String history=data.getStringExtra("history");
+                    tv_history.setText(history);
+                    UserInfoBean.getInstance().setTaste(history);
 
+                }
+                break;
+            case  0x110:
+                if (null!=data){
+                    String special=data.getStringExtra("special");
+                    tv_special.setText(special);
+//                    UserInfoBean.getInstance().setSpecialCrowdCode();
+
+                }
+                break;
+
+            case  0x120:
+                if (null!=data){
+                    String otherRequest=data.getStringExtra("otherRequest");
+                        tv_Other.setText(otherRequest);
+                    UserInfoBean.getInstance().setTaste(otherRequest);
                 }
                 break;
             case 10:
@@ -330,7 +374,6 @@ public void getBack(){
                     }
                 }
                 break;
-
             case REQUEST_IMAGE:
                 if (resultCode == RESULT_OK) {
                     mSelectPath = data.getStringArrayListExtra(MultiImageSelector.EXTRA_RESULT);

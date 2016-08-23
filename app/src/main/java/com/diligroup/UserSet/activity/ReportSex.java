@@ -37,6 +37,7 @@ public class ReportSex extends BaseActivity {
     Bundle bundle;
     @Bind(R.id.bt_ok_sex)
     Button bt_sex;
+    String  sex;
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_select_sex;
@@ -97,12 +98,15 @@ public class ReportSex extends BaseActivity {
     public void reportSex() {
         if (sexMark == 1 || sexMark == 0) {
             if (isFrist) {
-                UserInfoBean.getInstance().setSex(sexMark);
+//                UserInfoBean.getInstance().setSex(sexMark+"");
+                UserInfoBean.getInstance().setSex(sex);
                 readyGo(ReportBirthday.class, bundle);
             } else{
                 Map<String,String>  map =new HashMap();
                 map.put("sex",String.valueOf(sexMark));
                 Api.updataUserInfo(map,this);
+//                readyGo(UserInfoActivity.class);
+//                this.finish();
             }
             LogUtils.e("性别====="+String.valueOf(sexMark));
 
@@ -124,14 +128,12 @@ public class ReportSex extends BaseActivity {
     @Override
     public void onResponse(Request request, Action action, Object object) {
                 if (action==Action.UPDATA_USERINFO&&object!=null){
-                    CommonBean  commonBean= (CommonBean) object;
+                    CommonBean commonBean= (CommonBean) object;
                     if (commonBean.getCode().equals("000000")){
                         Intent intent=new Intent();
                         intent.putExtra("sex",String.valueOf(sexMark));
                         setResult(0x00,intent);
                         this.finish();
 
-                    }
-                }
     }
-}
+}}}

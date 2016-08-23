@@ -35,6 +35,7 @@ public class ReportHeight extends BaseActivity {
     Bundle bundle;
     @Bind(R.id.bt_ok_height)
     Button bt_height;
+
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_select_height;
@@ -56,41 +57,41 @@ public class ReportHeight extends BaseActivity {
         Intent intent = getIntent();
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
-        if (isFrist){
+        if (isFrist) {
             bt_height.setText("下一步");
         }
         wheelView.setOffset(3);
 
         wheelView.setItems(Arrays.asList(getResources().getStringArray(R.array.height)));
-        if (UserInfoBean.getInstance().getSex()!=null&&UserInfoBean.getInstance().getSex()==0){
+        if (UserInfoBean.getInstance().getSex() != null && UserInfoBean.getInstance().getSex().equals("0")) {
             wheelView.setSeletion(13);
-            selectHeight="163";
+            selectHeight = "163";
         }
-        if (UserInfoBean.getInstance().getSex()!=null&&UserInfoBean.getInstance().getSex()==1){
+        if (UserInfoBean.getInstance().getSex() != null && UserInfoBean.getInstance().getSex().equals("1")) {
             wheelView.setSeletion(25);
-            selectHeight="175";
+            selectHeight = "175";
         }
 
         wheelView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
-                selectHeight=item.replace(" ","").replace("CM","");
+                selectHeight = item.replace(" ", "").replace("CM", "");
                 Log.d("====================", "selectedIndex: " + selectedIndex + ", item: " + item);
             }
         });
     }
 
     @OnClick(R.id.bt_ok_height)
-    public void reprotHeight(){
-        LogUtils.e("身高======"+selectHeight);
-        if (isFrist){
+    public void reprotHeight() {
+        LogUtils.e("身高======" + selectHeight);
+        if (isFrist) {
             UserInfoBean.getInstance().setHeight(selectHeight);
-            readyGo(ReportWeight.class,bundle);
+            readyGo(ReportWeight.class, bundle);
             return;
         }
-        Map map =new HashMap();
-        map.put("height",selectHeight);
-        Api.updataUserInfo(map,this);
+        Map map = new HashMap();
+        map.put("height", selectHeight);
+        Api.updataUserInfo(map, this);
 //        readyGo(UserInfoActivity.class);
 //        this.finish();
 
@@ -110,12 +111,12 @@ public class ReportHeight extends BaseActivity {
 
     @Override
     public void onResponse(Request request, Action action, Object object) {
-        if (action==Action.UPDATA_USERINFO&&object!=null){
-            CommonBean commonBean= (CommonBean) object;
-            if (commonBean.getCode().equals("000000")){
-                Intent intent=new Intent();
-                intent.putExtra("height",selectHeight);
-                setResult(0x30,intent);
+        if (action == Action.UPDATA_USERINFO && object != null) {
+            CommonBean commonBean = (CommonBean) object;
+            if (commonBean.getCode().equals("000000")) {
+                Intent intent = new Intent();
+                intent.putExtra("height", selectHeight);
+                setResult(0x30, intent);
                 this.finish();
 
             }

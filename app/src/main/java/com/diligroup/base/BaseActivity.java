@@ -25,16 +25,19 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseActivity extends AppCompatActivity implements RequestManager.ResultCallback {
     @Bind(R.id.comm_title)
-    public  TextView tv_title;
+    public TextView tv_title;
     Context mContext = null;
     @Bind(R.id.iv_back)
     public ImageView iv_back;
     @Bind(R.id.iv_share)
     protected ImageView ivShare;
-
+    @Bind(R.id.title_root)
+    protected View title_root;
     public TextView title_infos;
+
     protected abstract int getContentViewLayoutID();
 //    protected  abstract boolean isShowBackIcon
+
     /**
      * network connected
      */
@@ -113,21 +116,20 @@ public abstract class BaseActivity extends AppCompatActivity implements RequestM
         super.setContentView(layoutResID);
         ButterKnife.bind(this);
         tv_title = ButterKnife.findById(this, R.id.comm_title);
-        title_infos= ButterKnife.findById(this, R.id.tv_title_info);
-        iv_back  = ButterKnife.findById(this,R.id.iv_back);
-        ivShare  = ButterKnife.findById(this,R.id.iv_share);
-        if (tv_title!=null){
+        title_infos = ButterKnife.findById(this, R.id.tv_title_info);
+        iv_back = ButterKnife.findById(this, R.id.iv_back);
+        ivShare = ButterKnife.findById(this, R.id.iv_share);
+        title_root = ButterKnife.findById(this, R.id.title_root);
+        if (tv_title != null) {
             setTitle();
         }
-        if (title_infos!=null){
+        if (title_infos != null) {
             setTitle();
         }
-        if (iv_back!=null){
-
-           isShowBack(false);
+        if (iv_back != null) {
+            isShowBack(false);
         }
-   }
-
+    }
 
 
     public void setTitle() {
@@ -137,11 +139,12 @@ public abstract class BaseActivity extends AppCompatActivity implements RequestM
     @Override
     public void finish() {
         super.finish();
-      //
+        //
     }
-    public void isShowBack(Boolean  isShow ) {
-        if (isShow){
-        iv_back.setVisibility(View.VISIBLE);
+
+    public void isShowBack(Boolean isShow) {
+        if (isShow) {
+            iv_back.setVisibility(View.VISIBLE);
             iv_back.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -151,11 +154,12 @@ public abstract class BaseActivity extends AppCompatActivity implements RequestM
 
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
-    //    AppManager.getAppManager().finishActivity(this);
+        //    AppManager.getAppManager().finishActivity(this);
         NetStateReceiver.removeRegisterObserver(mNetChangeObserver);
         NetStateReceiver.unRegisterNetworkStateReceiver(this);
     }
@@ -181,6 +185,7 @@ public abstract class BaseActivity extends AppCompatActivity implements RequestM
         startActivity(intent);
         finish();
     }
+
     /**
      * startActivity with bundle
      *

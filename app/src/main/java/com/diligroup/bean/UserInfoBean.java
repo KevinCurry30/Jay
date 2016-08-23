@@ -13,7 +13,7 @@ public  class UserInfoBean  {
     }
 
     //性别  1boy  0girl
-    public Integer  sex;
+    public String  sex;
     //生日 yyyy-MM-dd格式
     public String birthday;
     //职业
@@ -30,8 +30,49 @@ public  class UserInfoBean  {
     //过敏食材
     public String allergyFood;
 
-    //籍贯
-    public String homeAddress;
+//    //籍贯
+//    public String homeAddress;
+    public String homeProvinceCode;
+    public String homeCityCode ;
+
+    public String homeDistrictId ;
+
+    /**
+     *现居区县code
+     */
+    private String currentDistrictId="";
+    /**
+     *现居省份code
+     */
+    private String currentProvinceCode="";
+    /**
+     *现居市code
+     */
+    private String currentCityCode="";
+
+    public String getCurrentDistrictId() {
+        return currentDistrictId;
+    }
+
+    public void setCurrentDistrictId(String currentDistrictId) {
+        this.currentDistrictId = currentDistrictId;
+    }
+
+    public String getCurrentProvinceCode() {
+        return currentProvinceCode;
+    }
+
+    public void setCurrentProvinceCode(String currentProvinceCode) {
+        this.currentProvinceCode = currentProvinceCode;
+    }
+
+    public String getCurrentCityCode() {
+        return currentCityCode;
+    }
+
+    public void setCurrentCityCode(String currentCityCode) {
+        this.currentCityCode = currentCityCode;
+    }
 
     //常住地
     public String currentAddress;
@@ -56,12 +97,11 @@ public  class UserInfoBean  {
     public  String periodStartTime = "";			// 生理期开始时间
     public   String periodEndTime = "";			// 生理期结束时间
 
-
-    public Integer getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(Integer sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 
@@ -127,12 +167,36 @@ public  class UserInfoBean  {
         this.allergyFood = allergyFood;
     }
 
-    public String getHomeAddress() {
-        return homeAddress;
+//    public String getHomeAddress() {
+//        return homeAddress;
+//    }
+//
+//    public void setHomeAddress(String homeAddress) {
+//        this.homeAddress = homeAddress;
+//    }
+
+    public String getHomeProvinceCode() {
+        return homeProvinceCode;
     }
 
-    public void setHomeAddress(String homeAddress) {
-        this.homeAddress = homeAddress;
+    public void setHomeProvinceCode(String homeProvinceCode) {
+        this.homeProvinceCode = homeProvinceCode;
+    }
+
+    public String getHomeCityCode() {
+        return homeCityCode;
+    }
+
+    public void setHomeCityCode(String homeCityCode) {
+        this.homeCityCode = homeCityCode;
+    }
+
+    public String getHomeDistrictId() {
+        return homeDistrictId;
+    }
+
+    public void setHomeDistrictId(String homeDistrictId) {
+        this.homeDistrictId = homeDistrictId;
     }
 
     public String getCurrentAddress() {

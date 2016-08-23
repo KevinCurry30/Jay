@@ -3,6 +3,7 @@ package com.diligroup.Before.fragment;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -78,7 +79,7 @@ public class BeforeFragment extends BaseFragment {
         }
     }
     //点击了分享按钮
-    public void clickShare(){
-        new ShareUtils(getActivity(),"http://tuanche.com","http://baidu.com").openSharebord("AAAA");
+    public void clickShare(View rootView){
+        new ShareUtils(getActivity(),"http://tuanche.com","http://baidu.com",rootView).openSharebord("AAAA");
     }
 }

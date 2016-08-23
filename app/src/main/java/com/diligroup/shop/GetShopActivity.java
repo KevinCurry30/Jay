@@ -2,6 +2,7 @@ package com.diligroup.shop;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,20 +24,28 @@ import com.baidu.mapapi.cloud.CloudPoiInfo;
 import com.baidu.mapapi.cloud.CloudSearchResult;
 import com.baidu.mapapi.cloud.DetailSearchResult;
 import com.baidu.mapapi.cloud.NearbySearchInfo;
+import com.diligroup.Home.HomeActivity;
 import com.diligroup.R;
+import com.diligroup.base.AppManager;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.base.Constant;
 import com.diligroup.base.DiliApplication;
+import com.diligroup.bean.CommonBean;
+import com.diligroup.bean.GetCityCode;
+import com.diligroup.bean.GetShopBean;
 import com.diligroup.bean.ShopInfosBean;
 import com.diligroup.bean.UserLocationBean;
 import com.diligroup.net.Action;
+import com.diligroup.net.Api;
 import com.diligroup.other.LocationService;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -51,45 +61,46 @@ public class GetShopActivity extends BaseActivity implements CloudListener, BDLo
     //    private List<String> list_shop;
     LocationService locationService;
     //    List<CloudPoiInfo> cloudPoiInfoList;
-    List<ShopInfosBean> shopInfoList;
+//    List<ShopInfosBean> shopInfoList;
+    List<GetShopBean.StoreCustListBean> shopList;
     @Bind(R.id.lv_list_shop)
     ListView shopListView;
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-//            cloudPoiInfoList = (List<CloudPoiInfo>) msg.obj;
-            if (msg.what == SDK_PERMISSION_REQUEST) {
+//    private Handler handler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+////            cloudPoiInfoList = (List<CloudPoiInfo>) msg.obj;
+//            if (msg.what == SDK_PERMISSION_REQUEST) {
 //                list_shop = new ArrayList<>();
-                shopInfoList = new ArrayList<>();
-                for (CloudPoiInfo info : (List<CloudPoiInfo>) msg.obj) {
-                    ShopInfosBean shopinfo = new ShopInfosBean();
-                    shopinfo.setTitle(info.title);
-                    shopinfo.setAddress(info.address);
-                    shopinfo.setCity(info.city);
-                    shopinfo.setProvince(info.province);
-                    shopinfo.setDistrict(info.district);
-//                    list_shop.add(shopinfo.getTitle());
-                    shopInfoList.add(shopinfo);
-                }
-                initListShop();
-            }
-
-        }
-
-
-    };
-
-    private void initListShop() {
-        if (shopInfoList != null) {
-            shopListView.setAdapter(new ShopListAdapter());
-//            shop_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
+//                shopInfoList = new ArrayList<>();
+//                for (CloudPoiInfo info : (List<CloudPoiInfo>) msg.obj) {
+//                    ShopInfosBean shopinfo = new ShopInfosBean();
+//                    shopinfo.setTitle(info.title);
+//                    shopinfo.setAddress(info.address);
+//                    shopinfo.setCity(info.city);
+//                    shopinfo.setProvince(info.province);
+//                    shopinfo.setDistrict(info.district);
+////                    list_shop.add(shopinfo.getTitle());
+//                    shopInfoList.add(shopinfo);
 //                }
-//            });
-        }
-    }
+//                initListShop();
+//            }
+//
+//        }
+//
+//
+//    };
+
+//    private void initListShop() {
+//        if (shopList != null) {
+//            shopListView.setAdapter(new ShopListAdapter());
+////            shop_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+////                @Override
+////                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+////
+////                }
+////            });
+//        }
+//    }
 
     @OnClick(R.id.bt_more)
     public void goMoreShop() {
@@ -121,22 +132,22 @@ public class GetShopActivity extends BaseActivity implements CloudListener, BDLo
 
     }
 
-    /**
-     * 根据经纬度 查询周边商铺
-     *
-     * @param lon
-     * @param lat
-     */
-    public void getShopByLocation(double lon, double lat) {
-        CloudManager.getInstance().init(GetShopActivity.this);
-        NearbySearchInfo searchInfo = new NearbySearchInfo();
-        searchInfo.ak = Constant.APP_KEY;
-        searchInfo.geoTableId = Constant.GENTABID;
-        searchInfo.radius = 30000;
-        searchInfo.location = String.valueOf(lon) + "," + String.valueOf(lat);
-        LogUtils.e("=====当前经纬度=====" + searchInfo.location);
-        CloudManager.getInstance().nearbySearch(searchInfo);
-    }
+//    /**
+//     * 根据经纬度 查询周边商铺
+//     *
+//     * @param
+//     * @param
+//     */
+//    public void getShopByLocation(double lon, double lat) {
+//        CloudManager.getInstance().init(GetShopActivity.this);
+//        NearbySearchInfo searchInfo = new NearbySearchInfo();
+//        searchInfo.ak = Constant.APP_KEY;
+//        searchInfo.geoTableId = Constant.GENTABID;
+//        searchInfo.radius = 30000;
+//        searchInfo.location = String.valueOf(lon) + "," + String.valueOf(lat);
+//        LogUtils.e("=====当前经纬度=====" + searchInfo.location);
+//        CloudManager.getInstance().nearbySearch(searchInfo);
+//    }
 
     private void getLocation() {
         locationService = ((DiliApplication) getApplication()).locationService;
@@ -148,6 +159,23 @@ public class GetShopActivity extends BaseActivity implements CloudListener, BDLo
     @Override
     protected void initViewAndData() {
         getLocation();
+        shopListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                ToastUtil.showShort(GetShopActivity.this, "click" + position);
+                if (shopList!=null){
+                    int shopId=shopList.get(position).getStoreId();
+                    Intent intent=new Intent();
+                    intent.putExtra("storeId",String.valueOf(shopId));
+//                    intent.putExtra("storeId",String.valueOf(shopId));
+//                    intent.putExtra("storeId",String.valueOf(shopId));
+                    setResult(0x111,intent);
+                    readyGo(HomeActivity.class);
+                    GetShopActivity.this.finish();
+                }
+            }
+        });
+
     }
 
     @Override
@@ -159,16 +187,19 @@ public class GetShopActivity extends BaseActivity implements CloudListener, BDLo
     @Override
     public void onReceiveLocation(BDLocation bdLocation) {
         if (null != bdLocation && bdLocation.getLocType() != BDLocation.TypeServerError) {
-            UserLocationBean userBean = new UserLocationBean();
-            userBean.setLatitud(bdLocation.getLatitude());
-            userBean.setLongitude(bdLocation.getLongitude());
-            userBean.setCity(bdLocation.getCity());
-            userBean.setProvice(bdLocation.getProvince());
-            userBean.setAddress(bdLocation.getAddress());
-            userBean.setTime(bdLocation.getTime());
-            getShopByLocation(bdLocation.getLongitude(), bdLocation.getLatitude());
+            String city=bdLocation.getCity();
+            LogUtils.e(city);
+            Api.getCityCode(city, this);
             locationService.unregisterListener(this);
             locationService.stop();
+//            getShopByLocation(bdLocation.getLongitude(), bdLocation.getLatitude());
+//            UserLocationBean userBean = new UserLocationBean();
+//            userBean.setLatitud(bdLocation.getLatitude());
+//            userBean.setLongitude(bdLocation.getLongitude());
+//            userBean.setCity(bdLocation.getCity());
+//            userBean.setProvice(bdLocation.getProvince());
+//            userBean.setAddress(bdLocation.getAddress());
+//            userBean.setTime(bdLocation.getTime());
         } else {
             ToastUtil.showLong(this, "获取位置失败");
         }
@@ -188,24 +219,27 @@ public class GetShopActivity extends BaseActivity implements CloudListener, BDLo
     public void onGetSearchResult(CloudSearchResult result, int i) {
         if (result != null && result.poiList != null && result.poiList.size() > 0) {
             Log.d(LTAG, "onGetSearchResult, result length: " + result.poiList.size());
-            Message msg = new Message();
-            msg.obj = result.poiList;
-            msg.what = SDK_PERMISSION_REQUEST;
-            handler.sendMessage(msg);
-            for (CloudPoiInfo info : result.poiList) {
-                String address = info.address;
-                String city = info.city;
-                String province = info.province;
-                int distance = info.distance;
-                String title = info.title;
-                String district = info.district;
-                Log.e("address==", address);
-                Log.e("city==", city);
-                Log.e("province==", province);
-                Log.e("title==", title);
-                Log.e("district==", district);
-                Log.e("dinstance==", String.valueOf(distance));
-            }
+//            Message msg = new Message();
+//            msg.obj = result.poiList;
+//            msg.what = SDK_PERMISSION_REQUEST;
+//            handler.sendMessage(msg);
+//            String city = result.poiList.get(0).city;
+//            Api.getCityCode(city, this);
+//            for (CloudPoiInfo info : result.poiList) {
+//                String address = info.address;
+//                String city = info.city;
+//                Api.getCityCode(city,this);
+//                String province = info.province;
+//                int distance = info.distance;
+//                String title = info.title;
+//                String district = info.district;
+//                Log.e("address==", address);
+//                Log.e("city==", city);
+//                Log.e("province==", province);
+//                Log.e("title==", title);
+//                Log.e("district==", district);
+//                Log.e("dinstance==", String.valueOf(distance));
+//            }
         }
     }
 
@@ -221,7 +255,24 @@ public class GetShopActivity extends BaseActivity implements CloudListener, BDLo
 
     @Override
     public void onResponse(Request request, Action action, Object object) {
-
+        if (action == Action.Get_CityCode && object != null) {
+            GetCityCode cityBean = (GetCityCode) object;
+            if (cityBean.getCode().equals(Constant.RESULT_SUCESS)) {
+                Map map = new HashMap();
+                if (cityBean.getDis().getParentCode() != null) {
+                    map.put("provinceCode", cityBean.getDis().getParentCode());
+                }
+                map.put("provinceCode", cityBean.getDis().getSortCode());
+                Api.getShopNearBy(map, this);
+            }
+        }
+        if (action == Action.GET_SHOP_NEARBY && object != null) {
+            GetShopBean shopBean = (GetShopBean) object;
+            if (shopBean.getCode().equals(Constant.RESULT_SUCESS)) {
+                shopList = shopBean.getStoreCustList();
+                shopListView.setAdapter(new ShopListAdapter());
+            }
+        }
     }
 
     public class ShopListAdapter extends BaseAdapter {
@@ -234,7 +285,7 @@ public class GetShopActivity extends BaseActivity implements CloudListener, BDLo
 
         @Override
         public int getCount() {
-            return shopInfoList.size();
+            return shopList.size();
         }
 
         @Override
@@ -259,8 +310,8 @@ public class GetShopActivity extends BaseActivity implements CloudListener, BDLo
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            holder.shop_name.setText(shopInfoList.get(position).getTitle());
-            holder.shop_details.setText(shopInfoList.get(position).getAddress());
+            holder.shop_name.setText(shopList.get(position).getCustName());
+            holder.shop_details.setText(shopList.get(position).getAddress());
             return convertView;
         }
     }

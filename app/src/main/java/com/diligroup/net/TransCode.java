@@ -14,6 +14,7 @@ public class TransCode {
     public static String updataUserInfos = "C0100";
 
     public static String GetWorkType="M0072";
+    public static String GetCity="M0019";
     public static String GET_NOEAT_FOOD="M0038";
 
     public static String GET_ALLERGY_FOOD="M0064";
@@ -31,4 +32,9 @@ public class TransCode {
     public static String CUSTOMER_SEARCH="M0021";
     public static String CUSTOMER_FINDBY_CATEGORY="M0068";
     public static String ADD_FOOD_COMPLETE="C0116";//添加菜品完成
+    public static String GETSHOP="C0101";
+    public static String GETCITYCODE="M0019";
+
+//    transCode:
+//    type:findAll
 }

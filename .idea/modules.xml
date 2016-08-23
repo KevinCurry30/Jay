@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Lisa.iml" filepath="$PROJECT_DIR$/Lisa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/NewApp.iml" filepath="$PROJECT_DIR$/NewApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/ratingbar_library/ratingbar_library.iml" filepath="$PROJECT_DIR$/ratingbar_library/ratingbar_library.iml" />
       <module fileurl="file://$PROJECT_DIR$/stickylibrary/stickylibrary.iml" filepath="$PROJECT_DIR$/stickylibrary/stickylibrary.iml" />

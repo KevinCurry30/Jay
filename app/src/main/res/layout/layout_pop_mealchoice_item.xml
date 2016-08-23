@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center_horizontal"
-        android:background="@drawable/selector_meal_item"
+        android:background="@drawable/bg_selector"
         android:minHeight="42dp">
 
         <LinearLayout

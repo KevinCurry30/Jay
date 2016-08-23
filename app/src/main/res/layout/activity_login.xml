@@ -5,112 +5,221 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-
     <include layout="@layout/comm_title" />
 
-    <EditText
-        android:background="@drawable/edit_text_selector"
-        android:maxLength="11"
-        android:id="@+id/input_username"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="35dp"
-        android:hint="请输入手机号"
-        android:imeActionId="@+id/login"
-        android:imeOptions="actionUnspecified"
-        android:inputType="number"
-        android:paddingLeft="10dp"
-        android:maxLines="1"
-        android:singleLine="true" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:visibility="invisible"
-        android:id="@+id/tv_notice_number"
-        android:textColor="#FE0000"
-        android:textSize="16sp"
-        android:layout_marginTop="6dp"
-        android:layout_marginLeft="23dp"
-        android:text="手机号码不正确"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <com.diligroup.view.TogglePasswordVisibilityEditText
-        android:background="@drawable/edit_text_selector"
-        android:maxLength="16"
-        android:layout_height="40dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="15dp"
-        android:drawableEnd="@drawable/eye_normal"
-        android:id="@+id/input_password"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="20dp"
-        android:inputType="textPassword"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="2dp"
-        android:hint="请输入密码" />
-    <TextView
-        android:visibility="invisible"
-        android:id="@+id/tv_notice_password"
-        android:textColor="#FE0000"
-        android:layout_marginTop="6dp"
-        android:textSize="16sp"
-        android:layout_marginLeft="23dp"
-        android:text="手机号码不正确"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <!-- Login progress -->
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_forget"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginRight="23dp"
-        android:text="忘记密码?" />
+            <EditText
+                android:id="@+id/input_username"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="35dp"
+                android:background="@drawable/edit_text_selector"
+                android:hint="请输入手机号"
+                android:imeActionId="@+id/login"
+                android:imeOptions="actionUnspecified"
+                android:inputType="number"
+                android:maxLength="11"
+                android:maxLines="1"
+                android:paddingLeft="10dp"
+                android:singleLine="true" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_notice_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="23dp"
+                android:layout_marginTop="6dp"
+                android:text="手机号码不正确"
+                android:textColor="#FE0000"
+                android:textSize="16sp"
+                android:visibility="invisible" />
 
-        <Button
-            android:id="@+id/bt_login"
-            style="?android:textAppearanceSmall"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/em_button_login_bg"
-            android:gravity="center"
-            android:text="@string/action_sign_in"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            <com.diligroup.view.TogglePasswordVisibilityEditText
+                android:id="@+id/input_password"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/edit_text_selector"
+                android:drawableEnd="@drawable/eye_normal"
+                android:hint="请输入密码"
+                android:inputType="textPassword"
+                android:maxLength="16"
+                android:paddingEnd="15dp"
+                android:paddingStart="10dp" />
 
-        <Button
-            android:id="@+id/bt_regist"
-            style="?android:textAppearanceSmall"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bt_regist_selector"
-            android:gravity="center"
-            android:text="注册"
-            android:textColor="#333333"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_notice_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="23dp"
+                android:layout_marginTop="6dp"
+                android:text="手机号码不正确"
+                android:textColor="#FE0000"
+                android:textSize="16sp"
+                android:visibility="invisible" />
+            <!-- Login progress -->
+            <ProgressBar
+                android:id="@+id/login_progress"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone" />
 
+            <TextView
+                android:id="@+id/tv_forget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="23dp"
+                android:text="忘记密码?" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/bt_login"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/em_button_login_bg"
+                    android:gravity="center"
+                    android:text="@string/action_sign_in"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/bt_regist"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bt_regist_selector"
+                    android:gravity="center"
+                    android:text="注册"
+                    android:textColor="#333333"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="36dp"
+                android:text="第三方登录"
+                android:textColor="@color/black1"
+                android:textSize="13sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="21.3dp"
+                android:layout_marginRight="21.3dp"
+                android:layout_marginTop="26.7dp">
+
+                <LinearLayout
+                    android:id="@+id/login_wx"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="52.6dp"
+                        android:src="@mipmap/login_wx" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="26.7dp"
+                        android:text="微信"
+                        android:textColor="@color/black1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/login_qq"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="52.6dp"
+                        android:src="@mipmap/login_qq" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="26.7dp"
+                        android:text="QQ"
+                        android:textColor="@color/black1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/login_wb"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="52.6dp"
+                        android:src="@mipmap/login_wb" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="26.7dp"
+                        android:text="微博"
+                        android:textColor="@color/black1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/login_alipay"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="52.6dp"
+                        android:src="@mipmap/login_alipay" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="26.7dp"
+                        android:text="支付宝"
+                        android:textColor="@color/black1" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

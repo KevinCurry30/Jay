@@ -23,6 +23,7 @@ import com.diligroup.R;
 import com.diligroup.UserSet.AllergyAdapter;
 import com.diligroup.UserSet.SetItemSelector;
 import com.diligroup.base.BaseActivity;
+import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.GetAllergyDetailBean;
 import com.diligroup.bean.GetFoodTypeBean;
 import com.diligroup.bean.MyItemClickListener;
@@ -69,8 +70,6 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
     RecyclerView rv_left;
     AllergyAdapter allergyAdapter;
     List<GetFoodTypeBean> typeNameList;
-    DividerItemDecoration dividerItemDecoration;
-
     LayoutInflater mInflater;
 
     Boolean isFrist;
@@ -99,14 +98,14 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
     @OnClick(R.id.bt_commit_allergy)
     public void reportAllergy() {
         if (isFrist) {
-//            UserInfoBean.getInstance().setAllergyFood("");
+            UserInfoBean.getInstance().setAllergyFood(foodNameList.toString());
             readyGo(ReportWhere.class, bundle);
             return;
         }
 //        Map map =new HashMap();
-//        map.put("sex",sexMark);
+//        map.put("allergyName",foodNameList.toArray());
 //        Api.updataUserInfo(map,this);
-        readyGo(UserInfoActivity.class);
+//        readyGo(UserInfoActivity.class);
         this.finish();
 
     }
@@ -129,7 +128,7 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
         }
         mInflater = LayoutInflater.from(ReportAllergy.this);
 
-        dividerItemDecoration = new DividerItemDecoration(
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 this, DividerItemDecoration.VERTICAL_LIST);
         typeNameList = FoodTypeUtils.GetFoodTypeList();
         allergyAdapter = new AllergyAdapter(this, typeNameList, this);
@@ -138,7 +137,7 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rv_left.setLayoutManager(layoutManager);
         rv_left.setAdapter(allergyAdapter);
-        allergyAdapter.selectPosion(0);
+        Api.getAllergyDetails("谷类", this);
         foodIdList = new ArrayList<>();
         foodNameList = new ArrayList<>();
 
@@ -234,6 +233,16 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
             lv_foodDetail.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
+        if (action==Action.UPDATA_USERINFO&&object!=null){
+            CommonBean commonBean= (CommonBean) object;
+            if (commonBean.getCode().equals("000000")){
+                Intent intent=new Intent();
+                intent.putExtra("allergyList",String.valueOf(allergyList.size()));
+                setResult(0x60,intent);
+                this.finish();
+
+            }
+        }
     }
 
     @Override
@@ -242,28 +251,33 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
             case 0:
                 Api.getAllergyDetails("谷类", this);
                 break;
-//                ToastUtil.showShort(ReportAllergy.this,"Clicked_1"); break;
             case 1:
                 Api.getAllergyDetails("豆类", this);
                 break;
-
-//                ToastUtil.showShort(ReportAllergy.this,"Clicked_1"); break;
             case 2:
                 Api.getAllergyDetails("蔬菜类", this);
                 break;
-
-//                ToastUtil.showShort(ReportAllergy.this,"Clicked_1"); break;
             case 3:
                 Api.getAllergyDetails("水果类", this);
                 break;
-
-//                ToastUtil.showShort(ReportAllergy.this,"Clicked_1"); break;
             case 4:
                 Api.getAllergyDetails("坚果类", this);
                 break;
-
-//                ToastUtil.showShort(ReportAllergy.this,"Clicked_1");
-
+            case 5:
+                Api.getAllergyDetails("坚果类", this);
+                break;
+            case 6:
+                Api.getAllergyDetails("坚果类", this);
+                break;
+            case 7:
+                Api.getAllergyDetails("坚果类", this);
+                break;
+            case 8:
+                Api.getAllergyDetails("坚果类", this);
+                break;
+            case 9:
+                Api.getAllergyDetails("坚果类", this);
+                break;
         }
     }
 
@@ -303,6 +317,13 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
             holder = (ViewHolder) convertView.getTag();
             holder.title.setText(foodList.get(position).getAllergyName());
             holder.id = String.valueOf(foodList.get(position).getId());
+            if (foodList.get(position).getStatus().equals("1")){
+                holder.food_Check.setChecked(false);
+                removeUnChecked(foodList.get(position).getAllergyName());
+            }else{
+                holder.food_Check.setChecked(true);
+                foodNameList.add(foodList.get(position).getAllergyName());
+            }
 //            if (foodList.get(position).getAllergyName().equals(foodNameList.get(position))){
 //                holder.food_Check.setChecked(true);
 //            }

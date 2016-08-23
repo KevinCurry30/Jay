@@ -140,7 +140,6 @@ public class RecordSQLiteOpenHelper extends SQLiteOpenHelper {
     public void deleteItem(DishesSupplyDtlListBean student,String name,String tableName) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(tableName, KEY_NAME + "=?", new String[]{name});
-        db.close();
     }
 
     /**

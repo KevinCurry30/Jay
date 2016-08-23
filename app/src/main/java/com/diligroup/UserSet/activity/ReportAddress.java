@@ -8,11 +8,17 @@ import android.widget.Button;
 
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
+import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
+import com.diligroup.net.Api;
+import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
 import com.diligroup.view.CityPicker;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -29,8 +35,11 @@ public class ReportAddress extends BaseActivity {
     Bundle bundle;
     @Bind(R.id.bt_later_address)
     Button bt_later_report;
-@Bind(R.id.bt_ok_address)
-Button bt_address;
+    @Bind(R.id.bt_ok_address)
+    Button bt_address;
+    String provinceCode;
+    String cityCode;
+    String counyCode;
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_report_address;
@@ -55,16 +64,23 @@ Button bt_address;
 
     @OnClick(R.id.bt_ok_address)
     public void reprotAddress() {
-//        ToastUtil.showShort(this,now_address);
         if (isFrist) {
-//            UserInfoBean.getInstance().setHomeAddress(now_address);
+            UserInfoBean.getInstance().setCurrentProvinceCode(provinceCode);
+            UserInfoBean.getInstance().setCurrentCityCode(cityCode);
+            UserInfoBean.getInstance().setCurrentDistrictId(counyCode);
             bt_address.setText("下一步");
             bt_later_report.setVisibility(View.VISIBLE);
-            readyGo(ReportTaste.class,bundle);
+            readyGo(ReportTaste.class, bundle);
         } else {
+            Map map = new HashMap();
+            map.put("currentProvinceCode",provinceCode);
+            map.put("currentCityCode",cityCode);
+            map.put("currentDistrictId",counyCode);
+            Api.updataUserInfo(map, this);
 
-            readyGo(UserInfoActivity.class);
-            this.finish();
+//            map.put("currentAddress", now_address);
+//            readyGo(UserInfoActivity.class);
+//            this.finish();
 
         }
 
@@ -89,7 +105,14 @@ Button bt_address;
             @Override
             public void selected(boolean selected) {
                 if (selected) {
-                    now_address = select_address.getCity_string();
+                    now_address = select_address.getCity_string().substring(0,2);
+                    provinceCode=select_address.getProvinceCode();
+                    cityCode=select_address.getCity_code_string();
+                    counyCode=select_address.getCountCode();
+
+                    LogUtils.e("provinceCode====="+provinceCode);
+                    LogUtils.e("cityCode====="+cityCode);
+                    LogUtils.e("counyCode====="+counyCode);
                 }
             }
         });
@@ -103,6 +126,14 @@ Button bt_address;
 
     @Override
     public void onResponse(Request request, Action action, Object object) {
-
+        if (object != null && action == Action.UPDATA_USERINFO) {
+            CommonBean commonBean = (CommonBean) object;
+            if (commonBean.getCode().equals("000000")) {
+                Intent intent = new Intent();
+                intent.putExtra("address", now_address);
+                setResult(0x80, intent);
+                this.finish();
+            }
+        }
     }
 }

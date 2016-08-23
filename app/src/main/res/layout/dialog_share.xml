@@ -7,8 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/bg_shaden">
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/dialog_wx"
@@ -16,7 +15,8 @@
             android:layout_height="53.3dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="20dp">
+            android:background="@drawable/bg_selector"
+            android:paddingLeft="10dp">
 
             <ImageView
                 android:layout_width="27dp"
@@ -40,7 +40,8 @@
             android:layout_height="53.3dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="20dp">
+            android:background="@drawable/bg_selector"
+            android:paddingLeft="10dp">
 
             <ImageView
                 android:layout_width="27dp"
@@ -64,7 +65,8 @@
             android:layout_height="53.3dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="20dp">
+            android:background="@drawable/bg_selector"
+            android:paddingLeft="10dp">
 
             <ImageView
                 android:layout_width="27dp"
@@ -87,7 +89,8 @@
             android:layout_width="match_parent"
             android:layout_height="53.3dp"
             android:gravity="center_vertical"
-            android:paddingLeft="20dp">
+            android:background="@drawable/bg_selector"
+            android:paddingLeft="10dp">
 
             <ImageView
                 android:layout_width="27dp"

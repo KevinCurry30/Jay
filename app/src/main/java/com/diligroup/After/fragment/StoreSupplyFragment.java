@@ -148,7 +148,7 @@ public class StoreSupplyFragment extends BaseFragment implements View.OnClickLis
                 //实时根据文字改变，搜索菜品库中菜品
                 if (!TextUtils.isEmpty(s.toString())) {
                     try {
-                        Api.storeSupplySearch(Constant.cusId, whichDay, s.toString(), StoreSupplyFragment.this);
+                        Api.storeSupplySearch(Constant.cityCode, whichDay, s.toString(), StoreSupplyFragment.this);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

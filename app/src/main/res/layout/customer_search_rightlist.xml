@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/root_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingLeft="17dp">
+
+        <ImageView
+            android:id="@+id/addlunch_right_icon"
+            android:layout_width="55.6dp"
+            android:layout_height="55.6dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/addlunch_right_icon"
+            android:layout_alignTop="@id/addlunch_right_icon"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@id/addlunch_right_icon"
+            android:orientation="vertical"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:id="@+id/addlunch_dishes_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLength="7"
+                android:singleLine="true"
+                android:text="胡萝卜"
+                android:textColor="#323232"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/addlunch_dishes_ingredients"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:singleLine="false"
+                android:text="配料：黄瓜+小葱配料：黄瓜+小葱配料：黄瓜+小葱"
+                android:textColor="#B5ADA1"
+                android:textSize="12sp" />
+
+
+            <TextView
+                android:id="@+id/addlunch_grams_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/kuang_red"
+                android:gravity="center"
+                android:paddingBottom="2dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="2dp"
+                android:singleLine="true"
+                android:text="菜品评价"
+                android:textColor="#ff6633"
+                android:textSize="11sp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:paddingBottom="7dp"
+        android:paddingRight="9dp">
+
+        <LinearLayout
+            android:id="@+id/weightlayout"
+            android:layout_width="80dp"
+            android:layout_height="29dp"
+            android:background="@drawable/rectangle_kuang"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/input_weight"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="4"
+                android:textColor="@color/common_green" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:background="#dddddd" />
+
+            <TextView
+                android:layout_width="26dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="g"
+                android:textColor="#B5ADA1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/iv_shopping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/addlunch_reducedish"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@mipmap/reduce_pressed"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/addlunch_dishes_num"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:textColor="@color/black1"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/addlunch_adddish"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="3dp"
+                android:src="@mipmap/add_dishes_normal" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

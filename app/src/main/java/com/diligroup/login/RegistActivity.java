@@ -8,11 +8,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.baidu.mapapi.map.Text;
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
+import com.diligroup.base.Constant;
 import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.ProvingCodeBean;
+import com.diligroup.bean.UserBeanFromService;
 import com.diligroup.net.Action;
 import com.diligroup.net.Api;
 import com.diligroup.utils.DigestUtils;
@@ -188,7 +189,12 @@ public class RegistActivity extends BaseActivity {
                     if (smsBean.getCode().equals("000000")) {
                         smsCode = smsBean.sendResponse.getSmsCode();
                         LogUtils.e("smsCode======" + smsCode);
+                    }
                         break;
+                case THIRD_PART_LOGIN:
+                    UserBeanFromService thirdBean= (UserBeanFromService) object;
+                    if(thirdBean.getCode().equals(Constant.RESULT_SUCESS)){
+
                     }
 
             }

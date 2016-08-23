@@ -24,13 +24,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.diligroup.Home.HomeActivity;
 import com.diligroup.R;
 import com.diligroup.UserSet.calendar.CalendarAdapter;
 import com.diligroup.base.BaseActivity;
+import com.diligroup.base.Constant;
+import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
 import com.diligroup.net.Api;
 import com.diligroup.utils.DateUtils;
+import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
 
@@ -220,8 +224,8 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
             case R.id.nextstep:
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-d");
                 mIntent = new Intent();
-                if(selectDate.size()==0){
-                    ToastUtil.showLong(this,"请选择正确的生理周期");
+                if (selectDate.size() == 0) {
+                    ToastUtil.showLong(this, "请选择正确的生理周期");
                     return;
                 }
                 try {
@@ -229,7 +233,7 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
                         String temp = selectDate.get(0);
                         selectDate.set(0, selectDate.get(1).substring(5));
                         selectDate.set(1, temp.substring(5));
-                    }else{
+                    } else {
                         selectDate.set(0, selectDate.get(0).substring(5));
                         selectDate.set(1, selectDate.get(1).substring(5));
                     }
@@ -252,6 +256,7 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
                     Api.updataUserInfo(map,this);
                     setResult(10, mIntent);
                     this.finish();
+//                    Api.perfectInfoAfterPeriod(Constant.userId + "", cycle_num + "", selectDate.get(0), selectDate.get(1), this);
                 }
                 break;
             case R.id.add:
@@ -267,7 +272,8 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
                 }
                 break;
             case R.id.say_laater:
-                finish();
+                //上传所有用户输入信息
+                Api.setUserInfo(this);
                 break;
             default:
                 break;
@@ -457,7 +463,21 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
 
     @Override
     public void onResponse(Request request, Action action, Object object) {
-
+        if (object != null && action == Action.SET_INFOS) {
+            CommonBean bean = (CommonBean) object;
+            if (bean.getCode().equals(Constant.RESULT_SUCESS)) {
+                // TODO
+                if (isFromMy) {
+                    setResult(10, mIntent);
+                    this.finish();
+                } else {
+                    readyGo(HomeActivity.class);
+                    finish();
+                }
+            }else{
+                LogUtils.i("上传信息时出错了");
+            }
+        }
     }
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {

@@ -29,6 +29,33 @@ public class Api {
     }
 
     /**
+     * 支付宝等第三方平台登陆接口
+     * https://openauth.alipay.com/oauth2/appToAppAuth.htm?app_id=2016081601755137&redirect_uri=http://192.168.100.67:8180/tmpl/guide.html?
+     *
+     * @param callback
+     */
+    public static void threePartlogin(String plantForm, String uid, RequestManager.ResultCallback callback) {
+        Map<String, String> map = new HashMap<>();
+        map.put("transCode", TransCode.RegistCode);
+        map.put("type", "add");
+        if (plantForm.equals("qq")) {
+            map.put("qq", uid);
+        } else if (plantForm.equals("wx")) {
+            map.put("weChat", uid);
+        } else if (plantForm.equals("wb")) {
+            map.put("microblog", uid);
+        } else if (plantForm.equals("alipay")) {
+            map.put("alipay", uid);
+        }
+        RequestManager.getInstance().getAsync(Action.THIRD_PART_LOGIN, map, callback);
+    }
+    public static void alipaylogin(String plantForm, String uid, RequestManager.ResultCallback callback) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("app_id","2016081601755137");
+        map.put("redirect_uri", "http://192.168.100.67:8180/tmpl/guide.html?");
+        RequestManager.getInstance().postAsync(Action.ALIPAY_LOGIN, map, callback);
+    }
+    /**
      * 注册接口
      * 交易码transCode: C0100
      * 交易类型type：add
@@ -74,62 +101,62 @@ public class Api {
     }
     /**
      * 菜品评价
-     * @param storeId
-     *transCode:C0110
-    type:add
-    userId: (用户ID - 选填)
-    storeId: (门店ID - 必填)
-    evalType: (评价类型 - 必填 1:菜品评价 2:服务评价)
-    dishesCode: (菜品名称 - 必填)
-    supplyDate (供应时间 - 必填)
-    mealType: (餐别 - 必填)
-    content: (内容 - 必填)
-    tasteLevel: (口味评分 - 选填)
-    costLevel: (性价比评分 - 选填)
-    serverLevel: (服务评分 - 选填)
-    orderNum: (订单号 - 选填)
-    imageAdd: (晒图地址 - 选填)
-    replyId: (回复人ID - 选填)
-    parentId: (回复评论ID - 选填)
-    String serverLevel,String orderNum,String imageAdd,String replyId,String parentId,String isAllBanner,
+     *
+     * @param storeId transCode:C0110
+     *                type:add
+     *                userId: (用户ID - 选填)
+     *                storeId: (门店ID - 必填)
+     *                evalType: (评价类型 - 必填 1:菜品评价 2:服务评价)
+     *                dishesCode: (菜品名称 - 必填)
+     *                supplyDate (供应时间 - 必填)
+     *                mealType: (餐别 - 必填)
+     *                content: (内容 - 必填)
+     *                tasteLevel: (口味评分 - 选填)
+     *                costLevel: (性价比评分 - 选填)
+     *                serverLevel: (服务评分 - 选填)
+     *                orderNum: (订单号 - 选填)
+     *                imageAdd: (晒图地址 - 选填)
+     *                replyId: (回复人ID - 选填)
+     *                parentId: (回复评论ID - 选填)
+     *                String serverLevel,String orderNum,String imageAdd,String replyId,String parentId,String isAllBanner,
      */
 
-    public static void dishVarietyEvaluate  (String userId,String storeId,String evalType,String dishesCode,String supplyDate,String mealType,String content,String tasteLevel,String costLevel, RequestManager.ResultCallback callback) {
+    public static void dishVarietyEvaluate(String userId, String storeId, String evalType, String dishesCode, String supplyDate, String mealType, String content, String tasteLevel, String costLevel,String serviceStar, RequestManager.ResultCallback callback) {
         Map<String, Object> map = new HashMap<>();
         map.put("transCode", TransCode.DISHVARIETYEVALUATE);
         map.put("type", "add");
         map.put("userId", userId);
         map.put("storeId", storeId);
-        map.put("evalType",evalType  );
-        map.put("dishesCode",dishesCode);
-        map.put("supplyDate",supplyDate);
-        map.put("mealType",mealType);
-        map.put("content",content);
-        map.put("tasteLevel",tasteLevel);
-        map.put("costLevel",costLevel);
-//        map.put("serverLevel",serverLevel);
+        map.put("evalType", evalType);
+        map.put("dishesCode", dishesCode);
+        map.put("supplyDate", supplyDate);
+        map.put("mealType", mealType);
+        map.put("content", content);
+        map.put("tasteLevel", tasteLevel);
+        map.put("costLevel", costLevel);
+        map.put("serverLevel",serviceStar);
 //        map.put("orderNum",orderNum);
 //        map.put("imageAdd",imageAdd);
 //        map.put("replyId",replyId);
 //        map.put("parentId",parentId);
 
-        RequestManager.getInstance().postAsync(Action.BANNER,map,callback);
+        RequestManager.getInstance().postAsync(Action.BANNER, map, callback);
     }
     /**
      * 修改密码
      */
-    public static void modifyPsd(String phoneNum, String newPsd, RequestManager.ResultCallback callback){
+    public static void modifyPsd(String phoneNum, String newPsd, RequestManager.ResultCallback callback) {
         Map<String, String> map = new HashMap<>();
         map.put("transCode", TransCode.ModifyCode);
         map.put("type", "app_uPassword");
         map.put("mobileNum", phoneNum);
-        map.put("newPassword",newPsd);
-        RequestManager.getInstance().getAsync(Action.MODIFY,map,callback);
+        map.put("newPassword", newPsd);
+        RequestManager.getInstance().getAsync(Action.MODIFY, map, callback);
     }
     /**
      * 退出登陆
      */
-    public static void loginOut(String phoneNum, RequestManager.ResultCallback callback){
+    public static void loginOut(String phoneNum, RequestManager.ResultCallback callback) {
         Map<String, String> map = new HashMap<>();
         map.put("transCode", TransCode.LoginOut);
         map.put("type", "app_logOut");
@@ -160,15 +187,57 @@ public class Api {
         RequestManager.getInstance().postAsync(Action.SET_INFOS,map,callback);
     }
     /**
+     * 生理期，完善信息
+     *String periodNum = "";			// 生理期间隔天数
+     String periodStartTime = "";			// 生理期开始时间
+     String periodEndTime = "";
+     * @param
+     */
+    public static void perfectInfoAfterPeriod(String userId, String periodNum,String periodStartTime,String periodEndTime, RequestManager.ResultCallback callback) {
+        Map<String, String> map = new HashMap<>();
+        map.put("transCode", TransCode.LoginCode);
+        map.put("type", "update");
+        map.put("userId ", userId);
+        map.put("periodNum", periodNum);
+        map.put("periodStartTime",periodStartTime);
+        map.put("periodEndTime",periodEndTime);
+        RequestManager.getInstance().getAsync(Action.SET_INFOS, map, callback);
+    }
+    /**
+     * 第三方登录，完善信息
+     *
+     * @param
+     */
+    public static void perfectInfoAfterThirdLogin(String userId, String headPhotoAdd,String nickName,String sex, RequestManager.ResultCallback callback) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("transCode", TransCode.LoginCode);
+        map.put("type", "update");
+        map.put("userId ", userId);
+        map.put("headPhotoAdd", headPhotoAdd);
+        map.put("userName",nickName);
+        map.put("sex",sex);
+        RequestManager.getInstance().postAsync(Action.SET_INFOS, map, callback);
+    }
+    /**
      * 获取职业信息分类
      */
-    public static void getWorkType(RequestManager.ResultCallback callback){
+    public static void getWorkType(RequestManager.ResultCallback callback) {
         Map<String, String> map = new HashMap<>();
         map.put("transCode", TransCode.GetWorkType);
         map.put("type", "findAll1");
         map.put("status", "1");
         RequestManager.getInstance().getAsync(Action.GET_WORK_TYPE,map,callback);
 
+    }
+
+    /**
+     * 获取 籍贯信息
+     */
+    public static void getCity(RequestManager.ResultCallback callback){
+        Map<String, String> map = new HashMap<>();
+        map.put("transCode", TransCode.GetCity);
+        map.put("type", "appAll");
+        RequestManager.getInstance().getAsync(Action.GET_WHERE,map,callback);
     }
     /**
      * P获取 饮食禁忌 食物 list
@@ -246,12 +315,12 @@ public class Api {
     /**
      * 获取首页门店供应列表
      */
-    public static void homeStoreSupplyList(String custId,String templateDate,String mealTypeCode,String dishesTypeCode,String currentPage,RequestManager.ResultCallback callback){
+    public static void homeStoreSupplyList(String storeId,String templateDate,String mealTypeCode,String dishesTypeCode,String currentPage,RequestManager.ResultCallback callback){
 
         Map<String, String> map = new HashMap<>();
         map.put("transCode", TransCode.HOME_LIST);
         map.put("type", "findAll");
-        map.put("custId",custId);
+        map.put("storeId",storeId);
         map.put("templateDate", templateDate);
         map.put("mealTypeCode", mealTypeCode);
 //        map.put("dishesTypeCode", dishesTypeCode);
@@ -290,7 +359,7 @@ public class Api {
         map.put("weight", UserInfoBean.getInstance().getWeight());
         map.put("tabooCode", UserInfoBean.getInstance().getNoEatFood());
         map.put("allergyFood",UserInfoBean.getInstance().getAllergyFood());
-        map.put("homeAdd", UserInfoBean.getInstance().getHomeAddress());
+        map.put("homeAdd", UserInfoBean.getInstance().getHomeDistrictId());
         map.put("currentAddress",UserInfoBean.getInstance().getCurrentAddress());
         map.put("jobType",UserInfoBean.getInstance().getJobType());
         map.put("taste",UserInfoBean.getInstance().getTaste());
@@ -381,12 +450,12 @@ public class Api {
      */
     public static void addFoodComplete(String userId, String mealType,String list, RequestManager.ResultCallback  callback){
         Map<String, String> map = new HashMap<>();
-        map.put("type","add");
-        map.put("transCode",TransCode.ADD_FOOD_COMPLETE);
-        map.put("userId",userId);
-        map.put("mealType",mealType.substring(mealType.length()-1));
-        map.put("list",list);
-        RequestManager.getInstance().getAsync(Action.ADD_FOOD_COMPLETE,map,callback);
+        map.put("type", "add");
+        map.put("transCode", TransCode.ADD_FOOD_COMPLETE);
+        map.put("userId", userId);
+        map.put("mealType", mealType.substring(mealType.length() - 1));
+        map.put("list", list);
+        RequestManager.getInstance().getAsync(Action.ADD_FOOD_COMPLETE, map, callback);
     }
     /**
      * 获取自定义菜品根据成品分类id查询接口
@@ -419,6 +488,52 @@ public class Api {
             RequestManager.getInstance().getAsync(Action.UPDATA_USERINFO,map,callback);
 
         }
+    }
+
+    /**
+     * 查询第三方账号是否是已注册用户
+     */
+    public static void selectUserInfo(String plantForm,String uid,RequestManager.ResultCallback  callback){
+        Map<String, String> map = new HashMap<>();
+        if (map!=null){
+            map.put("transCode",TransCode.updataUserInfos);
+            map.put("type","findDetail");
+            if (plantForm.equals("qq")) {
+                map.put("qq", uid);
+            } else if (plantForm.equals("wx")) {
+                map.put("weChat", uid);
+            } else if (plantForm.equals("wb")) {
+                map.put("microblog", uid);
+            } else if (plantForm.equals("alipay")) {
+                map.put("alipay", uid);
+            }
+            RequestManager.getInstance().getAsync(Action.SELECT_USER_INFO,map,callback);
+
+        }
+    }
+
+    /**
+     * 获取 附近门店
+     */
+    public static void getShopNearBy(Map map,RequestManager.ResultCallback callback){
+
+        map.put("transCode",TransCode.GETSHOP);
+        map.put("type","findAll");
+        RequestManager.getInstance().getAsync(Action.GET_SHOP_NEARBY,map,callback);
+
+    }
+
+    /**
+     *根据 城市名字 获取 code码
+     * @param cityName
+     * @param callback
+     */
+    public static void getCityCode(String cityName,RequestManager.ResultCallback callback){
+        Map  map =new HashMap();
+        map.put("transCode",TransCode.GETCITYCODE);
+        map.put("type","detail");
+        map.put("name",cityName);
+        RequestManager.getInstance().getAsync(Action.Get_CityCode,map,callback);
 
     }
 }
