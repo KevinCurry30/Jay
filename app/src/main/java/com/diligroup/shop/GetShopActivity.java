@@ -5,42 +5,34 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.mapapi.cloud.CloudListener;
-import com.baidu.mapapi.cloud.CloudManager;
-import com.baidu.mapapi.cloud.CloudPoiInfo;
 import com.baidu.mapapi.cloud.CloudSearchResult;
 import com.baidu.mapapi.cloud.DetailSearchResult;
-import com.baidu.mapapi.cloud.NearbySearchInfo;
-import com.diligroup.Home.HomeActivity;
 import com.diligroup.R;
-import com.diligroup.base.AppManager;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.base.Constant;
 import com.diligroup.base.DiliApplication;
-import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.GetCityCode;
 import com.diligroup.bean.GetShopBean;
-import com.diligroup.bean.ShopInfosBean;
-import com.diligroup.bean.UserLocationBean;
 import com.diligroup.net.Action;
 import com.diligroup.net.Api;
 import com.diligroup.other.LocationService;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
+import com.diligroup.utils.UserManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,6 +57,12 @@ public class GetShopActivity extends BaseActivity implements CloudListener, BDLo
     List<GetShopBean.StoreCustListBean> shopList;
     @Bind(R.id.lv_list_shop)
     ListView shopListView;
+    @Bind(R.id.iv_back)
+    ImageView iv_back;
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.tv_title_info)
+    TextView title_infos;
 //    private Handler handler = new Handler() {
 //        @Override
 //        public void handleMessage(Message msg) {
@@ -158,6 +156,8 @@ public class GetShopActivity extends BaseActivity implements CloudListener, BDLo
 
     @Override
     protected void initViewAndData() {
+        tv_title.setText("请选择门店");
+        title_infos.setText("附近门店");
         getLocation();
         shopListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -167,23 +167,17 @@ public class GetShopActivity extends BaseActivity implements CloudListener, BDLo
                     int shopId=shopList.get(position).getStoreId();
                     Intent intent=new Intent();
                     intent.putExtra("storeId",String.valueOf(shopId));
-//                    intent.putExtra("storeId",String.valueOf(shopId));
+                    intent.putExtra("address",shopList.get(position).getAddress());
+                    UserManager.getInstance().setStoreAddress(shopList.get(position).getAddress());
+                    UserManager.getInstance().setStoreId(String.valueOf(shopId));
 //                    intent.putExtra("storeId",String.valueOf(shopId));
                     setResult(0x111,intent);
-                    readyGo(HomeActivity.class);
                     GetShopActivity.this.finish();
                 }
             }
         });
 
     }
-
-    @Override
-    public void setTitle() {
-        tv_title.setText("请选择门店");
-        title_infos.setText("附近门店");
-    }
-
     @Override
     public void onReceiveLocation(BDLocation bdLocation) {
         if (null != bdLocation && bdLocation.getLocType() != BDLocation.TypeServerError) {

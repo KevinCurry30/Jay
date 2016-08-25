@@ -3,10 +3,12 @@ package com.diligroup.UserSet.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.DatePicker;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
@@ -17,12 +19,8 @@ import com.diligroup.net.Api;
 import com.diligroup.utils.BirthdayUtils;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
-import com.diligroup.utils.ToastUtil;
 import com.diligroup.view.WheelView;
 
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +41,12 @@ public class ReportBirthday extends BaseActivity {
     WheelView wheelView2;
     @Bind(R.id.wv_height3)
     WheelView wheelView3;
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.iv_back)
+    ImageView ivBack;
+    @Bind(R.id.tv_title_info)
+    TextView title_infos;
     Boolean isFrist;
     Bundle bundle;
 //    int currentYear;
@@ -50,7 +54,7 @@ public class ReportBirthday extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        isShowBack(true);
+
     }
 
     @Override
@@ -74,6 +78,15 @@ public class ReportBirthday extends BaseActivity {
 
     @Override
     protected void initViewAndData() {
+        ivBack.setVisibility(View.VISIBLE);
+        tv_title.setText("基础信息");
+        title_infos.setText("您的生日？");
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         WindowManager wm = this.getWindowManager();
         Intent intent = getIntent();
         bundle = intent.getExtras();
@@ -163,14 +176,6 @@ public class ReportBirthday extends BaseActivity {
 //        ToastUtil.showShort(ReportBirthday.this,"你当前"+old+"岁");
 
     }
-
-    @Override
-    public void setTitle() {
-        super.setTitle();
-        tv_title.setText("基础信息");
-        title_infos.setText("您的生日？");
-    }
-
     @Override
     public void onError(Request request, Action action, Exception e) {
 

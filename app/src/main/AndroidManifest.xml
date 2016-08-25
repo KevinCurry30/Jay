@@ -33,58 +33,53 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".login.LoginActivity">
-
-        </activity>
-        <activity android:name=".login.ModifyPSDActivity" >
-
-        </activity>
-        <activity
-            android:name=".Home.HomeActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name=".login.RegistActivity">
-
-        </activity>
-        <activity android:name=".UserSet.activity.ReportBirthday" >
-
-        </activity>
-        <activity android:name=".UserSet.activity.ReportHeight">
-
-        </activity>
-        <activity android:name=".UserSet.activity.ReportNoeat">
-
-        </activity>
-        <activity android:name=".UserSet.activity.ReportOther">
-
-        </activity>
-        <activity android:name=".UserSet.activity.ReportWork">
-
-        </activity>
-        <activity android:name=".UserSet.activity.ReportWeight" />
-        <activity android:name=".UserSet.activity.ReportTaste"></activity>
-        <activity android:name=".UserSet.activity.ReportSpecial"></activity>
-        <activity android:name=".UserSet.activity.ReportSex"></activity>
-        <activity android:name=".UserSet.activity.ReportAllergy">
-
-        </activity>
-        <activity android:name=".UserSet.activity.UserInfoActivity">
-        </activity>
-        <activity android:name=".UserSet.activity.SettingActivity" />
-        <activity android:name=".shop.SelectShopByUser" />
-        <activity android:name=".shop.GetShopActivity">
+        <activity android:name=".Home.HomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UserSet.activity.ServiceCenter" />
-        <activity
-            android:name=".UserSet.activity.PhysiologicalPeriodActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".Home.FoodDetailsActivity"></activity>
+        <activity android:name=".login.ModifyPSDActivity" />
+        <activity android:name=".login.LoginActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".login.RegistActivity" />
+        <activity android:name=".UserSet.activity.ReportBirthday" />
+        <activity android:name=".UserSet.activity.ReportHeight" >
+
+        </activity>
+        <activity android:name=".UserSet.activity.ReportNoeat">
+
+        </activity>
+        <activity android:name=".UserSet.activity.ReportOther" />
+        <activity android:name=".UserSet.activity.ReportWork" >
+
+        </activity>
+        <activity android:name=".UserSet.activity.ReportWeight" />
+        <activity android:name=".UserSet.activity.ReportTaste">
+
+        </activity>
+        <activity android:name=".UserSet.activity.ReportSpecial" >
+
+        </activity>
+        <activity android:name=".UserSet.activity.ReportSex" >
+
+        </activity>
+        <activity android:name=".UserSet.activity.ReportAllergy">
+
+        </activity>
+        <activity android:name=".UserSet.activity.UserInfoActivity" />
+        <activity android:name=".UserSet.activity.UserCenterView" />
+        <activity android:name=".UserSet.activity.SettingActivity" />
+        <activity android:name=".shop.GetShopActivity" />
+        <activity android:name=".shop.SelectShopByUser" />
+
+        <activity android:name=".UserSet.activity.PhysiologicalPeriodActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Home.FoodDetailsActivity">
+
+        </activity>
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -101,7 +96,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="tencent自己的key" />
+                <data android:scheme="tencenty01Gq1iwsPFeX64n" />
             </intent-filter>
         </activity>
         <activity
@@ -137,7 +132,7 @@
         <!-- 百度地图api -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="Avo2zUYUGhwgEVmFIdHkdd8ao0b39Kt4" />
+            android:value="3MFvQULXv0yrgNluHkDVbNyqFvekoBgh" />
 
         <service
             android:name="com.baidu.location.f"
@@ -146,17 +141,29 @@
 
         <activity android:name=".Home.FeedbackActivity" />
         <activity android:name=".Home.ServiceActivity" />
-        <activity
-            android:name=".After.AddLunchActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".UserSet.activity.ReportWhere">
+        <activity android:name=".After.AddLunchActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UserSet.activity.ReportWhere" />
+
+        <activity android:name=".UserSet.activity.ReportHistory">
 
         </activity>
-        <activity android:name=".UserSet.activity.ReportHistory"></activity>
-        <activity android:name=".UserSet.activity.ReportAddress"></activity>
-        <activity android:name=".TestActivity">
+        <activity android:name=".UserSet.activity.ReportAddress">
 
+        </activity>
+        <!--支付宝第三方登录-->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
         </activity>
     </application>
 

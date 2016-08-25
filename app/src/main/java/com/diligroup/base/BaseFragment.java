@@ -32,8 +32,13 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayoutXml(), null);
-        return view;
+        if (getLayoutXml() != 0) {
+            View view = inflater.inflate(getLayoutXml(), null);
+            return view;
+        } else {
+            return super.onCreateView(inflater, container, savedInstanceState);
+        }
+
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

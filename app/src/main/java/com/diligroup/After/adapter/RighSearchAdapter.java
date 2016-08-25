@@ -94,22 +94,22 @@ public class RighSearchAdapter extends RecyclerView.Adapter {
             viewHoder.addlunchDishesName.setText(mList.get(position).getDishesName());
 //        viewHoder.addlunchRightIcon.setImageURI(Uri.parse(mList.get(position).getImagesURL()));
             viewHoder.addlunchAdddish.setImageResource(mList.get(position).getFoodNums() > 0 ? R.mipmap.add_dish_pressed : R.mipmap.add_dishes_normal);
-            viewHoder.addlunchAdddish.setOnClickListener(new MyOnClickListener(position, viewHoder.addlunchDishesNum));
-            viewHoder.addlunchReducedish.setOnClickListener(new MyOnClickListener(position, viewHoder.addlunchReducedish));
-            viewHoder.rootView.setOnClickListener(new MyOnClickListener(position, viewHoder.rootView));
+            viewHoder.addlunchAdddish.setOnClickListener(new MyOnClickListener(position, viewHoder));
+            viewHoder.addlunchReducedish.setOnClickListener(new MyOnClickListener(position, viewHoder));
+            viewHoder.rootView.setOnClickListener(new MyOnClickListener(position, null));
 
             viewHoder.input_weight.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     LogUtils.i("输入的内容是==" + viewHoder.input_weight.getText().toString());
                     if (!hasFocus && !TextUtils.isEmpty(viewHoder.input_weight.getText().toString())) {
+                        viewHoder.input_weight.setText(viewHoder.input_weight.getText().toString());
                         bean.setWeight(viewHoder.input_weight.getText().toString());
                         bean.setDishesCode(mList.get(position).getDishesCode());
                         bean.setDishesName(mList.get(position).getDishesName());
                         bean.setImageUrl(mList.get(position).getImagesURL());
                         bean.setWayType("1");
-                        if (!TextUtils.isEmpty(viewHoder.addlunchDishesNum.getText().toString())) {
-                            viewHoder.input_weight.setText(viewHoder.input_weight.getText().toString());
+                        if (!TextUtils.isEmpty(viewHoder.input_weight.getText().toString())) {
                             mList.get(position).setWeight(viewHoder.input_weight.getText().toString());
                             ((AddLunchActivity) mContext).addFood(bean);
                         }
@@ -122,8 +122,10 @@ public class RighSearchAdapter extends RecyclerView.Adapter {
             });
             if (mList.get(position).isShowWeight()) {
                 viewHoder.weightlayout.setVisibility(View.VISIBLE);
-                viewHoder.input_weight.setFocusable(true);
-                viewHoder.input_weight.requestFocus();
+//                if (!viewHoder.input_weight.hasFocus()) {
+//                    viewHoder.input_weight.setFocusable(true);
+//                    viewHoder.input_weight.requestFocus();
+//                }
                 if (!TextUtils.isEmpty(viewHoder.input_weight.getText().toString())) {
                     viewHoder.input_weight.setText(viewHoder.input_weight.getText().toString());
                 }
@@ -157,10 +159,10 @@ public class RighSearchAdapter extends RecyclerView.Adapter {
 
     class MyOnClickListener implements View.OnClickListener {
         int position;
-        View view;
+        MyViewHoder viewHolder;
 
-        public MyOnClickListener(int position, View view) {
-            this.view = view;
+        public MyOnClickListener(int position, MyViewHoder viewHolder) {
+            this.viewHolder = viewHolder;
             this.position = position;
         }
 
@@ -168,27 +170,27 @@ public class RighSearchAdapter extends RecyclerView.Adapter {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.addlunch_adddish:
-                    if (view != null)
-                        CommonUtils.propertyValuesHolder(view);
+                    if (viewHolder != null)
+                        viewHolder.addlunchDishesNum.setVisibility(View.VISIBLE);
+                    mList.get(position).setFoodNums(mList.get(position).getFoodNums() + 1);
+                    viewHolder.addlunchReducedish.setVisibility(View.VISIBLE);
+
+                    CommonUtils.propertyValuesHolder(viewHolder.addlunchDishesNum);
                     if (!TextUtils.isEmpty(bean.getWeight()) && !isStoreSupply) {
                         ((AddLunchActivity) mContext).addFood(setBean(bean));
                     } else if (isStoreSupply) {
                         ((AddLunchActivity) mContext).addFood(setBean(bean));
                     }
-                    mList.get(position).setFoodNums(mList.get(position).getFoodNums() + 1);
-//                    if (!TextUtils.isEmpty(conntent)) {
-//                        mList.get(position).setWeight(conntent);
-//                    }
-                    notifyItemChanged(position);
+                    viewHolder.addlunchDishesNum.setText(TextUtils.isEmpty(viewHolder.addlunchDishesNum.getText().toString().trim()) ? "1" : Integer.parseInt(viewHolder.addlunchDishesNum.getText().toString().trim()) + 1 + "");
                     break;
                 case R.id.addlunch_reducedish:
                     mList.get(position).setFoodNums(mList.get(position).getFoodNums() - 1);
-                    if (!TextUtils.isEmpty(mList.get(position).getWeight())) {
-                        mList.get(position).setWeight(mList.get(position).getWeight());
+                    viewHolder.addlunchDishesNum.setVisibility(mList.get(position).getFoodNums() == 0 ? View.GONE : View.VISIBLE);
+                    viewHolder.addlunchReducedish.setVisibility(mList.get(position).getFoodNums() == 0 ? View.GONE : View.VISIBLE);
+                    if (mList.get(position).getFoodNums() > 0) {
+                        viewHolder.addlunchDishesNum.setText(mList.get(position).getFoodNums() + "");
                     }
-//                    setBean(bean);
                     ((AddLunchActivity) mContext).deleteFood(setBean(bean));
-                    notifyItemChanged(position);
                     break;
                 case R.id.root_view:
                     if (isStoreSupply) {

@@ -27,8 +27,8 @@ public class Constant {
     public static  String cusId="1000193" ;//大学
     public static  String pageSize="20" ;//
     public static  String sortCode="230100 " ;//
-    public static String  userNumber;
-    public static int  userId;
+//    public static String  userNumber;
+//    public static int  userId;
     public static String  USER_ID="userId";
 
 }

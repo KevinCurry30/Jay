@@ -2,6 +2,7 @@ package com.diligroup.net;
 
 import com.diligroup.base.Constant;
 import com.diligroup.bean.UserInfoBean;
+import com.diligroup.utils.UserManager;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -347,10 +348,10 @@ public class Api {
      */
     public  static  void setUserInfo(RequestManager.ResultCallback callback){
         Map<String, String> map = new HashMap<>();
-        map.put("userId",String.valueOf(Constant.userId));
+        map.put("userId",UserManager.getInstance().getUserId());
         map.put("transCode", TransCode.updataUserInfos);
         map.put("type","update");
-        map.put("mobileNum", Constant.userNumber);
+        map.put("mobileNum", UserManager.getInstance().getPhone());
         map.put("job",UserInfoBean.getInstance().getJob());
         map.put("jobType ",UserInfoBean.getInstance().getJobType());
         map.put("birthday", UserInfoBean.getInstance().getBirthday());
@@ -423,7 +424,7 @@ public class Api {
         map.put("transCode",TransCode.GET_DIET_RECORD );
         map.put("time",time);
 
-        map.put("userId",String.valueOf(Constant.userId));
+        map.put("userId",UserManager.getInstance().getUserId());
         RequestManager.getInstance().getAsync(Action.GET_DIET_RECORD,map,callback);
     }
 
@@ -483,8 +484,8 @@ public class Api {
         if (map!=null){
             map.put("transCode",TransCode.updataUserInfos);
             map.put("type","update");
-            map.put("mobileNum",Constant.userNumber);
-            map.put("userId",String.valueOf(Constant.userId));
+            map.put("mobileNum",UserManager.getInstance().getPhone());
+            map.put("userId",UserManager.getInstance().getUserId());
             RequestManager.getInstance().getAsync(Action.UPDATA_USERINFO,map,callback);
 
         }

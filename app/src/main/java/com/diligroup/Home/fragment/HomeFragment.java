@@ -2,11 +2,15 @@ package com.diligroup.Home.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -49,7 +53,7 @@ import okhttp3.Request;
  * Created by hjf on 2016/7/18.
  * 首页
  */
-public class HomeFragment extends BaseFragment implements View.OnClickListener, RequestManager.ResultCallback, MyItemClickListener {
+public class HomeFragment extends BaseFragment implements View.OnClickListener, RequestManager.ResultCallback, MyItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     @Bind(R.id.slider)
     SliderLayout sliderLayout;
@@ -67,20 +71,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     RecyclerView home_left_listView;
     @Bind(R.id.select_store)
     LinearLayout select_store;//选择门店
+    @Bind(R.id.home_store_address)
+    TextView home_store_address;//哪一个门店，地址
     @Bind(R.id.meal_choice)
     RelativeLayout meal_choice;//餐别选择
     @Bind(R.id.breakfase_icon)
     ImageView mealIcon;//餐别图标
     @Bind(R.id.breakfase_text)
     TextView mealText;//餐别文本
-//    @Bind(R.id.home_frame)
-//    FrameLayout home_frame;
-//    @Bind(R.id.home_rootView)
-//    LinearLayout home_rootView;
-
     @Bind(R.id.topView)
     LinearLayout topView;
-
+//    @Bind(R.id.swipe_layout)
+//    SwipeRefreshLayout mSwipeRefreshLayout;
     private LinearLayout.LayoutParams thisService;//本次服务评价文本布局
     private Intent mIntent;
     private String currentDay;//今天日期字符串
@@ -108,6 +110,28 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 //        return rootView;
 //    }
     String currentHeadCode;//右侧滚动时候，当前sticky的headCode值
+    private String address;//当前地址
+    private String currenStoreId;//门店id
+
+    public static HomeFragment newInstance(String currentStoreId,String storeAddress) {
+        Bundle args = new Bundle();
+        args.putString("currentStoreId", currentStoreId);
+        args.putString("storeAddress", storeAddress);
+        HomeFragment fragment = new HomeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if(getArguments()!=null){
+            currenStoreId = getArguments().getString("currentStoreId");
+            address = getArguments().getString("storeAddress");
+            LogUtils.i("哈哈哈哈，信息传递过来了");
+        }
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
 
     @Override
     public int getLayoutXml() {
@@ -119,6 +143,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         currentDay = DateUtils.getCurrentDate();
         homeToday.setText(currentDay);
         homeWeekday.setText("(今天 " + DateUtils.getWeekDay() + ")");
+        home_store_address.setText(address);
 
         hour = DateUtils.getCurrentTime();
         if (hour >= 0 && hour <= 9) {
@@ -138,10 +163,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         layoutManager_1 = new LinearLayoutManager(getActivity());
         home_right_recycleView.setLayoutManager(layoutManager_1);
         CommonUtils.initRerecyelerView(getActivity(), home_right_recycleView);
-//        StickyHeaderLayoutManager stickyHeaderLayoutManager = new StickyHeaderLayoutManager();
-//        home_right_recycleView.setLayoutManager(stickyHeaderLayoutManager);
-//        home_right_recycleView.setAdapter(new SimpleDemoAdapter(5, 5, true, false, false, false));
         initDate();
+
+//        mSwipeRefreshLayout.setOnRefreshListener(this);
+//        //设置样式刷新显示的位置
+//        mSwipeRefreshLayout.setProgressViewOffset(true, 20, -100);
+//        mSwipeRefreshLayout.setColorSchemeResources(R.color.red, R.color.green, R.color.greenyellow, R.color.orange);
     }
 
     @Override
@@ -304,6 +331,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     Api.homeStoreSupplyList(Constant.cusId, DateUtils.dateFormatChanged_2(currenStr), currentMealTypeCode, "", "1", this);
                 }
                 break;
+            case 0x111:
+                currenStoreId = data.getStringExtra("storeId");
+                address = data.getStringExtra("address");
+                home_store_address.setText(address);
+                Api.homeStoreSupplyList(currenStoreId, DateUtils.dateFormatChanged_2(DateUtils.dateFormatChagee(homeToday.getText().toString())), currentMealTypeCode, "", "1", this);
+                break;
         }
     }
 
@@ -434,5 +467,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             }
         }
         return rightDishesList;
+    }
+
+    @Override
+    public void onRefresh() {
+
     }
 }

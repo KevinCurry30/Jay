@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
@@ -15,6 +17,7 @@ import com.diligroup.net.Api;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
+import com.diligroup.utils.UserManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,6 +37,11 @@ public class ServiceActivity extends BaseActivity {
     Button serviceCommit;
     private String mealType;
     private String date;
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.iv_back)
+    ImageView ivBack;
+
 
     @Override
     protected int getContentViewLayoutID() {
@@ -65,15 +73,9 @@ public class ServiceActivity extends BaseActivity {
                 //1:菜品评价 2:服务评价)
                  String content=inputServiceEvaluation.getText().toString();
                 int serviceStar=serviceEvaluation.getRating();
-                Api.dishVarietyEvaluate(Constant.userId+"",Constant.storeId,"2","",date,mealType,content,"","",serviceStar+"",ServiceActivity.this);
+                Api.dishVarietyEvaluate(UserManager.getInstance().getUserId(),Constant.storeId,"2","",date,mealType,content,"","",serviceStar+"",ServiceActivity.this);
             }
         });
-    }
-    @Override
-    public void setTitle() {
-        super.setTitle();
-        tv_title.setText("服务评价");
-        isShowBack(true);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +85,13 @@ public class ServiceActivity extends BaseActivity {
     }
 
     private void initDate() {
-
+        tv_title.setText("服务评价");
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override

@@ -1,10 +1,11 @@
 package com.diligroup.UserSet.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
@@ -14,7 +15,6 @@ import com.diligroup.net.Action;
 import com.diligroup.net.Api;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
-import com.diligroup.utils.ToastUtil;
 import com.diligroup.view.CityPicker;
 
 import java.util.HashMap;
@@ -37,6 +37,12 @@ public class ReportAddress extends BaseActivity {
     Button bt_later_report;
     @Bind(R.id.bt_ok_address)
     Button bt_address;
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.iv_back)
+    ImageView ivBack;
+    @Bind(R.id.tv_title_info)
+    TextView title_infos;
     String provinceCode;
     String cityCode;
     String counyCode;
@@ -45,12 +51,6 @@ public class ReportAddress extends BaseActivity {
         return R.layout.activity_report_address;
     }
 
-    @Override
-    public void setTitle() {
-        super.setTitle();
-        tv_title.setText("现居住地");
-        title_infos.setText("请选择您的常居住地");
-    }
 
     @Override
     protected void onNetworkConnected(NetUtils.NetType type) {
@@ -93,7 +93,15 @@ public class ReportAddress extends BaseActivity {
 
     @Override
     protected void initViewAndData() {
-        isShowBack(true);
+        ivBack.setVisibility(View.VISIBLE);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        tv_title.setText("现居住地");
+        title_infos.setText("请选择您的常居住地");
         Intent intent = getIntent();
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");

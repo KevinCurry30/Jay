@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.diligroup.R;
@@ -50,11 +51,11 @@ public class ModifyPSDActivity extends BaseActivity {
     TextView tv_notice_code;
     @Bind(R.id.tv_notice_c)
     TextView tv_notice_psd;
-    @Override
-    public void setTitle() {
-        super.setTitle();
-        tv_title.setText("忘记密码");
-    }
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.iv_back)
+    ImageView ivBack;
+
 
     //获取验证码
     @OnClick(R.id.bt_getcode2)
@@ -151,7 +152,14 @@ public class ModifyPSDActivity extends BaseActivity {
 
     @Override
     protected void initViewAndData() {
-        isShowBack(true);
+        tv_title.setText("忘记密码");
+       ivBack.setVisibility(View.VISIBLE);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         time = new TimeCount(60000, 1000);
     }
 

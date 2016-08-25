@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.diligroup.R;
 import com.diligroup.UserSet.ListitemAdapter;
@@ -17,7 +19,6 @@ import com.diligroup.net.Action;
 import com.diligroup.net.Api;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
-import com.diligroup.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +44,12 @@ public class ReportTaste extends BaseActivity {
     Button bt_later_report;
     @Bind(R.id.bt_report_taste)
     Button bt_taste;
+    @Bind(R.id.iv_back)
+    ImageView iv_back;
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.tv_title_info)
+    TextView title_infos;
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_select_taste;
@@ -54,23 +61,24 @@ public class ReportTaste extends BaseActivity {
     }
 
     @Override
-    public void setTitle() {
-        super.setTitle();
-        tv_title.setText("口味");
-        title_infos.setText("请选择您的口味喜好");
-    }
-
-    @Override
     protected void onNetworkDisConnected() {
 
     }
 
     @Override
     protected void initViewAndData() {
-        isShowBack(true);
+        iv_back.setVisibility(View.VISIBLE);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         Api.getTaste(this);
         Intent intent = getIntent();
         bundle = intent.getExtras();
+        tv_title.setText("口味");
+        title_infos.setText("请选择您的口味喜好");
         isFrist = bundle.getBoolean("isFrist");
         if (isFrist){
             bt_taste.setText("下一步");

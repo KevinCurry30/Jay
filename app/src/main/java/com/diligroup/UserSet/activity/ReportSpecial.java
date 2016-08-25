@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.diligroup.R;
 import com.diligroup.UserSet.ListitemAdapter;
@@ -15,10 +17,8 @@ import com.diligroup.bean.GetJiaoQinBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
 import com.diligroup.net.Api;
-import com.diligroup.utils.GetCheckStateUtils;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
-import com.diligroup.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,15 +40,6 @@ public class ReportSpecial extends BaseActivity {
     Button bt_later_report;
     Boolean isFrist;
     Bundle bundle;
-
-    @Override
-    public void setTitle(CharSequence title) {
-        super.setTitle(title);
-        tv_title.setText("特殊人群");
-        title_infos.setText("请选择你当前状态");
-        isShowBack(true);
-    }
-
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_select_special;
@@ -56,6 +47,12 @@ public class ReportSpecial extends BaseActivity {
 
     @Bind(R.id.lv_special)
     ListView lv_special;
+    @Bind(R.id.iv_back)
+    ImageView iv_back;
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.tv_title_info)
+    TextView title_infos;
     GetJiaoQinBean specialBean;
 
     private List<String> id_list;
@@ -89,14 +86,6 @@ public class ReportSpecial extends BaseActivity {
         UserInfoBean.getInstance().setSpecialCrowdCode("");
         readyGo(ReportOther.class);
     }
-
-    @Override
-    public void setTitle() {
-        super.setTitle();
-        tv_title.setText("特殊人群");
-        title_infos.setText("请选择您现在所在的状态");
-    }
-
     @Override
     protected void onNetworkConnected(NetUtils.NetType type) {
 
@@ -109,11 +98,19 @@ public class ReportSpecial extends BaseActivity {
 
     @Override
     protected void initViewAndData() {
-        isShowBack(true);
+       iv_back.setVisibility(View.VISIBLE);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         Api.getSpecial(this);
         Intent intent = getIntent();
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
+        tv_title.setText("特殊人群");
+        title_infos.setText("请选择你当前状态");
         if (isFrist) {
             bt_specail.setText("下一步");
             bt_later_report.setVisibility(View.INVISIBLE);
@@ -129,9 +126,9 @@ public class ReportSpecial extends BaseActivity {
                 holder.cb.setEnabled(true);
                 if (holder.cb.isChecked()) {
                     id_list.add(holder.foodId);
-                    GetCheckStateUtils.addSelect(holder.foodId);
+//                    GetCheckStateUtils.addSelect(holder.foodId);
                 } else {
-                    GetCheckStateUtils.removeSelect(holder.foodId);
+//                    GetCheckStateUtils.removeSelect(holder.foodId);
                     removeUnChecked(holder.foodId);
                 }
             }

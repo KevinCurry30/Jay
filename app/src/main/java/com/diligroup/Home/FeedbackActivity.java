@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.diligroup.R;
@@ -17,6 +18,7 @@ import com.diligroup.net.RequestManager;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.ToastUtil;
+import com.diligroup.utils.UserManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,6 +41,10 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
     EditText inputDishesEvaluation;//输入你的产品印象
     @Bind(R.id.feedback_commit)
     Button feedbackCommit;//提交评价
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.iv_back)
+    ImageView ivBack;
     private String dishesCode;
     private String mealType;
     private String date;
@@ -58,9 +64,14 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
 
     }
     public void setTitle() {
-        super.setTitle();
         tv_title.setText("菜品评价");
-        isShowBack(true);
+        ivBack.setVisibility(View.VISIBLE);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
     @Override
     protected void initViewAndData() {
@@ -89,7 +100,7 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
                     ToastUtil.showLong(this,"亲！您还没有输入评价内容呢");
                     return;
                 }
-                Api.dishVarietyEvaluate(Constant.userId+"",Constant.storeId,"1",dishesCode,date,mealType,content,tast+"",cost+"","",this);
+                Api.dishVarietyEvaluate(UserManager.getInstance().getUserId(),Constant.storeId,"1",dishesCode,date,mealType,content,tast+"",cost+"","",this);
                 break;
             default:
                 break;

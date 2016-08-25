@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--android:id="@+id/swipe_layout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:addStatesFromChildren="true"-->
+    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/tools"
     android:id="@+id/home_rootView"
@@ -213,6 +220,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:layout_weight="1"
+            android:id="@+id/home_store_address"
             android:text="北京市朝阳区三阳桥店"
             android:textColor="@color/white"
             android:textSize="14sp" />
@@ -225,3 +233,4 @@
             android:src="@mipmap/arrow_down_white" />
     </LinearLayout>
 </RelativeLayout>
+    <!--</android.support.v4.widget.SwipeRefreshLayout>-->

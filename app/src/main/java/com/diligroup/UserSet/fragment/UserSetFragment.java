@@ -12,10 +12,9 @@ import com.diligroup.UserSet.activity.ServiceCenter;
 import com.diligroup.UserSet.activity.SettingActivity;
 import com.diligroup.UserSet.activity.UserInfoActivity;
 import com.diligroup.base.BaseFragment;
-import com.diligroup.base.Constant;
-import com.diligroup.bean.UserInfoBean;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.UpLoadPhotoUtils;
+import com.diligroup.utils.UserManager;
 import com.diligroup.view.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -44,8 +43,8 @@ public class UserSetFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void setViews() {
-        tv_numb_phone.setText(Constant.userNumber);
-//        EventBus.getDefault().register(this);
+        Picasso.with(getActivity()).load(UserManager.getInstance().getHeadUrl());
+        tv_numb_phone.setText(UserManager.getInstance().getPhone());
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.diligroup.login;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -14,15 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.AuthTask;
-import com.diligroup.Home.HomeActivity;
 import com.diligroup.R;
-import com.diligroup.UserSet.activity.ReportSex;
-import com.diligroup.base.AppManager;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.base.Constant;
 import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.UserBeanFromService;
-import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
 import com.diligroup.net.Api;
 import com.diligroup.utils.DigestUtils;
@@ -31,6 +26,7 @@ import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.SharedPreferenceUtil;
 import com.diligroup.utils.StringUtils;
 import com.diligroup.utils.ToastUtil;
+import com.diligroup.utils.UserManager;
 import com.diligroup.utils.alipaylogin.AuthResult;
 import com.diligroup.utils.alipaylogin.OrderInfoUtil2_0;
 import com.diligroup.view.TogglePasswordVisibilityEditText;
@@ -54,11 +50,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     TogglePasswordVisibilityEditText et_password;
     @Bind(R.id.login_progress)
     ProgressBar loginProgress;
-    //    @Bind(R.id.bt_regist)
-//    Button bt_regist;
-//    @Bind(R.id.bt_login)
-//    Button bt_login;
-//    String phoneNum;
+    @Bind(R.id.comm_title)
+            TextView tv_title;
     boolean isFirst = true;
     UserBeanFromService userInfo;
     SharedPreferenceUtil spUtils;
@@ -296,35 +289,37 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     userInfo = (UserBeanFromService) object;
                     if (userInfo.getCode().equals("000000")) {
                         tv_psd.setVisibility(View.INVISIBLE);
-                        spUtils.putString("phoneNum", phoneNum);
-                        spUtils.putString("passWord", passdWord);
-                        Constant.userNumber = userInfo.getUser().getMobileNum();
-                        Constant.userId = userInfo.getUser().getUserId();
+//                        spUtils.putString("phoneNum", phoneNum);
+//                        spUtils.putString("passWord", passdWord);
+//                        Constant.userNumber = userInfo.getUser().getMobileNum();
+//                        Constant.userId = userInfo.getUser().getUserId();
+                        UserManager.getInstance().saveUser(userInfo.getUser().getUserId()+"",DigestUtils.stringMD5(et_password.getText().toString()),phoneNumber.getText().toString().trim(),userInfo.getUserDetail().getHeadPhotoAdd(),"","");
 //                UserInfoBean.getInstance().setBirthday(userInfo.getUser().getBirthday());
 //                UserInfoBean.getInstance().setBirthday(userInfo.getUser().getBirthday());
                         //             如果是第一次登陆用户信息为kong则填写用户信息 否则进入首页面
-                        if (TextUtils.isEmpty(userInfo.getUser().getBirthday())) {
-                            Bundle bundle = new Bundle();
-                            bundle.putBoolean("isFrist", true);
-                            readyGo(ReportSex.class, bundle);
-                            AppManager.getAppManager().finishActivity(this);
-                        } else {
-                            UserInfoBean.getInstance().setBirthday(userInfo.getUser().getBirthday());
-                            UserInfoBean.getInstance().setSex(userInfo.getUser().getSex());
-                            UserInfoBean.getInstance().setHeight(userInfo.getUser().getHeight());
-                            UserInfoBean.getInstance().setWeight(userInfo.getUserDetail().getWeight());
-                            UserInfoBean.getInstance().setJob(userInfo.getUserDetail().getJobName());
-                            UserInfoBean.getInstance().setAllergyFood(userInfo.getUserDetail().getAllergyName());
-                            UserInfoBean.getInstance().setNoEatFood(userInfo.getUserDetail().getTabooNames());
-                            UserInfoBean.getInstance().setOtherReq(userInfo.getUserDetail().getOtherReqName());
-                            UserInfoBean.getInstance().setCurrentAddress(userInfo.getUserDetail().getCurrentAdd());
-                            UserInfoBean.getInstance().setNoEatFood(userInfo.getUserDetail().getAllergyName());
-                            UserInfoBean.getInstance().setTaste(userInfo.getUserDetail().getTasteNames());
-
-                            readyGo(HomeActivity.class);
-                            AppManager.getAppManager().finishActivity(this);
-                        }
-                        return;
+//                        if (TextUtils.isEmpty(userInfo.getUser().getBirthday())) {
+//                            Bundle bundle = new Bundle();
+//                            bundle.putBoolean("isFrist", true);
+//                            readyGo(ReportSex.class, bundle);
+//                            AppManager.getAppManager().finishActivity(this);
+//                        } else {
+//                            UserInfoBean.getInstance().setBirthday(userInfo.getUser().getBirthday());
+//                            UserInfoBean.getInstance().setSex(userInfo.getUser().getSex());
+//                            UserInfoBean.getInstance().setHeight(userInfo.getUser().getHeight());
+//                            UserInfoBean.getInstance().setWeight(userInfo.getUserDetail().getWeight());
+//                            UserInfoBean.getInstance().setJob(userInfo.getUserDetail().getJobName());
+//                            UserInfoBean.getInstance().setAllergyFood(userInfo.getUserDetail().getAllergyName());
+//                            UserInfoBean.getInstance().setNoEatFood(userInfo.getUserDetail().getTabooNames());
+//                            UserInfoBean.getInstance().setOtherReq(userInfo.getUserDetail().getOtherReqName());
+//                            UserInfoBean.getInstance().setCurrentAddress(userInfo.getUserDetail().getCurrentAdd());
+//                            UserInfoBean.getInstance().setNoEatFood(userInfo.getUserDetail().getAllergyName());
+//                            UserInfoBean.getInstance().setTaste(userInfo.getUserDetail().getTasteNames());
+//
+//                            readyGo(HomeActivity.class);
+//                            AppManager.getAppManager().finishActivity(this);
+//                        }
+//                        return;
+                        finish();
                     }
                     if (userInfo.getCode().equals("APP_C010005")) {
                         tv_psd.setVisibility(View.VISIBLE);
@@ -349,20 +344,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     CommonBean commonBean= (CommonBean) object;
                     if(commonBean.getCode().equals(Constant.RESULT_SUCESS)){
                         //调用完善信息 存储openid，下次免登陆
-                        spUtils.putString(Constant.USER_ID,userId);
+                        UserManager.getInstance().saveUser(userId,"","",headImagUrl,nickName,sex);
                         ToastUtil.showLong(LoginActivity.this,"第三方登录后完善信息成功");
-                        // TODO
-                        readyGo(HomeActivity.class);
                         finish();
                     }
                 }else if(object!=null && action==Action.SELECT_USER_INFO){//第三方注册之前查询数据库，是否是老用户
                     UserBeanFromService serviceBean= (UserBeanFromService) object;
                     if(serviceBean.getCode().equals("C010005")){//没有这个用户 ，去注册
                         Api.threePartlogin(currentPlatFrom,openid, LoginActivity.this);
-                    }else {
+                    }else if(serviceBean.getCode().equals(Constant.RESULT_SUCESS) && serviceBean.getUser()!=null){
                         spUtils.putString(Constant.USER_ID,serviceBean.getUser().getUserId()+"");
-                        // TODO
-                        readyGo(HomeActivity.class);
+                      UserManager.getInstance().saveUser(serviceBean.getUser().getUserId()+"","","",headImagUrl,nickName,sex);
                         finish();
                     }
                 }

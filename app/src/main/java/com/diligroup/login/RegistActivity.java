@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.diligroup.R;
@@ -38,6 +39,10 @@ public class RegistActivity extends BaseActivity {
     EditText et_code;
     @Bind(R.id.et_psd)
     EditText et_psd;
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.iv_back)
+    ImageView ivBack;
     String smsCode;
     String phoneNum;
     String registCode;
@@ -62,11 +67,6 @@ public class RegistActivity extends BaseActivity {
 
     }
 
-    @Override
-    public void setTitle() {
-        super.setTitle();
-        tv_title.setText("注册");
-    }
 
     @Override
     protected void onNetworkDisConnected() {
@@ -75,7 +75,14 @@ public class RegistActivity extends BaseActivity {
 
     @Override
     protected void initViewAndData() {
-        isShowBack(true);
+        tv_title.setText("注册");
+        ivBack.setVisibility(View.VISIBLE);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         time = new TimeCount(60000, 1000);
     }
 

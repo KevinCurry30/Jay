@@ -3,7 +3,10 @@ package com.diligroup.UserSet.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
@@ -35,7 +38,12 @@ public class ReportHeight extends BaseActivity {
     Bundle bundle;
     @Bind(R.id.bt_ok_height)
     Button bt_height;
-
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.iv_back)
+    ImageView ivBack;
+    @Bind(R.id.tv_title_info)
+    TextView title_infos;
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_select_height;
@@ -53,11 +61,19 @@ public class ReportHeight extends BaseActivity {
 
     @Override
     protected void initViewAndData() {
-        isShowBack(true);
+        tv_title.setText("基础信息");
+        title_infos.setText("您的身高?");
+        ivBack.setVisibility(View.VISIBLE);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         Intent intent = getIntent();
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
-        if (isFrist) {
+        if (isFrist){
             bt_height.setText("下一步");
         }
         wheelView.setOffset(3);
@@ -96,14 +112,6 @@ public class ReportHeight extends BaseActivity {
 //        this.finish();
 
     }
-
-    @Override
-    public void setTitle() {
-        super.setTitle();
-        tv_title.setText("基础信息");
-        title_infos.setText("您的身高?");
-    }
-
     @Override
     public void onError(Request request, Action action, Exception e) {
 
@@ -119,7 +127,5 @@ public class ReportHeight extends BaseActivity {
                 setResult(0x30, intent);
                 this.finish();
 
-            }
-        }
     }
-}
+}}}

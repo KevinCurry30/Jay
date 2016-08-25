@@ -2,9 +2,12 @@ package com.diligroup.UserSet.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
@@ -37,6 +40,12 @@ public class ReportSex extends BaseActivity {
     Bundle bundle;
     @Bind(R.id.bt_ok_sex)
     Button bt_sex;
+    @Bind(R.id.iv_back)
+    ImageView iv_back;
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.tv_title_info)
+    TextView title_infos;
     String  sex;
     @Override
     protected int getContentViewLayoutID() {
@@ -53,16 +62,18 @@ public class ReportSex extends BaseActivity {
 
     }
 
-    @Override
-    public void setTitle() {
-        super.setTitle();
-        tv_title.setText("基础信息");
-        title_infos.setText("您的性别?");
-    }
 
     @Override
     protected void initViewAndData() {
-        isShowBack(true);
+        tv_title.setText("基础信息");
+        title_infos.setText("您的性别?");
+        iv_back.setVisibility(View.VISIBLE);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         Intent intent = getIntent();
         bundle=     intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");

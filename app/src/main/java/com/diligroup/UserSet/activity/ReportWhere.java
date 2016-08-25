@@ -4,17 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.bean.CommonBean;
-import com.diligroup.bean.GetWhereBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
 import com.diligroup.net.Api;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
-import com.diligroup.utils.ToastUtil;
 import com.diligroup.view.CityPicker;
 
 import java.util.HashMap;
@@ -37,6 +37,12 @@ public class ReportWhere extends BaseActivity {
     Button bt_where;
     @Bind(R.id.bt_later_where)
     Button bt_later_report;
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.iv_back)
+    ImageView ivBack;
+    @Bind(R.id.tv_title_info)
+    TextView title_infos;
     String provinceCode;
     String cityCode;
     String counyCode;
@@ -50,23 +56,21 @@ public class ReportWhere extends BaseActivity {
     protected void onNetworkConnected(NetUtils.NetType type) {
 
     }
-
-
-
-    @Override
-    public void setTitle() {
-        super.setTitle();
-        tv_title.setText("籍贯");
-        title_infos.setText("请选择您的籍贯");
-    }
-
     @Override
     protected void onNetworkDisConnected() {
 
     }
     @Override
     protected void initViewAndData() {
-        isShowBack(true);
+        tv_title.setText("籍贯");
+        title_infos.setText("请选择您的籍贯");
+        ivBack.setVisibility(View.VISIBLE);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 //        Api.getCity(this);
         Intent intent = getIntent();
         bundle = intent.getExtras();

@@ -34,7 +34,7 @@ import okhttp3.Request;
  * 餐后评价
  * Created by Kevin on 2016/7/4.
  */
-public class AfterFragment extends BaseFragment implements RequestManager.ResultCallback {
+public class AfterFragment extends BaseFragment implements RequestManager.ResultCallback, View.OnClickListener {
     @Bind(R.id.home_preDay)
     TextView homePreDay;//前一天
     @Bind(R.id.home_today)
@@ -65,6 +65,10 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
     TextView tv_kcal_dinner;
     @Bind(R.id.after_canlendar)
             LinearLayout after_calendar;
+    @Bind(R.id.iv_share)
+            ImageView ivShare;
+    @Bind(R.id.title_root)
+            View rootView;
     String today;
     LunchAdapter mornAdapter;
     LunchAdapter lunchAdapter;
@@ -93,14 +97,8 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
 
     @Override
     public void setListeners() {
-        after_calendar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//               Intent mIntent= new Intent(getActivity(), PhysiologicalPeriodActivity.class);
-//                mIntent.putExtra("isFromHome", true);
-//                startActivityForResult(mIntent,100);
-            }
-        });
+        ivShare.setOnClickListener(this);
+        after_calendar.setOnClickListener(this);
     }
 
     @OnClick(R.id.home_preDay)
@@ -209,6 +207,20 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
 
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.iv_share:
+                new ShareUtils(getActivity(), "http://tuanche.com", "http://baidu.com", rootView).openSharebord("AAAA");
+                break;
+            case R.id.after_canlendar:
+                //               Intent mIntent= new Intent(getActivity(), PhysiologicalPeriodActivity.class);
+//                mIntent.putExtra("isFromHome", true);
+//                startActivityForResult(mIntent,100);
+                break;
+        }
+    }
+
     class LunchAdapter extends BaseAdapter {
         int type;
 
@@ -297,11 +309,6 @@ public class AfterFragment extends BaseFragment implements RequestManager.Result
         TextView tv_num;
         ImageView iv_icon;
         TextView tv_Kcal;
-    }
-
-    //点击了分享按钮
-    public void clickShare(View rootView) {
-        new ShareUtils(getActivity(), "http://tuanche.com", "http://baidu.com", rootView).openSharebord("AAAA");
     }
 
     @Override

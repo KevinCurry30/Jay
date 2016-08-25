@@ -31,6 +31,7 @@ public class StoreSupplyRighAdapter extends BaseAdapter implements StickyListHea
     private List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean.DishesSupplyDtlListBean> rightDishesList = new ArrayList<>();//所有右侧成品分类列表
 
     AddFoodCompleteBean bean = new AddFoodCompleteBean();
+
     public StoreSupplyRighAdapter(Context mContext, List<HomeStoreSupplyList.JsonBean.DishesSupplyListBean> mList) {
         super();
         this.mContext = mContext;
@@ -60,11 +61,13 @@ public class StoreSupplyRighAdapter extends BaseAdapter implements StickyListHea
             convertView = View.inflate(mContext, R.layout.stickview_home_head, null);
             headViewHolder = new HeadViewHolder();
             headViewHolder.sticklist_headtext = (TextView) convertView.findViewById(R.id.sticklist_headtext);
+            headViewHolder.top_head_line = convertView.findViewById(R.id.top_head_line);
             convertView.setTag(headViewHolder);
         } else {
             headViewHolder = (HeadViewHolder) convertView.getTag();
         }
         headViewHolder.sticklist_headtext.setText(rightDishesList.get(position).getHeaderName());
+        headViewHolder.top_head_line.setVisibility(position==0?View.GONE:View.VISIBLE);
         return convertView;
     }
 
@@ -157,6 +160,7 @@ public class StoreSupplyRighAdapter extends BaseAdapter implements StickyListHea
 
     class HeadViewHolder {
         TextView sticklist_headtext;
+        View top_head_line;
     }
 
     class MyOnClickListener implements View.OnClickListener {

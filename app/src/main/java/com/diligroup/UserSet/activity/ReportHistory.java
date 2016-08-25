@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.diligroup.Home.HomeActivity;
 import com.diligroup.R;
@@ -18,7 +20,6 @@ import com.diligroup.net.Action;
 import com.diligroup.net.Api;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
-import com.diligroup.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +45,13 @@ public class ReportHistory extends BaseActivity {
     Bundle bundle;
     @Bind(R.id.bt_report_history)
     Button bt_history;
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.iv_back)
+    ImageView ivBack;
+    @Bind(R.id.tv_title_info)
+    TextView title_infos;
+
     int  selectCount;
     @OnClick(R.id.bt_report_history)
     public void ReportHisty() {
@@ -73,12 +81,6 @@ public class ReportHistory extends BaseActivity {
         readyGo(HomeActivity.class);
     }
 
-    @Override
-    public void setTitle() {
-        super.setTitle();
-        tv_title.setText("健康史");
-        title_infos.setText("请选择您的历史健康记录");
-    }
 
     @Override
     protected int getContentViewLayoutID() {
@@ -97,7 +99,15 @@ public class ReportHistory extends BaseActivity {
 
     @Override
     protected void initViewAndData() {
-        isShowBack(true);
+        tv_title.setText("健康史");
+        title_infos.setText("请选择您的历史健康记录");
+       ivBack.setVisibility(View.VISIBLE);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         Api.getHistory(this);
 
         Intent intent = getIntent();

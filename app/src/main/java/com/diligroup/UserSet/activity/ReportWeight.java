@@ -2,7 +2,10 @@ package com.diligroup.UserSet.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.diligroup.R;
 import com.diligroup.base.BaseActivity;
@@ -33,6 +36,12 @@ public class ReportWeight extends BaseActivity {
     Bundle bundle;
     @Bind(R.id.bt_ok_weight)
     Button bt_weight;
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.iv_back)
+    ImageView ivBack;
+    @Bind(R.id.tv_title_info)
+    TextView title_infos;
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_select_weight;
@@ -52,7 +61,15 @@ public class ReportWeight extends BaseActivity {
 
     @Override
     protected void initViewAndData() {
-        isShowBack(true);
+        tv_title.setText("基础信息");
+        title_infos.setText("您的体重?");
+       ivBack.setVisibility(View.VISIBLE);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         Intent intent = getIntent();
         bundle = intent.getExtras();
         isFrist = bundle.getBoolean("isFrist");
@@ -97,14 +114,6 @@ public class ReportWeight extends BaseActivity {
 
 
     }
-
-    @Override
-    public void setTitle() {
-        super.setTitle();
-        tv_title.setText("基础信息");
-        title_infos.setText("您的体重?");
-    }
-
     @Override
     public void onError(Request request, Action action, Exception e) {
 

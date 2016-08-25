@@ -39,6 +39,7 @@ import com.diligroup.utils.DateUtils;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.RecordSQLiteOpenHelper;
 import com.diligroup.utils.ToastUtil;
+import com.diligroup.utils.UserManager;
 import com.diligroup.view.stickyListView.StickyListHeadersListView;
 import com.google.gson.Gson;
 
@@ -212,7 +213,7 @@ public class StoreSupplyFragment extends BaseFragment implements View.OnClickLis
             case R.id.complete_add:
                 List<AddFoodCompleteBean> addMealList= ((AddLunchActivity)getActivity()).getAddMealList();
                 String json= new Gson().toJson(addMealList);
-                Api.addFoodComplete(Constant.userId+"",mealType,json,this);
+                Api.addFoodComplete(UserManager.getInstance().getUserId(),mealType,json,this);
                 break;
             case R.id.store_supply_delete:
                 input_search_dishes.setText("");

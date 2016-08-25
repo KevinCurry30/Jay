@@ -1,9 +1,7 @@
 package com.diligroup.UserSet.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +9,12 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.diligroup.R;import com.diligroup.base.BaseActivity;
+import com.diligroup.R;
+import com.diligroup.base.BaseActivity;
 import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.GetJobBean;
 import com.diligroup.bean.UserInfoBean;
@@ -60,6 +60,12 @@ public class ReportWork extends BaseActivity {
     RelativeLayout rl_middle;
     @Bind(R.id.rl_heavy)
     RelativeLayout rl_heavy;
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.iv_back)
+    ImageView ivBack;
+    @Bind(R.id.tv_title_info)
+    TextView title_infos;
     List<GetJobBean.QlistBean> light_list;
     List<GetJobBean.ZlistBean> middle_list;
     List<GetJobBean.WlistBean> heavy_list;
@@ -95,7 +101,16 @@ public class ReportWork extends BaseActivity {
 
     @Override
     protected void initViewAndData() {
-        isShowBack(true);
+
+        tv_title.setText("基础信息");
+        title_infos.setText("您的职业?");
+        ivBack.setVisibility(View.VISIBLE);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         Api.getWorkType(this);
         Intent intent = getIntent();
         bundle = intent.getExtras();
@@ -179,14 +194,6 @@ public class ReportWork extends BaseActivity {
 
             }
         });
-    }
-
-
-    @Override
-    public void setTitle() {
-        super.setTitle();
-        tv_title.setText("基础信息");
-        title_infos.setText("您的职业?");
     }
 
     @OnClick(R.id.bt_commit_work)
@@ -275,7 +282,6 @@ public class ReportWork extends BaseActivity {
         for (int i = 0; i < list.size(); i++) {
             light_job_name.add(list.get(i).getProfName());
         }
-
     }
 
     private void getMiddleJob(List<GetJobBean.ZlistBean> list) {

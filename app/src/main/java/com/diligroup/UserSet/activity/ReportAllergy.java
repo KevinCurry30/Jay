@@ -1,6 +1,5 @@
 package com.diligroup.UserSet.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,16 +11,12 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.diligroup.Home.adapter.LeftAdapter;
 import com.diligroup.R;
 import com.diligroup.UserSet.AllergyAdapter;
-import com.diligroup.UserSet.SetItemSelector;
 import com.diligroup.base.BaseActivity;
 import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.GetAllergyDetailBean;
@@ -30,21 +25,15 @@ import com.diligroup.bean.MyItemClickListener;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
 import com.diligroup.net.Api;
-import com.diligroup.utils.CommonUtils;
 import com.diligroup.utils.FoodTypeUtils;
-import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
-import com.diligroup.utils.ToastUtil;
 import com.diligroup.view.DividerItemDecoration;
 import com.diligroup.view.FlowLayout;
 import com.diligroup.view.TagAdapter;
 import com.diligroup.view.TagFlowLayout;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import butterknife.Bind;
@@ -76,7 +65,12 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
     Bundle bundle;
     @Bind(R.id.bt_commit_allergy)
     Button bt_allergy;
-
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.iv_back)
+    ImageView ivBack;
+    @Bind(R.id.tv_title_info)
+    TextView title_infos;
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_report_allergy;
@@ -110,15 +104,17 @@ public class ReportAllergy extends BaseActivity implements MyItemClickListener {
 
     }
 
-    @Override
-    public void setTitle() {
-        super.setTitle();
-        tv_title.setText("过敏食材");
-    }
 
     @Override
     protected void initViewAndData() {
-        isShowBack(true);
+        tv_title.setText("过敏食材");
+       ivBack.setVisibility(View.VISIBLE);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 //        Api.getAllergyFood(this);
         Intent intent = getIntent();
         bundle = intent.getExtras();

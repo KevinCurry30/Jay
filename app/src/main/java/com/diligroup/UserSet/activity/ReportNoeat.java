@@ -8,7 +8,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.diligroup.R;
 import com.diligroup.UserSet.ListitemAdapter;
@@ -20,7 +22,6 @@ import com.diligroup.net.Action;
 import com.diligroup.net.Api;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
-import com.diligroup.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,6 +47,13 @@ public class ReportNoeat extends BaseActivity {
     Bundle bundle;
     @Bind(R.id.bt_ok_noeat)
     Button bt_noEat;
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.iv_back)
+    ImageView ivBack;
+    @Bind(R.id.tv_title_info)
+    TextView title_infos;
+
     private Handler mHandler = new Handler() {
 
         public void handleMessage(Message msg) {
@@ -81,15 +89,6 @@ public class ReportNoeat extends BaseActivity {
             }
         });
     }
-
-    @Override
-    public void setTitle() {
-        super.setTitle();
-        tv_title.setText("饮食禁忌");
-        title_infos.setText("请选择您的饮食禁忌");
-//
-    }
-
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_select_noeat;
@@ -108,7 +107,15 @@ public class ReportNoeat extends BaseActivity {
 
     @Override
     protected void initViewAndData() {
-        isShowBack(true);
+        tv_title.setText("饮食禁忌");
+        title_infos.setText("请选择您的饮食禁忌");
+        ivBack.setVisibility(View.VISIBLE);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         Api.getNoEatFood(this);
         Intent intent = getIntent();
         bundle = intent.getExtras();

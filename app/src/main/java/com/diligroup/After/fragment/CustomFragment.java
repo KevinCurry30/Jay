@@ -40,6 +40,7 @@ import com.diligroup.utils.DateUtils;
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.RecordSQLiteOpenHelper;
 import com.diligroup.utils.ToastUtil;
+import com.diligroup.utils.UserManager;
 import com.diligroup.view.DividerItemDecoration;
 import com.google.gson.Gson;
 
@@ -207,7 +208,7 @@ public class CustomFragment extends BaseFragment implements View.OnClickListener
             case R.id.customer_complete_add:
                 List<AddFoodCompleteBean> addMealList= ((AddLunchActivity)getActivity()).getAddMealList();
                 String json= new Gson().toJson(addMealList);
-                Api.addFoodComplete(Constant.userId+"",mealType,json,this);
+                Api.addFoodComplete(UserManager.getInstance().getUserId(),mealType,json,this);
                 break;
             default:
                 break;

@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.diligroup.After.adapter.AddLunchAdapter;
 import com.diligroup.R;
@@ -40,6 +41,8 @@ public class AddLunchActivity extends BaseActivity implements RadioGroup.OnCheck
     RadioGroup addlunchRgroup;
     @Bind(R.id.addlunch_tabline)
     View addlunch_tabline;
+    @Bind(R.id.comm_title)
+    TextView tv_title;
     private String currentDay;
     private String mealType;
 
@@ -75,14 +78,6 @@ public class AddLunchActivity extends BaseActivity implements RadioGroup.OnCheck
         super.onStart();
 
     }
-
-    @Override
-    public void setTitle() {
-        super.setTitle();
-
-        isShowBack(true);
-    }
-
     @Override
     protected void initViewAndData() {
         mealType = getIntent().getStringExtra("mealType");

@@ -8,10 +8,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,19 +22,14 @@ import com.diligroup.bean.CommonBean;
 import com.diligroup.bean.UserInfoBean;
 import com.diligroup.net.Action;
 import com.diligroup.net.Api;
-
-import android.view.ViewGroup.LayoutParams;
-
 import com.diligroup.utils.LogUtils;
 import com.diligroup.utils.NetUtils;
-import com.diligroup.utils.ToastUtil;
 import com.diligroup.view.CheckableFrameLayout;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.Bind;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import okhttp3.Request;
 
@@ -88,7 +83,12 @@ public class ReportOther extends BaseActivity {
     Bundle bundle;
     @Bind(R.id.bt_report_user)
     Button bt_other;
-
+    @Bind(R.id.iv_back)
+    ImageView iv_back;
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.tv_title_info)
+    TextView title_infos;
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.text_other;
@@ -105,15 +105,16 @@ public class ReportOther extends BaseActivity {
     }
 
     @Override
-    public void setTitle() {
-        super.setTitle();
+    protected void initViewAndData() {
         tv_title.setText("其他需求");
         title_infos.setText("请选择要达到的其他目的");
-    }
-
-    @Override
-    protected void initViewAndData() {
-        isShowBack(true);
+        iv_back.setVisibility(View.VISIBLE);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         target_weight.setText("50");
         Intent intent = getIntent();
         bundle = intent.getExtras();

@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.diligroup.R;
@@ -24,6 +23,7 @@ import com.diligroup.utils.NetUtils;
 import com.diligroup.utils.PictureFileUtils;
 import com.diligroup.utils.ToastUtil;
 import com.diligroup.utils.UpLoadPhotoUtils;
+import com.diligroup.utils.UserManager;
 import com.diligroup.view.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -85,10 +85,13 @@ public class UserInfoActivity extends BaseActivity {
     Bundle bundle;
         @Bind(R.id.iv_back)
         ImageView iv_back;
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.tv_title_info)
+    TextView title_infos;
     @Override
     protected void onStart() {
         super.onStart();
-        isShowBack(true);
 
     }
 
@@ -106,21 +109,13 @@ public class UserInfoActivity extends BaseActivity {
     protected void onNetworkDisConnected() {
 
     }
-
-    @Override
-    public void setTitle() {
-        super.setTitle();
-        tv_title.setText("我的信息");
-
-
-    }
-
     @Override
     protected void initViewAndData() {
+        tv_title.setText("我的信息");
 
         bundle = new Bundle();
         bundle.putBoolean("isFrist", false);
-        tv_user_number.setText(Constant.userNumber);
+        tv_user_number.setText(UserManager.getInstance().getPhone());
         if (UserInfoBean.getInstance()!=null){
 
             if (UserInfoBean.getInstance().getSex()!=null&&UserInfoBean.getInstance().getSex().equals("1")){
@@ -290,7 +285,6 @@ public class UserInfoActivity extends BaseActivity {
                     String job=data.getStringExtra("job");
                     tv_job.setText(job);
                     UserInfoBean.getInstance().setJob(job);
-
                 }
                 break;
             case 0x30:
@@ -415,7 +409,7 @@ public class UserInfoActivity extends BaseActivity {
                 ToastUtil.showLong(this, "上传成功");
                 Picasso.with(this).load(bean.getFilePath()).into(userIcon);
                 UserInfoBean.getInstance().setHeadPhotoAdd(bean.getFilePath());
-                Api.perfectInfoAfterUpLoad(Constant.userId + "", bean.getFilePath(), this);
+                Api.perfectInfoAfterUpLoad(UserManager.getInstance().getUserId(), bean.getFilePath(), this);
             }
         } else if (action == Action.SET_INFOS && object != null) {
             CommonBean bean1 = (CommonBean) object;

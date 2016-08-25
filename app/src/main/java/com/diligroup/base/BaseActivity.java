@@ -6,34 +6,29 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.diligroup.R;
 import com.diligroup.net.NetChangeObserver;
 import com.diligroup.net.NetStateReceiver;
 import com.diligroup.net.RequestManager;
 import com.diligroup.utils.NetUtils;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
  * Created by Kevin on 2016/6/14.
  */
 public abstract class BaseActivity extends AppCompatActivity implements RequestManager.ResultCallback {
-    @Bind(R.id.comm_title)
-    public TextView tv_title;
+//    @Bind(R.id.comm_title)
+//    public TextView tv_title;
     Context mContext = null;
-    @Bind(R.id.iv_back)
-    public ImageView iv_back;
-    @Bind(R.id.iv_share)
-    protected ImageView ivShare;
-    @Bind(R.id.title_root)
-    protected View title_root;
-    public TextView title_infos;
+//    @Bind(R.id.iv_back)
+//    public ImageView iv_back;
+//    @Bind(R.id.iv_share)
+//    protected ImageView ivShare;
+//    @Bind(R.id.title_root)
+//    protected View title_root;
+//    public TextView title_infos;
 
     protected abstract int getContentViewLayoutID();
 //    protected  abstract boolean isShowBackIcon
@@ -115,26 +110,26 @@ public abstract class BaseActivity extends AppCompatActivity implements RequestM
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
         ButterKnife.bind(this);
-        tv_title = ButterKnife.findById(this, R.id.comm_title);
-        title_infos = ButterKnife.findById(this, R.id.tv_title_info);
-        iv_back = ButterKnife.findById(this, R.id.iv_back);
-        ivShare = ButterKnife.findById(this, R.id.iv_share);
-        title_root = ButterKnife.findById(this, R.id.title_root);
-        if (tv_title != null) {
-            setTitle();
-        }
-        if (title_infos != null) {
-            setTitle();
-        }
-        if (iv_back != null) {
-            isShowBack(false);
-        }
+//        tv_title = ButterKnife.findById(this, R.id.comm_title);
+//        title_infos = ButterKnife.findById(this, R.id.tv_title_info);
+//        iv_back = ButterKnife.findById(this, R.id.iv_back);
+//        ivShare = ButterKnife.findById(this, R.id.iv_share);
+//        title_root = ButterKnife.findById(this, R.id.title_root);
+//        if (tv_title != null) {
+//            setTitle();
+//        }
+//        if (title_infos != null) {
+//            setTitle();
+//        }
+//        if (iv_back != null) {
+//            isShowBack(false);
+//        }
     }
 
 
-    public void setTitle() {
-//        tv_title.setText("");
-    }
+//    public void setTitle() {
+////        tv_title.setText("");
+//    }
 
     @Override
     public void finish() {
@@ -142,18 +137,18 @@ public abstract class BaseActivity extends AppCompatActivity implements RequestM
         //
     }
 
-    public void isShowBack(Boolean isShow) {
-        if (isShow) {
-            iv_back.setVisibility(View.VISIBLE);
-            iv_back.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    finish();
-                }
-            });
-
-        }
-    }
+//    public void isShowBack(Boolean isShow) {
+//        if (isShow) {
+//            iv_back.setVisibility(View.VISIBLE);
+//            iv_back.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    finish();
+//                }
+//            });
+//
+//        }
+//    }
 
     @Override
     protected void onDestroy() {

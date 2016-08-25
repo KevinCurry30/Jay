@@ -94,6 +94,12 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
     RelativeLayout physiological_layout;//日历选择需要gone掉的头布局
     @Bind(R.id.gone_fl)
     FrameLayout gone_fl;
+    @Bind(R.id.comm_title)
+    TextView tv_title;
+    @Bind(R.id.iv_back)
+    ImageView ivBack;
+    @Bind(R.id.tv_title_info)
+    TextView title_infos;
     private int year_c = 0;
     private int month_c = 0;
     private int day_c = 0;
@@ -120,15 +126,6 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
     private String homeDate;
     int cycles;//生理期
     private boolean isFromMy;
-
-    @Override
-    public void setTitle() {
-        super.setTitle();
-        tv_title.setText("您的生理期");
-        cycle_title_info.setText("请选择上次生理的开始和结束时间");
-        isShowBack(true);
-    }
-
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_physiological_period;
@@ -147,6 +144,10 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
     @Override
     protected void initViewAndData() {
         ButterKnife.bind(this);
+        tv_title.setText("您的生理期");
+        cycle_title_info.setText("请选择上次生理的开始和结束时间");
+        ivBack.setVisibility(View.VISIBLE);
+
         isFromHome = getIntent().getBooleanExtra("isFromHome", false);
         //是否来自用户中心
         isFromMy = getIntent().getBooleanExtra("isFromMy", false);
@@ -209,6 +210,7 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
         add.setOnClickListener(this);
         reduce.setOnClickListener(this);
         say_latter.setOnClickListener(this);
+        ivBack.setOnClickListener(this);
     }
 
     @Override
@@ -274,6 +276,9 @@ public class PhysiologicalPeriodActivity extends BaseActivity implements View.On
             case R.id.say_laater:
                 //上传所有用户输入信息
                 Api.setUserInfo(this);
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
             default:
                 break;
